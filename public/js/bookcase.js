@@ -98,10 +98,8 @@ function addControl(container) {
     var intersects = raycaster.intersectObjects(boxes);
  
     if ( intersects.length > 0 ) {
-        // something happens after the object being clicked...
-        console.log('clicked!');
-        alert(intersects[0].object.book.name)
-        console.log(intersects[0].object);
+        window.open(intersects[0].object.book.url, '_blank');
+        window.focus();
     }
   });
 
