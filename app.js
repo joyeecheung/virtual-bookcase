@@ -6,7 +6,13 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var serveStatic = require('serve-static');
 
+// Connect to DB
+var config = require('./config');
+var mongoose = require('mongoose');
+mongoose.connect(config.dburl);
+
 var routes = require('./routes/index');
+var apis = require('./routes/api');
 
 var app = express();
 
@@ -23,6 +29,7 @@ app.use(cookieParser());
 app.use(serveStatic(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+app.use('/api', apis);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

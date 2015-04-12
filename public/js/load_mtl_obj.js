@@ -7,27 +7,6 @@ var windowHalfX = window.innerWidth / 2;
 var windowHalfY = window.innerHeight / 2;
 var mouseCamera = false;
 
-var bookcase = {
-  obj: '/obj/bookcase/bookcase.obj',
-  mtl: '/obj/bookcase/bookcase.mtl',
-  x: -40,
-  y: -105,
-  z: 0
-}
-
-var booksize = [20, 25, 5];
-
-var positions = [[-25, 10, 20], [0, 10, 20], [25, 10, 20],
-                 [-25, -22, 20], [0, -22, 20], [25, -22, 20] ]
-
-for (var i = 0, len = positions.length; i < len; ++i) {
-  positions[i][0] += bookcase.x + 40;
-  positions[i][1] += bookcase.y + 110;
-  positions[i][1] += bookcase.z;
-}
-
-var boxObj;
-
 function loadBox(scene, pos, cover) {
   var geometry = new THREE.BoxGeometry(20, 25, 5);
 
@@ -170,5 +149,9 @@ function render() {
   renderer.render(scene, camera);
 }
 
-init();
-animate();
+
+
+window.addEventListener('load', function(e) {
+  init();
+  animate();
+})
