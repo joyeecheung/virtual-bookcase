@@ -8,8 +8,8 @@ var windowHalfY = window.innerHeight / 2;
 var mouseCamera = false;
 
 var bookcase = {
-  obj: '/obj/bookcase/pinewoodRackMediumHeight.obj',
-  mtl: '/obj/bookcase/pinewoodRackMediumHeight.mtl',
+  obj: '/obj/bookcase/bookcase.obj',
+  mtl: '/obj/bookcase/bookcase.mtl',
   x: -40,
   y: -105,
   z: 0
@@ -39,18 +39,12 @@ function loadBox(scene, pos, cover) {
 
   var materials = [
       imageMaterial('obj/bookcase/bookpages-right.jpg'),  // right
-      imageMaterial('obj/crate/crate.gif'),  // left
+      imageMaterial('obj/bookcase/hard-cover.jpg'),  // left
       imageMaterial('obj/bookcase/bookpages-top.jpg'),  // Top
       imageMaterial('obj/bookcase/bookpages-top.jpg'),  // Bottom
-      imageMaterial('obj/crate/crate.gif'),  // Front
-      imageMaterial('obj/crate/crate.gif')   // Back
+      imageMaterial(cover),  // Front
+      imageMaterial('obj/bookcase/hard-cover.jpg')   // Back
   ];
-   
-  // var geometry = new THREE.BoxGeometry(80, 80, 80, 3, 3, 3),
-      // cube     = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial(materials) );
-   
-  // var texture = THREE.ImageUtils.loadTexture(cover);
-  // var material = new THREE.MeshBasicMaterial( { map: texture } );
 
   boxObj = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
   boxObj.position.set.apply(boxObj.position, positions[pos])
