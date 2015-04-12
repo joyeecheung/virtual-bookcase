@@ -8,6 +8,34 @@ var mouseX = 0,
 var windowHalfX = window.innerWidth / 2;
 var windowHalfY = window.innerHeight / 2;
 
+var mouseCamera = false;
+
+var LEFT = 37, UP = 38, RIGHT = 39, DOWN = 40;
+var directionDict = {
+  37: "LEFT",
+  38: "UP",
+  39: "RIGHT",
+  40: "DOWN"
+}
+var direction = {
+  LEFT: {
+    x: -1,
+    y: 0,
+    z: 0
+  },
+  UP: {
+    x: 0,
+    y: 1
+  },
+  DOWN: {
+    x: 0,
+    y: -1
+  },
+  RIGHT: {
+    x: 1,
+    y: 0
+  } 
+}
 
 init();
 animate();
@@ -15,12 +43,11 @@ animate();
 
 function init() {
 
-  container = document.getElementById('container');
+  container = document.getElementById('gl-container');
   camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
   camera.position.z = 100;
 
   // scene
-
 
   scene = new THREE.Scene();
   scene.fog = new THREE.Fog( 0x000000, 250, 1400 );
@@ -65,8 +92,25 @@ function init() {
   
 
   container.appendChild(renderer.domElement);
-  document.addEventListener('mousemove', onDocumentMouseMove, false);
+  container.addEventListener('mousemove', onDocumentMouseMove, false);
 
+
+  document.addEventListener('keydown', function(e) {
+    var key = e.keyCode || e.which;
+    var keychar = String.fromCharCode(key);
+    console.log(key);
+    console.log(keychar);
+    if (keychar === 'C')
+      mouseCamera = !mouseCamera;
+
+
+    if (key in directionDict) {
+      camera.position.x += direction[directionDict[key]].x * 5;
+      camera.position.y += direction[directionDict[key]].y * 5;
+    }
+  });
+
+  
   //
 
   // window.addEventListener('resize', onWindowResize, false);
@@ -103,8 +147,10 @@ function animate() {
 
 function render() {
 
-  // camera.position.x += (mouseX - camera.position.x) * .05;
-  // camera.position.y += (-mouseY - camera.position.y) * .05;
+  if (mouseCamera) {
+    camera.position.x += (mouseX - camera.position.x) * .05;
+    camera.position.y += (-mouseY - camera.position.y) * .05;
+  }
 
   camera.lookAt(scene.position);
 
