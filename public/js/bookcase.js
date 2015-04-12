@@ -3,6 +3,7 @@ var container, stats;
 var camera, scene, renderer;
 
 var mouseX = 0, mouseY = 0;
+var controlX = 0, controlY = 0, controlZ = 0;
 var windowHalfX = window.innerWidth / 2;
 var windowHalfY = window.innerHeight / 2;
 var mouseCamera = false;
@@ -10,7 +11,7 @@ var mouseCamera = false;
 var boxes = [];
 
 function loadBook(scene, idx, book) {
-  var geometry = new THREE.BoxGeometry(20, 25, 5);
+  var geometry = new THREE.BoxGeometry(booksize[X], booksize[Y], booksize[Z]);
 
   function imageMaterial(imgurl) {
     return new THREE.MeshBasicMaterial({
@@ -70,6 +71,41 @@ function light(scene) {
   scene.add(directionalLight);
 }
 
+function init() {
+
+  container = $('#gl-container')[0];
+  camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 1, 2000);
+  camera.position.z = 180;
+
+  // scene
+  scene = new THREE.Scene();
+
+  loadBookcase(scene);
+
+  $.getJSON('/api/books', function(books) {
+    for (var i = 0, len = books.length; i < len; ++i) {
+      loadBook(scene, i, books[i]);
+    }
+
+    light(scene);
+
+    renderer = new THREE.WebGLRenderer();
+    renderer.setClearColor( 0xf0f0f0 );
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    $(container).append(renderer.domElement);
+
+    addControl(container);
+
+    controlX = camera.position.x;
+    controlY = camera.position.y;
+    controlZ = camera.position.z;
+
+    animate();
+  });
+
+}
+
 function addControl(container) {
   // listeners
   $(container).mousemove(onDocumentMouseMove);
@@ -81,8 +117,9 @@ function addControl(container) {
       mouseCamera = !mouseCamera;
 
     if (key in directionDict) {
-      camera.position.x += direction[directionDict[key]].x * 5;
-      camera.position.y += direction[directionDict[key]].y * 5;
+      controlX += direction[directionDict[key]].x * 15;
+      controlY += direction[directionDict[key]].y * 15;
+      controlZ += direction[directionDict[key]].z * 15;
     }
   });
 
@@ -105,51 +142,6 @@ function addControl(container) {
 
 }
 
-function init() {
-
-  container = $('#gl-container')[0];
-  camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
-  camera.position.z = 100;
-
-  // scene
-  scene = new THREE.Scene();
-
-  loadBookcase(scene);
-
-  $.getJSON('/api/books', function(books) {
-    for (var i = 0, len = books.length; i < len; ++i) {
-      loadBook(scene, i, books[i]);
-    }
-
-    light(scene);
-
-    renderer = new THREE.WebGLRenderer();
-    renderer.setClearColor( 0xf0f0f0 );
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(container.clientWidth, container.clientHeight);
-    $(container).append(renderer.domElement);
-
-    addControl(container);
-
-    animate();
-  });
-
-  // window.addEventListener('resize', onWindowResize, false);
-
-}
-
-function onWindowResize() {
-
-  windowHalfX = window.innerWidth / 2;
-  windowHalfY = window.innerHeight / 2;
-
-  camera.aspect = container.clientWidth / container.clientHeight;
-  camera.updateProjectionMatrix();
-
-  renderer.setSize(container.clientWidth, container.clientHeight);
-
-}
-
 function onDocumentMouseMove(event) {
   mouseX = (event.clientX - windowHalfX) / 2;
   mouseY = (event.clientY - windowHalfY) / 2;
@@ -164,6 +156,10 @@ function render() {
   if (mouseCamera) {
     camera.position.x += (mouseX - camera.position.x) * .05;
     camera.position.y += (-mouseY - camera.position.y) * .05;
+  } else {
+    camera.position.x += (controlX - camera.position.x) * .05;
+    camera.position.y += (controlY - camera.position.y) * .05;
+    camera.position.z += (controlZ - camera.position.z) * .05;
   }
 
   camera.lookAt(scene.position);
@@ -172,6 +168,3 @@ function render() {
 }
 
 $(init);
-// window.addEventListener('load', function(e) {
-//   init();
-// })
