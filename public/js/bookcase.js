@@ -7,6 +7,8 @@ var windowHalfX = window.innerWidth / 2;
 var windowHalfY = window.innerHeight / 2;
 var mouseCamera = false;
 
+var boxes = [];
+
 function loadBox(scene, pos, cover) {
   var geometry = new THREE.BoxGeometry(20, 25, 5);
 
@@ -25,9 +27,10 @@ function loadBox(scene, pos, cover) {
       imageMaterial('obj/bookcase/hard-cover.jpg')   // Back
   ];
 
-  boxObj = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
+  var boxObj = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
   boxObj.position.set.apply(boxObj.position, positions[pos])
   scene.add(boxObj);
+  boxes.push(boxObj);
 }
 
 function loadBookcase(scene) {
@@ -81,6 +84,24 @@ function addControl(container) {
       camera.position.y += direction[directionDict[key]].y * 5;
     }
   });
+
+  container.addEventListener('mousedown', function(e) {
+    e.preventDefault();
+    var mouseVector = new THREE.Vector2( 
+         (e.clientX / renderer.domElement.clientWidth) * 2 - 1, 
+         1 - (e.clientY / renderer.domElement.clientHeight) * 2);
+
+    var raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(mouseVector, camera);
+    var intersects = raycaster.intersectObjects(boxes);
+ 
+    if ( intersects.length > 0 ) {
+        // something happens after the object being clicked...
+        console.log('clicked!');
+        console.log(intersects[0].object);
+    }
+  });
+
 }
 
 function init() {
@@ -94,13 +115,13 @@ function init() {
 
   loadBookcase(scene);
 
-  loadBox(scene, 0, '/obj/crate/crate.gif');
-  loadBox(scene, 1, '/obj/crate/crate.gif');
-  loadBox(scene, 2, '/obj/crate/crate.gif');
+  loadBox(scene, 0, '/asset/cover/SzeliskiBookFrontCover.png');
+  loadBox(scene, 1, '/asset/cover/ElemStatLearn.jpg');
+  loadBox(scene, 2, '/asset/cover/aosa2-cover.jpg');
 
-  loadBox(scene, 3, '/obj/crate/crate.gif');
-  loadBox(scene, 4, '/obj/crate/crate.gif');
-  loadBox(scene, 5, '/obj/crate/crate.gif');
+  loadBox(scene, 3, '/asset/cover/aosa1-cover.jpg');
+  loadBox(scene, 4, '/asset/cover/posa-cover.png');
+  loadBox(scene, 5, '/asset/cover/EloquentJavaScript.png');
 
 
   light(scene);
