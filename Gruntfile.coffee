@@ -11,6 +11,10 @@ module.exports = (grunt) ->
         tasks: ["express:dev"]
         options:
           spawn: false
+      public:
+        files: ["public/**/*"]
+        options:
+          livereload: true
 
     express:
       dev:

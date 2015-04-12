@@ -11,7 +11,50 @@ var bookcase = {
   obj: '/obj/bookcase/pinewoodRackMediumHeight.obj',
   mtl: '/obj/bookcase/pinewoodRackMediumHeight.mtl',
   x: -40,
-  y: -110,
+  y: -105,
+  z: 0
+}
+
+var booksize = [20, 25, 5];
+
+var positions = [[-25, 10, 20], [0, 10, 20], [25, 10, 20],
+                 [-25, -22, 20], [0, -22, 20], [25, -22, 20] ]
+
+for (var i = 0, len = positions.length; i < len; ++i) {
+  positions[i][0] += bookcase.x + 40;
+  positions[i][1] += bookcase.y + 110;
+  positions[i][1] += bookcase.z;
+}
+
+var boxObj;
+
+function loadBox(scene, pos, cover) {
+  var geometry = new THREE.BoxGeometry(20, 25, 5);
+
+  function imageMaterial(imgurl) {
+    return new THREE.MeshBasicMaterial({
+      map: THREE.ImageUtils.loadTexture(imgurl)}
+    );
+  }
+
+  var materials = [
+      imageMaterial('obj/bookcase/bookpages-right.jpg'),  // right
+      imageMaterial('obj/crate/crate.gif'),  // left
+      imageMaterial('obj/bookcase/bookpages-top.jpg'),  // Top
+      imageMaterial('obj/bookcase/bookpages-top.jpg'),  // Bottom
+      imageMaterial('obj/crate/crate.gif'),  // Front
+      imageMaterial('obj/crate/crate.gif')   // Back
+  ];
+   
+  // var geometry = new THREE.BoxGeometry(80, 80, 80, 3, 3, 3),
+      // cube     = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial(materials) );
+   
+  // var texture = THREE.ImageUtils.loadTexture(cover);
+  // var material = new THREE.MeshBasicMaterial( { map: texture } );
+
+  boxObj = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
+  boxObj.position.set.apply(boxObj.position, positions[pos])
+  scene.add(boxObj);
 }
 
 function loadBookcase(scene) {
@@ -77,6 +120,16 @@ function init() {
   scene = new THREE.Scene();
 
   loadBookcase(scene);
+
+  loadBox(scene, 0, '/obj/crate/crate.gif');
+  loadBox(scene, 1, '/obj/crate/crate.gif');
+  loadBox(scene, 2, '/obj/crate/crate.gif');
+
+  loadBox(scene, 3, '/obj/crate/crate.gif');
+  loadBox(scene, 4, '/obj/crate/crate.gif');
+  loadBox(scene, 5, '/obj/crate/crate.gif');
+
+
   light(scene);
 
   renderer = new THREE.WebGLRenderer();
@@ -95,7 +148,7 @@ function onWindowResize() {
   windowHalfX = window.innerWidth / 2;
   windowHalfY = window.innerHeight / 2;
 
-  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.aspect = container.clientWidth / container.clientHeight;
   camera.updateProjectionMatrix();
 
   renderer.setSize(container.clientWidth, container.clientHeight);
