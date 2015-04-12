@@ -1,0 +1,36 @@
+{
+  "name": "bookcase",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "~1.12.0",
+    "cookie-parser": "~1.3.4",
+    "debug": "~2.1.1",
+    "express": "~4.12.2",
+    "jade": "~1.9.2",
+    "mongoose": "^4.0.1",
+    "morgan": "~1.5.1",
+    "serve-favicon": "~2.2.0",
+    "serve-static": "^1.9.2"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-express-server": "^0.5.1",
+    "load-grunt-tasks": "^3.1.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joyeecheung/virtual-bookcase.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joyeecheung/virtual-bookcase/issues"
+  },
+  "homepage": "https://github.com/joyeecheung/virtual-bookcase"
+}

@@ -1,0 +1,32 @@
+extends layout
+
+block style
+  link(rel='stylesheet', href='/css/vendor/bootstrap.min.css')
+  link(rel='stylesheet', href='/css/style.css')
+
+
+block header
+  nav.navbar.navbar-default.navbar-static-top
+    .container-fluid
+      .navbar-header
+        a.navbar-brand(href="/")=title
+      
+      div.collapse.navbar-collapse
+          ul.nav.nav-pills.navbar-nav.navbar-right
+            li(role="presentation")
+              a(href="/about") About
+
+
+block content
+  #container
+
+block script
+  script(src="js/libs/three.min.js")
+
+  script(src="js/loaders/DDSLoader.js")
+  script(src="js/loaders/MTLLoader.js")
+  script(src="js/loaders/OBJMTLLoader.js")
+
+  script(src="js/Detector.js")
+  script(src="js/libs/stats.min.js")
+  script(src="js/load_mtl_obj.js")

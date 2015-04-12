@@ -1,0 +1,17 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #000;
+  color: #fff;
+  margin: 0px;
+  overflow: hidden;
+}
+
+.navbar-static-top {
+  margin: 0;
+}
+
+#container {
+  width: 900px;
+  height: 600px;
+  margin: 0 auto;
+}
