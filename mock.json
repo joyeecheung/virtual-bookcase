@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Computer Vision: Algorithms and Applications",
+    "cover": "SzeliskiBookFrontCover.png",
+    "url": "http://szeliski.org/Book/"
+  },
+  {
+    "name": "The Elements of Statistical Learning",
+    "cover": "ElemStatLearn.jpg",
+    "url": "http://statistics.stanford.edu/~tibs/ElemStatLearn/"
+  },
+  {
+    "name": "The Architecture of Open Source Applications: Volume 2",
+    "cover": "aosa2-cover.jpg",
+    "url": "http://aosabook.org/en/intro2.html"
+  },
+  {
+    "name": "The Architecture of Open Source Applications: Volume 1",
+    "cover": "aosa1-cover.jpg",
+    "url": "http://aosabook.org/en/intro1.html"
+  },
+  {
+    "name": "The Performance of Open Source Applications",
+    "cover": "posa-cover.png",
+    "url": "http://aosabook.org/en/posa/introduction.html"
+  },
+  {
+    "name": "Eloquent JavaScript",
+    "cover": "EloquentJavaScript.png",
+    "url": "http://eloquentjavascript.net/"
+  }
+]

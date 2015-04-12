@@ -9,7 +9,7 @@ var mouseCamera = false;
 
 var boxes = [];
 
-function loadBox(scene, pos, cover) {
+function loadBook(scene, idx, book) {
   var geometry = new THREE.BoxGeometry(20, 25, 5);
 
   function imageMaterial(imgurl) {
@@ -23,12 +23,13 @@ function loadBox(scene, pos, cover) {
       imageMaterial('obj/bookcase/hard-cover.jpg'),  // left
       imageMaterial('obj/bookcase/bookpages-top.jpg'),  // Top
       imageMaterial('obj/bookcase/bookpages-top.jpg'),  // Bottom
-      imageMaterial(cover),  // Front
+      imageMaterial(book.cover),  // Front
       imageMaterial('obj/bookcase/hard-cover.jpg')   // Back
   ];
 
   var boxObj = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
-  boxObj.position.set.apply(boxObj.position, positions[pos])
+  boxObj.position.set.apply(boxObj.position, positions[idx]);
+  boxObj.book = book;
   scene.add(boxObj);
   boxes.push(boxObj);
 }
@@ -71,10 +72,10 @@ function light(scene) {
 
 function addControl(container) {
   // listeners
-  container.addEventListener('mousemove', onDocumentMouseMove, false);
+  $(container).mousemove(onDocumentMouseMove);
 
-  document.addEventListener('keydown', function(e) {
-    var key = e.keyCode || e.which;
+  $(document).keydown(function(e) {
+    var key = e.which;
     var keychar = String.fromCharCode(key);
     if (keychar === 'C')
       mouseCamera = !mouseCamera;
@@ -85,11 +86,12 @@ function addControl(container) {
     }
   });
 
-  container.addEventListener('mousedown', function(e) {
+  $(container).mousedown(function(e) {
     e.preventDefault();
+    var rect = renderer.domElement.getBoundingClientRect();
     var mouseVector = new THREE.Vector2( 
-         (e.clientX / renderer.domElement.clientWidth) * 2 - 1, 
-         1 - (e.clientY / renderer.domElement.clientHeight) * 2);
+         ((e.clientX - rect.left) / renderer.domElement.clientWidth) * 2 - 1, 
+         1 - ((e.clientY - rect.top) / renderer.domElement.clientHeight) * 2);
 
     var raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(mouseVector, camera);
@@ -98,6 +100,7 @@ function addControl(container) {
     if ( intersects.length > 0 ) {
         // something happens after the object being clicked...
         console.log('clicked!');
+        alert(intersects[0].object.book.name)
         console.log(intersects[0].object);
     }
   });
@@ -106,7 +109,7 @@ function addControl(container) {
 
 function init() {
 
-  container = document.getElementById('gl-container');
+  container = $('#gl-container')[0];
   camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
   camera.position.z = 100;
 
@@ -115,23 +118,23 @@ function init() {
 
   loadBookcase(scene);
 
-  loadBox(scene, 0, '/asset/cover/SzeliskiBookFrontCover.png');
-  loadBox(scene, 1, '/asset/cover/ElemStatLearn.jpg');
-  loadBox(scene, 2, '/asset/cover/aosa2-cover.jpg');
+  $.getJSON('/api/books', function(books) {
+    for (var i = 0, len = books.length; i < len; ++i) {
+      loadBook(scene, i, books[i]);
+    }
 
-  loadBox(scene, 3, '/asset/cover/aosa1-cover.jpg');
-  loadBox(scene, 4, '/asset/cover/posa-cover.png');
-  loadBox(scene, 5, '/asset/cover/EloquentJavaScript.png');
+    light(scene);
 
+    renderer = new THREE.WebGLRenderer();
+    renderer.setClearColor( 0xf0f0f0 );
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    $(container).append(renderer.domElement);
 
-  light(scene);
+    addControl(container);
 
-  renderer = new THREE.WebGLRenderer();
-  renderer.setPixelRatio(window.devicePixelRatio);
-  renderer.setSize(container.clientWidth, container.clientHeight);
-  container.appendChild(renderer.domElement);
-
-  addControl(container);
+    animate();
+  });
 
   // window.addEventListener('resize', onWindowResize, false);
 
@@ -170,9 +173,7 @@ function render() {
   renderer.render(scene, camera);
 }
 
-
-
-window.addEventListener('load', function(e) {
-  init();
-  animate();
-})
+$(init);
+// window.addEventListener('load', function(e) {
+//   init();
+// })
