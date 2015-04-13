@@ -2,31 +2,61 @@
   {
     "name": "Computer Vision: Algorithms and Applications",
     "cover": "SzeliskiBookFrontCover.png",
-    "url": "http://szeliski.org/Book/"
+    "url": "http://szeliski.org/Book/",
+    "isbn": "1848829345"
   },
   {
     "name": "The Elements of Statistical Learning",
     "cover": "ElemStatLearn.jpg",
-    "url": "http://statistics.stanford.edu/~tibs/ElemStatLearn/"
+    "url": "http://statistics.stanford.edu/~tibs/ElemStatLearn/",
+    "isbn": "0387848576"
   },
   {
     "name": "The Architecture of Open Source Applications: Volume 2",
     "cover": "aosa2-cover.jpg",
-    "url": "http://aosabook.org/en/intro2.html"
+    "url": "http://aosabook.org/en/intro2.html",
+    "isbn": "1105571815"
   },
   {
     "name": "The Architecture of Open Source Applications: Volume 1",
     "cover": "aosa1-cover.jpg",
-    "url": "http://aosabook.org/en/intro1.html"
+    "url": "http://aosabook.org/en/intro1.html",
+    "isbn": "1257638017"
   },
   {
     "name": "The Performance of Open Source Applications",
     "cover": "posa-cover.png",
-    "url": "http://aosabook.org/en/posa/introduction.html"
+    "url": "http://aosabook.org/en/posa/introduction.html",
+    "isbn": "1304488780"
   },
   {
     "name": "Eloquent JavaScript",
     "cover": "EloquentJavaScript.png",
-    "url": "http://eloquentjavascript.net/"
+    "url": "http://eloquentjavascript.net/",
+    "isbn": "1593275846"
+  },
+  {
+    "name": "The OpenGL Programming Guide",
+    "cover": "openglredbook.jpg",
+    "url": "http://www.opengl-redbook.com/",
+    "isbn": "0321773039"
+  },
+  {
+    "name": "The Little Book on CoffeeScript",
+    "cover": "coffeescriptbook.jpg",
+    "url": "http://arcturo.github.io/library/coffeescript/",
+    "isbn": "1449321054"
+  },
+  {
+    "name": "Learn You Some Erlang for Great Good!",
+    "cover": "learnyousomeerlang.png",
+    "url": "http://learnyousomeerlang.com/content",
+    "isbn": "1593274351"
+  },
+  {
+    "name": "Learn You a Haskell for Great Good!",
+    "cover": "learnyouahaskell.png",
+    "url": "http://learnyouahaskell.com/chapters",
+    "isbn": "1593272839"
   }
 ]

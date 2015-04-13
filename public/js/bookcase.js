@@ -13,27 +13,6 @@ var controls = {
 var books = [];
 var updates = [];
 
-function init() {
-  container = $('#gl-container')[0];
-  camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 1, 2000);
-  camera.position.z = 180;
-
-  // scene
-  scene = new THREE.Scene();
-  $.getJSON('/api/books', function(books) {
-    loadBookcase(scene);
-    for (var i = 0, len = books.length; i < len; ++i) {
-      loadBook(scene, i, books[i]);
-    }
-
-    light(scene);
-    renderer = setUpRenderer(container);
-    addControl(container);
-    animate();
-  });
-
-}
-
 function setUpRenderer(container) {
   var renderer = new THREE.WebGLRenderer();
   renderer.setClearColor( 0xf0f0f0 );
@@ -182,6 +161,27 @@ function render(currentTime) {
   camera.lookAt(scene.position);
 
   renderer.render(scene, camera);
+}
+
+function init() {
+  container = $('#gl-container')[0];
+  camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 1, 2000);
+  camera.position.z = 180;
+
+  // scene
+  scene = new THREE.Scene();
+  $.getJSON('/api/books', {limit: 12}, function(books) {
+    loadBookcase(scene);
+    for (var i = 0, len = books.length; i < len; ++i) {
+      loadBook(scene, i, books[i]);
+    }
+
+    light(scene);
+    renderer = setUpRenderer(container);
+    addControl(container);
+    animate();
+  });
+
 }
 
 $(init);
