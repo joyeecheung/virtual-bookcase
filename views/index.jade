@@ -20,21 +20,33 @@ block header
 block content
   #gl-container
 
-  ul.list-group#gl-control
-    li.list-group-item
-      kbd C
-      span.gl-control-explanation Toggle mouse mode(move to rotate camera)
-    li.list-group-item
-      kbd +
-      kbd -
-      kbd ← → ↑ ↓
-      span.gl-control-explanation move camera in keyboard mode
+  .panel.panel-default#gl-control
+    table.table.table-bordered.table-striped
+      tr
+        td.gl-control-action
+          kbd C
+        td.gl-control-explanation
+          span Toggle mouse mode (move mouse to rotate camera)
+      tr
+        td.gl-control-action
+          kbd +
+          kbd -
+          kbd ←
+          kbd →
+          kbd ↑
+          kbd ↓
+        td.gl-control-explanation
+          span Move camera in keyboard mode
+      tr
+        td.gl-control-action Click the books
+        td.gl-control-explanation For more information
 
   #gl-panel.panel.panel-default.hidden
-    .panel-heading.clearfix
-      #gl-panel-title.pull-left
-      button.close#gl-panel-close(type="button", aria-label="Close").pull-right
-        span(aria-hidden="true") &times;
+    .panel-heading
+      .row
+        #gl-panel-title.col-md-11
+        button.col-md-1.close#gl-panel-close(type="button", aria-label="Close")
+          span(aria-hidden="true") &times;
     .panel-body
       .row
         .col-md-6

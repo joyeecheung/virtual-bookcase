@@ -88,6 +88,7 @@ function loadBook(scene, idx, book) {
   var boxObj = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
   boxObj.position.set.apply(boxObj.position, positions[idx]);
   boxObj.book = book;
+  boxObj.idx = idx;
   scene.add(boxObj);
   books.push(boxObj);
 }

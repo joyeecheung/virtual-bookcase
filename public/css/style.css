@@ -18,6 +18,7 @@ body {
   position: fixed;
   bottom: 10px;
   right: 30px;
+  width: 360px;
 }
 
 #gl-control kbd {
@@ -34,4 +35,12 @@ body {
 
 .gl-panel-isbn-block {
   font-size: 18px;
+}
+
+.gl-control-action {
+  text-align: center;
+}
+
+.in-select {
+  cursor: pointer;
 }

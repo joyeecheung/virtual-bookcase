@@ -73,9 +73,9 @@ function moveCameraByKey(e) {
 }
 
 function selectBook(bookObj) {
-  var upOriginalY = bookObj.position.y;
   function bookUp(rate) {
-    bookObj.position.y = upOriginalY + controls.bookUpDistance * rate;
+    bookObj.position.y =
+      positions[bookObj.idx][Y] + controls.bookUpDistance * rate;
   }
 
   updates.push({
@@ -89,10 +89,9 @@ function deselectBook(bookObj) {
   if (!bookObj)
     return;
 
-  var downOriginalY = bookObj.position.y;
   function bookDown(rate) {
     bookObj.position.y =
-      downOriginalY - controls.bookUpDistance * rate;
+      positions[bookObj.idx][Y] + controls.bookUpDistance * (1 - rate);
   }
 
   updates.push({
@@ -104,23 +103,30 @@ function deselectBook(bookObj) {
 
 function handlBookSelection(e) {
   var intersects = getIntersects(e, books, renderer, camera);
+  if (intersects.length > 0) {
+    newUppedBook = intersects[0].object;
+    bookPanelIn(newUppedBook.book);
+  } else {
+    bookPanelOut();
+  }
+}
+
+function bookResponse(e) {
+  var intersects = getIntersects(e, books, renderer, camera);
   var oldUppedBook = controls.uppedBook;
 
   if (intersects.length > 0) {
     newUppedBook = intersects[0].object;
-    controls.uppedBook = newUppedBook;
-
     if (newUppedBook === oldUppedBook)
       return;
 
+    controls.uppedBook = newUppedBook;
     selectBook(newUppedBook);
-    deselectBook(oldUppedBook);
-
-    bookPanelIn(newUppedBook.book);
-  } else {
+    $(container).addClass('in-select');
+  } else if (oldUppedBook){
     controls.uppedBook = undefined;
     deselectBook(oldUppedBook);
-    bookPanelOut();
+    $(container).removeClass('in-select');
   }
 }
 
@@ -128,6 +134,8 @@ function addControl(container) {
 
   // listeners
   $(container).mousemove(moveCameraByMouse);
+
+  $(container).mousemove(bookResponse);
 
   $(document).keydown(moveCameraByKey);
 
