@@ -19,15 +19,21 @@ block header
 
 block content
   #gl-container
-    ul.list-group#gl-control
-      li.list-group-item
-        kbd C
-        span.gl-control-explanation Toggle mouse mode(move to rotate camera)
-      li.list-group-item
-        kbd +
-        kbd -
-        kbd ← → ↑ ↓
-        span.gl-control-explanation move camera in keyboard mode
+
+  ul.list-group#gl-control
+    li.list-group-item
+      kbd C
+      span.gl-control-explanation Toggle mouse mode(move to rotate camera)
+    li.list-group-item
+      kbd +
+      kbd -
+      kbd ← → ↑ ↓
+      span.gl-control-explanation move camera in keyboard mode
+
+  #gl-panel.panel.panel-default.hidden
+    #gl-panel-title.panel-heading
+    .panel-body
+      a#gl-panel-link
 
 block script
   script(src="js/libs/three.min.js")

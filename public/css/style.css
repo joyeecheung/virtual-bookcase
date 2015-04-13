@@ -23,3 +23,11 @@ body {
 #gl-control kbd {
   margin-right: 5px;
 }
+
+#gl-panel {
+  width: 400px;
+  position: fixed;
+  top: 200px;
+  left: 50%;
+  transform: translateX(-50%);
+}

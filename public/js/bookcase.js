@@ -9,7 +9,7 @@ var controls = {
   mouseCamera: false
 }
 
-var boxes = [];
+var books = [];
 var updates = [];
 
 function loadBook(scene, idx, book) {
@@ -34,7 +34,7 @@ function loadBook(scene, idx, book) {
   boxObj.position.set.apply(boxObj.position, positions[idx]);
   boxObj.book = book;
   scene.add(boxObj);
-  boxes.push(boxObj);
+  books.push(boxObj);
 }
 
 function loadBookcase(scene) {
@@ -157,14 +157,68 @@ function addControl(container) {
 
     var raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(mouseVector, camera);
-    var intersects = raycaster.intersectObjects(boxes);
+    var intersects = raycaster.intersectObjects(books);
  
-    if ( intersects.length > 0 ) {
-        window.open(intersects[0].object.book.url, '_blank');
-        window.focus();
+    var oldUppedBook = controls.uppedBook;
+    var newUppedBook;
+    var bookUpDistance = 3;
+
+    if (intersects.length > 0) {
+      newUppedBook = intersects[0].object;
+      controls.uppedBook = newUppedBook;
+    }
+
+    if (newUppedBook && newUppedBook !== oldUppedBook) {
+      var upOriginalY = newUppedBook.position.y;
+      function bookUp(rate) {
+        newUppedBook.position.y = upOriginalY + bookUpDistance * rate;
+      }
+
+      updates.push({
+        func: bookUp,
+        startTime: Date.now(),
+        duration: 600
+      });
+
+      if (oldUppedBook) {
+        var downOriginalY = oldUppedBook.position.y;
+        function bookDown(rate) {
+          oldUppedBook.position.y = downOriginalY - bookUpDistance * rate;
+        }
+
+        updates.push({
+          func: bookDown,
+          startTime: Date.now(),
+          duration: 600
+        });
+      }
+
+      $('#gl-panel-title').text(newUppedBook.book.name);
+      $('#gl-panel-link')
+        .text('Go To Homepage')
+        .prop('href', newUppedBook.book.url)
+        .prop('target', '_blank');
+      $('#gl-panel').fadeIn('100');
+      $('#gl-panel').removeClass('hidden');
+    } else if (!newUppedBook) {
+      if (oldUppedBook) {
+        controls.uppedBook = undefined;
+        var downOriginalY = oldUppedBook.position.y;
+        function bookDown(rate) {
+          oldUppedBook.position.y = downOriginalY - bookUpDistance * rate;
+        }
+
+        updates.push({
+          func: bookDown,
+          startTime: Date.now(),
+          duration: 600
+        });
+      }
+      $('#gl-panel').fadeOut('100', function() {
+        $('#gl-panel').addClass('hidden');
+      });
     }
   });
-
 }
 
 function animate(time) {
