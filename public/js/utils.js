@@ -82,13 +82,20 @@ function loadBook(scene, idx, book) {
 
   function imageMaterial(imgurl) {
     return new THREE.MeshBasicMaterial({
-      map: THREE.ImageUtils.loadTexture(imgurl)}
-    );
+      map: THREE.ImageUtils.loadTexture(imgurl)
+    });
+  }
+
+  function coloredImageMaterial(imgurl, color) {
+    return new THREE.MeshLambertMaterial({
+      map: THREE.ImageUtils.loadTexture(imgurl),
+      color: color
+    })
   }
 
   var materials = [
       imageMaterial('obj/bookcase/bookpages-right.jpg'),  // right
-      imageMaterial('obj/bookcase/bookbinding.jpg'),  // left
+      coloredImageMaterial('obj/bookcase/bookbinding.jpg', '#FFFFFF'),  // left
       imageMaterial('obj/bookcase/bookpages-top.jpg'),  // Top
       imageMaterial('obj/bookcase/bookpages-top.jpg'),  // Bottom
       imageMaterial(book.cover),  // Front
