@@ -1,11 +1,14 @@
 var LEFT = 37, UP = 38, RIGHT = 39, DOWN = 40;
+// http://www.javascripter.net/faq/keycodes.htm
 var directionDict = {
   37: "LEFT",
   38: "UP",
   39: "RIGHT",
   40: "DOWN",
   187: "AHEAD",
-  189: "BACK"
+  189: "BACK",
+  61: "AHEAD",
+  173: "BACK"
 }
 var direction = {
   LEFT: {

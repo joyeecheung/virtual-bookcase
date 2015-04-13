@@ -19,9 +19,15 @@ block header
 
 block content
   #gl-container
-
-  .alert.alert-info#gl-control
-    p#gl-change-camera Press C to change camera
+    ul.list-group#gl-control
+      li.list-group-item
+        kbd C
+        span.gl-control-explanation Toggle mouse mode(move to rotate camera)
+      li.list-group-item
+        kbd +
+        kbd -
+        kbd ← → ↑ ↓
+        span.gl-control-explanation move camera in keyboard mode
 
 block script
   script(src="js/libs/three.min.js")

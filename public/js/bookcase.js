@@ -23,7 +23,7 @@ function loadBook(scene, idx, book) {
 
   var materials = [
       imageMaterial('obj/bookcase/bookpages-right.jpg'),  // right
-      imageMaterial('obj/bookcase/hard-cover.jpg'),  // left
+      imageMaterial('obj/bookcase/bookbinding.jpg'),  // left
       imageMaterial('obj/bookcase/bookpages-top.jpg'),  // Top
       imageMaterial('obj/bookcase/bookpages-top.jpg'),  // Bottom
       imageMaterial(book.cover),  // Front
@@ -182,7 +182,6 @@ function render(currentTime) {
     } else {
       var rate = remaining / updates[i].duration;
       rate = 1 - Math.pow(rate, 3);  //easing formula
-      console.log(rate);
       if (rate > 1 || rate < 0) {
         var update = updates.splice(i--, 1)[0];
         update.func(1, update.args);
