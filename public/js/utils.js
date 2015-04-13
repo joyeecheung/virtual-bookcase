@@ -117,3 +117,30 @@ function light(scene) {
   directionalLight.position.set(1, 1, 1).normalize();
   scene.add(directionalLight);
 }
+
+function getIntersects(e, objects, renderer, camera) {
+  var rect = renderer.domElement.getBoundingClientRect();
+  var mouseVector = new THREE.Vector2( 
+       ((e.clientX - rect.left) / renderer.domElement.clientWidth) * 2 - 1, 
+       1 - ((e.clientY - rect.top) / renderer.domElement.clientHeight) * 2);
+
+  var raycaster = new THREE.Raycaster();
+  raycaster.setFromCamera(mouseVector, camera);
+  return raycaster.intersectObjects(objects);
+}
+
+function bookPanelIn(book) {
+  $('#gl-panel-title').text(book.name);
+  $('#gl-panel-link')
+    .text('Go To Homepage')
+    .prop('href', book.url)
+    .prop('target', '_blank');
+  $('#gl-panel').fadeIn('100');
+  $('#gl-panel').removeClass('hidden');
+}
+
+function bookPanelOut() {
+  $('#gl-panel').fadeOut('100', function() {
+    $('#gl-panel').addClass('hidden');
+  });
+}
