@@ -31,12 +31,12 @@ var direction = {
   AHEAD: {
     x: 0,
     y: 0,
-    z: 1
+    z: -1
   },
   BACK: {
     x: 0,
     y: 0,
-    z: +1
+    z: 1
   }
 }
 
