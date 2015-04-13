@@ -59,6 +59,15 @@ var bookcase = {
 }
 
 var X = 0, Y = 1, Z = 2;
+var materialIdx = {
+  RIGHT: 0,
+  LEFT: 1,
+  TOP: 2,
+  BOTTOM:3,
+  FRONT: 4,
+  BACK: 5
+}
+
 var booksize = [15, 20, 3];
 var bookAngle = {
   x: -0.1,
@@ -77,6 +86,10 @@ for (var i = 0, len = positions.length; i < len; ++i) {
   positions[i][Z] += bookcase.position.z - 10;
 }
 
+function rgbToHex(r, g, b) {
+    return ((r << 16) + (g << 8) + b);
+}
+
 function loadBook(scene, idx, book) {
   var geometry = new THREE.BoxGeometry(booksize[X], booksize[Y], booksize[Z]);
 
@@ -86,23 +99,23 @@ function loadBook(scene, idx, book) {
     });
   }
 
-  function coloredImageMaterial(imgurl, color) {
+  function coloredMaterial(color) {
     return new THREE.MeshLambertMaterial({
-      map: THREE.ImageUtils.loadTexture(imgurl),
       color: color
-    })
+    });
   }
 
   var materials = [
       imageMaterial('obj/bookcase/bookpages-right.jpg'),  // right
-      coloredImageMaterial('obj/bookcase/bookbinding.jpg', '#FFFFFF'),  // left
+      coloredMaterial(0XA6A6A6),  // left
       imageMaterial('obj/bookcase/bookpages-top.jpg'),  // Top
       imageMaterial('obj/bookcase/bookpages-top.jpg'),  // Bottom
       imageMaterial(book.cover),  // Front
-      imageMaterial('obj/bookcase/hard-cover.jpg')   // Back
+      coloredMaterial(0XA6A6A6)   // Back
   ];
 
   var bookObj = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
+
   bookObj.position.set.apply(bookObj.position, positions[idx]);
   bookObj.rotateX(bookAngle.x);
   bookObj.rotateY(bookAngle.y);
@@ -110,6 +123,20 @@ function loadBook(scene, idx, book) {
 
   bookObj.book = book;
   bookObj.idx = idx;
+
+
+  var loader = new THREE.ImageLoader();
+  var colorThief = new ColorThief();
+  loader.load(book.cover, function(image) {
+    var color = colorThief.getColor(image, 1000);
+    console.log(color);
+    var hex = rgbToHex.apply(this, color);
+    var newMaterial = coloredMaterial(hex);
+    bookObj.material.materials[materialIdx.LEFT] = newMaterial;
+    bookObj.material.materials[materialIdx.BACK] = newMaterial;
+    bookObj.material.needsUpdate = true;
+  });
+  
   scene.add(bookObj);
   books.push(bookObj);
 }
