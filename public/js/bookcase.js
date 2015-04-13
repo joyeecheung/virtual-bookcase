@@ -12,56 +12,7 @@ var controls = {
 var books = [];
 var updates = [];
 
-function loadBook(scene, idx, book) {
-  var geometry = new THREE.BoxGeometry(booksize[X], booksize[Y], booksize[Z]);
 
-  function imageMaterial(imgurl) {
-    return new THREE.MeshBasicMaterial({
-      map: THREE.ImageUtils.loadTexture(imgurl)}
-    );
-  }
-
-  var materials = [
-      imageMaterial('obj/bookcase/bookpages-right.jpg'),  // right
-      imageMaterial('obj/bookcase/bookbinding.jpg'),  // left
-      imageMaterial('obj/bookcase/bookpages-top.jpg'),  // Top
-      imageMaterial('obj/bookcase/bookpages-top.jpg'),  // Bottom
-      imageMaterial(book.cover),  // Front
-      imageMaterial('obj/bookcase/hard-cover.jpg')   // Back
-  ];
-
-  var boxObj = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
-  boxObj.position.set.apply(boxObj.position, positions[idx]);
-  boxObj.book = book;
-  scene.add(boxObj);
-  books.push(boxObj);
-}
-
-function loadBookcase(scene) {
-  function objectPosition(object, x, y, z) {
-    object.position.y = y || object.position.y;
-    object.position.x = x || object.position.x;
-    object.position.z = z || object.position.z;
-    scene.add(object);
-  }
-
-  THREE.Loader.Handlers.add(/\.dds$/i, new THREE.DDSLoader());
-
-  var loader = new THREE.OBJMTLLoader();
-  loader.load(bookcase.obj, bookcase.mtl,
-    function(object) {
-      objectPosition(object, bookcase.x, bookcase.y, bookcase.z);
-    });
-}
-
-function light(scene) {
-  var ambient = new THREE.AmbientLight(0x444444);
-  scene.add(ambient);
-
-  var directionalLight = new THREE.DirectionalLight(0xffeedd);
-  directionalLight.position.set(1, 1, 1).normalize();
-  scene.add(directionalLight);
-}
 
 function init() {
   container = $('#gl-container')[0];
@@ -127,6 +78,7 @@ function addControl(container) {
       controls.mouseCamera = !controls.mouseCamera;
 
     if (key in directionDict && !controls.mouseCamera) {
+      e.preventDefault();
       var controlX = direction[directionDict[key]].x * 3,
           controlY = direction[directionDict[key]].y * 3,
           controlZ = direction[directionDict[key]].z * 3;
@@ -150,15 +102,8 @@ function addControl(container) {
 
   $(container).mousedown(function(e) {
     e.preventDefault();
-    var rect = renderer.domElement.getBoundingClientRect();
-    var mouseVector = new THREE.Vector2( 
-         ((e.clientX - rect.left) / renderer.domElement.clientWidth) * 2 - 1, 
-         1 - ((e.clientY - rect.top) / renderer.domElement.clientHeight) * 2);
+    var intersects = getIntersects(e, books);
 
-    var raycaster = new THREE.Raycaster();
-    raycaster.setFromCamera(mouseVector, camera);
-    var intersects = raycaster.intersectObjects(books);
- 
     var oldUppedBook = controls.uppedBook;
     var newUppedBook;
     var bookUpDistance = 3;
@@ -193,13 +138,7 @@ function addControl(container) {
         });
       }
 
-      $('#gl-panel-title').text(newUppedBook.book.name);
-      $('#gl-panel-link')
-        .text('Go To Homepage')
-        .prop('href', newUppedBook.book.url)
-        .prop('target', '_blank');
-      $('#gl-panel').fadeIn('100');
-      $('#gl-panel').removeClass('hidden');
+      bookPanelIn(newUppedBook.book);
     } else if (!newUppedBook) {
       if (oldUppedBook) {
         controls.uppedBook = undefined;
@@ -214,10 +153,36 @@ function addControl(container) {
           duration: 600
         });
       }
-      $('#gl-panel').fadeOut('100', function() {
-        $('#gl-panel').addClass('hidden');
-      });
+
+      bookPanelOut();
     }
+  });
+}
+
+function getIntersects(e, objects) {
+  var rect = renderer.domElement.getBoundingClientRect();
+  var mouseVector = new THREE.Vector2( 
+       ((e.clientX - rect.left) / renderer.domElement.clientWidth) * 2 - 1, 
+       1 - ((e.clientY - rect.top) / renderer.domElement.clientHeight) * 2);
+
+  var raycaster = new THREE.Raycaster();
+  raycaster.setFromCamera(mouseVector, camera);
+  return raycaster.intersectObjects(objects);
+}
+
+function bookPanelIn(book) {
+  $('#gl-panel-title').text(book.name);
+  $('#gl-panel-link')
+    .text('Go To Homepage')
+    .prop('href', book.url)
+    .prop('target', '_blank');
+  $('#gl-panel').fadeIn('100');
+  $('#gl-panel').removeClass('hidden');
+}
+
+function bookPanelOut() {
+  $('#gl-panel').fadeOut('100', function() {
+    $('#gl-panel').addClass('hidden');
   });
 }
 
@@ -244,15 +209,6 @@ function render(currentTime) {
       }
     }
   }
-
-  // if (mouseCamera) {
-  //   camera.position.x += (mouseX - camera.position.x) * .05;
-  //   camera.position.y += (-mouseY - camera.position.y) * .05;
-  // } else {
-  //   camera.position.x += (controlX - camera.position.x) * .05;
-  //   camera.position.y += (controlY - camera.position.y) * .05;
-  //   camera.position.z += (controlZ - camera.position.z) * .05;
-  // }
 
   camera.lookAt(scene.position);
 

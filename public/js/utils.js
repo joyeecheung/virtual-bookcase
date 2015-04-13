@@ -51,6 +51,7 @@ var bookcase = {
   z: 0
 }
 
+var X = 0, Y = 1, Z = 2;
 var booksize = [18, 25, 5];
 
 var positions = [[-25,  10, 20], [0,  10, 20], [25,  10, 20],
@@ -59,9 +60,60 @@ var positions = [[-25,  10, 20], [0,  10, 20], [25,  10, 20],
                  [-25, -86, 20], [0, -86, 20], [25, -86, 20]]
 // 
 for (var i = 0, len = positions.length; i < len; ++i) {
-  positions[i][0] += bookcase.x + 43;
-  positions[i][1] += bookcase.y + 110;
-  positions[i][1] += bookcase.z;
+  positions[i][X] += bookcase.x + 43;
+  positions[i][Y] += bookcase.y + 110;
+  positions[i][Z] += bookcase.z;
 }
 
-var X = 0, Y = 1, Z = 2;
+
+
+function loadBook(scene, idx, book) {
+  var geometry = new THREE.BoxGeometry(booksize[X], booksize[Y], booksize[Z]);
+
+  function imageMaterial(imgurl) {
+    return new THREE.MeshBasicMaterial({
+      map: THREE.ImageUtils.loadTexture(imgurl)}
+    );
+  }
+
+  var materials = [
+      imageMaterial('obj/bookcase/bookpages-right.jpg'),  // right
+      imageMaterial('obj/bookcase/bookbinding.jpg'),  // left
+      imageMaterial('obj/bookcase/bookpages-top.jpg'),  // Top
+      imageMaterial('obj/bookcase/bookpages-top.jpg'),  // Bottom
+      imageMaterial(book.cover),  // Front
+      imageMaterial('obj/bookcase/hard-cover.jpg')   // Back
+  ];
+
+  var boxObj = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
+  boxObj.position.set.apply(boxObj.position, positions[idx]);
+  boxObj.book = book;
+  scene.add(boxObj);
+  books.push(boxObj);
+}
+
+function loadBookcase(scene) {
+  function objectPosition(object, x, y, z) {
+    object.position.y = y || object.position.y;
+    object.position.x = x || object.position.x;
+    object.position.z = z || object.position.z;
+    scene.add(object);
+  }
+
+  THREE.Loader.Handlers.add(/\.dds$/i, new THREE.DDSLoader());
+
+  var loader = new THREE.OBJMTLLoader();
+  loader.load(bookcase.obj, bookcase.mtl,
+    function(object) {
+      objectPosition(object, bookcase.x, bookcase.y, bookcase.z);
+    });
+}
+
+function light(scene) {
+  var ambient = new THREE.AmbientLight(0x444444);
+  scene.add(ambient);
+
+  var directionalLight = new THREE.DirectionalLight(0xffeedd);
+  directionalLight.position.set(1, 1, 1).normalize();
+  scene.add(directionalLight);
+}
