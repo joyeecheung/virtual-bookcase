@@ -9,6 +9,7 @@ var windowHalfY = window.innerHeight / 2;
 var mouseCamera = false;
 
 var boxes = [];
+var updates = [];
 
 function loadBook(scene, idx, book) {
   var geometry = new THREE.BoxGeometry(booksize[X], booksize[Y], booksize[Z]);
@@ -106,20 +107,55 @@ function init() {
 
 }
 
+
 function addControl(container) {
+
   // listeners
-  $(container).mousemove(onDocumentMouseMove);
+  $(container).mousemove(function(e) {
+    function mousemoveCamera(rate, args) {
+      if (mouseCamera) {
+        camera.position.x += (args.mouseX - camera.position.x) * .05;
+        camera.position.y += (-args.mouseY - camera.position.y) * .05;
+      }
+    }
+
+    updates.push({
+      func: mousemoveCamera,
+      args: {
+        mouseX: (e.clientX - windowHalfX) / 2,
+        mouseY: (e.clientY - windowHalfY) / 2
+      },
+      startTime: Date.now(),
+      duration: 1
+    });
+  });
 
   $(document).keydown(function(e) {
+
     var key = e.which;
     var keychar = String.fromCharCode(key);
     if (keychar === 'C')
       mouseCamera = !mouseCamera;
 
     if (key in directionDict) {
-      controlX += direction[directionDict[key]].x * 15;
-      controlY += direction[directionDict[key]].y * 15;
-      controlZ += direction[directionDict[key]].z * 15;
+      updates.push({
+        func: keyCamera,
+        args: {
+          controlX: direction[directionDict[key]].x * 100,
+          controlY: direction[directionDict[key]].y * 100,
+          controlZ: direction[directionDict[key]].z * 100
+        },
+        startTime: Date.now(),
+        duration: 1
+      });
+    }
+
+    function keyCamera(rate, args) {
+      if (!mouseCamera) {
+        camera.position.x += (args.controlX - camera.position.x) * .05;
+        camera.position.y += (args.controlY - camera.position.y) * .05;
+        camera.position.z += (args.controlZ - camera.position.z) * .05;
+      }
     }
   });
 
@@ -147,20 +183,33 @@ function onDocumentMouseMove(event) {
   mouseY = (event.clientY - windowHalfY) / 2;
 }
 
-function animate() {
+function animate(time) {
+  render(time);
   requestAnimationFrame(animate);
-  render();
 }
 
-function render() {
-  if (mouseCamera) {
-    camera.position.x += (mouseX - camera.position.x) * .05;
-    camera.position.y += (-mouseY - camera.position.y) * .05;
-  } else {
-    camera.position.x += (controlX - camera.position.x) * .05;
-    camera.position.y += (controlY - camera.position.y) * .05;
-    camera.position.z += (controlZ - camera.position.z) * .05;
+function render(currentTime) {
+  for (var i = 0; i < updates.length; ++i) {
+    var remaining = updates[i].startTime + updates[i].duration * 1000 - currentTime;
+
+    if (updates[i].duration === 1 || remaining < 60) {
+      var update = updates.splice(i--, 1)[0];
+      update.func(1, update.args);
+    } else {
+      var rate = remaining / updates[i].duration;
+      rate = 1 - Math.pow(rate, 3);  //easing formula
+      updates[i].func(rate, updates[i].args);
+    }
   }
+
+  // if (mouseCamera) {
+  //   camera.position.x += (mouseX - camera.position.x) * .05;
+  //   camera.position.y += (-mouseY - camera.position.y) * .05;
+  // } else {
+  //   camera.position.x += (controlX - camera.position.x) * .05;
+  //   camera.position.y += (controlY - camera.position.y) * .05;
+  //   camera.position.z += (controlZ - camera.position.z) * .05;
+  // }
 
   camera.lookAt(scene.position);
 
