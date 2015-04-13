@@ -46,26 +46,36 @@ var direction = {
 var bookcase = {
   obj: '/obj/bookcase/bookcase.obj',
   mtl: '/obj/bookcase/bookcase.mtl',
-  x: -40,
-  y: -75,
-  z: 0
+  position: {
+    x: 0,
+    y: -90,
+    z: 0
+  },
+  scale: {
+    x: 2.4,
+    y: 2,
+    z: 2
+  }
 }
 
 var X = 0, Y = 1, Z = 2;
-var booksize = [19, 25, 5];
-
-var positions = [[-25,  10, 20], [0,  10, 20], [25,  10, 20],
-                 [-25, -22, 20], [0, -22, 20], [25, -22, 20],
-                 [-25, -57, 20], [0, -57, 20], [25, -57, 20],
-                 [-25, -86, 20], [0, -86, 20], [25, -86, 20]]
-// 
-for (var i = 0, len = positions.length; i < len; ++i) {
-  positions[i][X] += bookcase.x + 43;
-  positions[i][Y] += bookcase.y + 110;
-  positions[i][Z] += bookcase.z;
+var booksize = [15, 20, 3];
+var bookAngle = {
+  x: -0.1,
+  y: 0,
+  z: 0
 }
 
+var positions = [[-23,  14, 0], [1,  14, 0], [24,  14, 0],
+                 [-23, -11, 0], [1, -11, 0], [24, -11, 0],
+                 [-23, -37, 0], [1, -37, 0], [24, -37, 0],
+                 [-23, -62, 0], [1, -62, 0], [24, -62, 0]]
 
+for (var i = 0, len = positions.length; i < len; ++i) {
+  positions[i][X] += bookcase.position.x;
+  positions[i][Y] += bookcase.position.y + 110;
+  positions[i][Z] += bookcase.position.z - 10;
+}
 
 function loadBook(scene, idx, book) {
   var geometry = new THREE.BoxGeometry(booksize[X], booksize[Y], booksize[Z]);
@@ -85,19 +95,26 @@ function loadBook(scene, idx, book) {
       imageMaterial('obj/bookcase/hard-cover.jpg')   // Back
   ];
 
-  var boxObj = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
-  boxObj.position.set.apply(boxObj.position, positions[idx]);
-  boxObj.book = book;
-  boxObj.idx = idx;
-  scene.add(boxObj);
-  books.push(boxObj);
+  var bookObj = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
+  bookObj.position.set.apply(bookObj.position, positions[idx]);
+  bookObj.rotateX(bookAngle.x);
+  bookObj.rotateY(bookAngle.y);
+  bookObj.rotateZ(bookAngle.z);
+
+  bookObj.book = book;
+  bookObj.idx = idx;
+  scene.add(bookObj);
+  books.push(bookObj);
 }
 
 function loadBookcase(scene) {
-  function objectPosition(object, x, y, z) {
-    object.position.y = y || object.position.y;
-    object.position.x = x || object.position.x;
-    object.position.z = z || object.position.z;
+  function objectPosition(object, position, scale) {
+    object.position.set(position.x || object.position.x,
+                        position.y || object.position.y,
+                        position.z || object.position.z)
+    object.scale.set(scale.x || object.scale.x,
+                     scale.y || object.scale.y,
+                     scale.z || object.scale.z)
     scene.add(object);
   }
 
@@ -106,8 +123,10 @@ function loadBookcase(scene) {
   var loader = new THREE.OBJMTLLoader();
   loader.load(bookcase.obj, bookcase.mtl,
     function(object) {
-      objectPosition(object, bookcase.x, bookcase.y, bookcase.z);
+      objectPosition(object, bookcase.position, bookcase.scale);
+      bookcaseObj = object;
     });
+
 }
 
 function light(scene) {

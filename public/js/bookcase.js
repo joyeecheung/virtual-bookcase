@@ -7,7 +7,8 @@ var controls = {
   keyboard: new THREE.Vector3(0, 0, 0),
   windowHalf: new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2),
   mouseCamera: false,
-  bookUpDistance: 3
+  bookUpDistance: 0,
+  bookFrontDistance: 30
 }
 
 var books = [];
@@ -51,9 +52,9 @@ function moveCameraByKey(e) {
 
   if (key in directionDict && !controls.mouseCamera) {
     e.preventDefault();
-    var controlX = direction[directionDict[key]].x * 3,
-        controlY = direction[directionDict[key]].y * 3,
-        controlZ = direction[directionDict[key]].z * 3;
+    var controlX = direction[directionDict[key]].x,
+        controlY = direction[directionDict[key]].y,
+        controlZ = direction[directionDict[key]].z;
 
     // acceleartion here, so duration will affect the final result
     function keyCamera(rate) {
@@ -73,9 +74,13 @@ function moveCameraByKey(e) {
 }
 
 function selectBook(bookObj) {
+  bookObj.rotateX(-bookAngle.x);
   function bookUp(rate) {
     bookObj.position.y =
       positions[bookObj.idx][Y] + controls.bookUpDistance * rate;
+    bookObj.position.z =
+      positions[bookObj.idx][Z] + controls.bookFrontDistance * rate;
+
   }
 
   updates.push({
@@ -89,9 +94,13 @@ function deselectBook(bookObj) {
   if (!bookObj)
     return;
 
+  bookObj.rotateX(bookAngle.x);
   function bookDown(rate) {
     bookObj.position.y =
       positions[bookObj.idx][Y] + controls.bookUpDistance * (1 - rate);
+  
+    bookObj.position.z =
+      positions[bookObj.idx][Z] + controls.bookFrontDistance * (1 - rate);
   }
 
   updates.push({
@@ -114,6 +123,9 @@ function handlBookSelection(e) {
 function bookResponse(e) {
   var intersects = getIntersects(e, books, renderer, camera);
   var oldUppedBook = controls.uppedBook;
+
+  if (controls.mouseCamera || !$('#gl-panel').hasClass('hidden'))
+    return;
 
   if (intersects.length > 0) {
     newUppedBook = intersects[0].object;
@@ -181,7 +193,7 @@ function render(currentTime) {
 function init() {
   container = $('#gl-container')[0];
   camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 1, 2000);
-  camera.position.z = 180;
+  camera.position.z = 130;
 
   // scene
   scene = new THREE.Scene();
