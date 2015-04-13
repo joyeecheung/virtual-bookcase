@@ -132,6 +132,13 @@ function addControl(container) {
   $(document).keydown(moveCameraByKey);
 
   $(container).mousedown(handlBookSelection);
+
+  $('#gl-panel-close').click(function(e) {
+    var oldUppedBook = controls.uppedBook;
+    controls.uppedBook = undefined;
+    deselectBook(oldUppedBook);
+    bookPanelOut();
+  });
 }
 
 function animate(time) {

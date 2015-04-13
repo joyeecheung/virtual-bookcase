@@ -52,7 +52,7 @@ var bookcase = {
 }
 
 var X = 0, Y = 1, Z = 2;
-var booksize = [18, 25, 5];
+var booksize = [19, 25, 5];
 
 var positions = [[-25,  10, 20], [0,  10, 20], [25,  10, 20],
                  [-25, -22, 20], [0, -22, 20], [25, -22, 20],
@@ -130,11 +130,15 @@ function getIntersects(e, objects, renderer, camera) {
 }
 
 function bookPanelIn(book) {
+  $('#gl-panel-cover').prop('src', book.cover);
   $('#gl-panel-title').text(book.name);
-  $('#gl-panel-link')
-    .text('Go To Homepage')
+  $('#gl-panel-url')
     .prop('href', book.url)
     .prop('target', '_blank');
+  $('#gl-panel-amazon')
+    .prop('href', 'http://www.amazon.com/dp/' + book.isbn)
+    .prop('target', '_blank');
+  $('#gl-panel-isbn').text(book.isbn);
   $('#gl-panel').fadeIn('100');
   $('#gl-panel').removeClass('hidden');
 }

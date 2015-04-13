@@ -31,10 +31,22 @@ block content
       span.gl-control-explanation move camera in keyboard mode
 
   #gl-panel.panel.panel-default.hidden
-    #gl-panel-title.panel-heading
+    .panel-heading.clearfix
+      #gl-panel-title.pull-left
+      button.close#gl-panel-close(type="button", aria-label="Close").pull-right
+        span(aria-hidden="true") &times;
     .panel-body
-      a#gl-panel-link
-
+      .row
+        .col-md-6
+          img#gl-panel-cover.img-tumbnail.img-responsive
+        .col-md-6
+          p
+            a.btn.btn-info.btn-block#gl-panel-url Go To Homepage
+            a.btn.btn-success.btn-block#gl-panel-amazon Buy On Amazon
+          hr
+          p.gl-panel-isbn-block ISBN:
+            span#gl-panel-isbn
+          
 block script
   script(src="js/libs/three.min.js")
 
