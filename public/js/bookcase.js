@@ -8,7 +8,8 @@ var controls = {
   windowHalf: new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2),
   mouseCamera: false,
   bookUpDistance: 0,
-  bookFrontDistance: 30
+  bookFrontDistance: 20,
+  bookResponseDuration: 400
 }
 
 var books = [];
@@ -68,7 +69,7 @@ function moveCameraByKey(e) {
     updates.push({
       func: keyCamera,
       startTime: Date.now(),
-      duration: 600
+      duration: controls.bookResponseDuration
     });
   }
 }
@@ -86,7 +87,7 @@ function selectBook(bookObj) {
   updates.push({
     func: bookUp,
     startTime: Date.now(),
-    duration: 600
+    duration: controls.bookResponseDuration
   });
 }
 
