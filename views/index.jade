@@ -21,6 +21,7 @@ block content
   #gl-container
 
   .panel.panel-default#gl-control
+    .panel-heading Controls
     table.table.table-bordered.table-striped
       tr
         td.gl-control-action
@@ -29,12 +30,14 @@ block content
           span Toggle mouse mode (move mouse to rotate camera)
       tr
         td.gl-control-action
-          kbd +
-          kbd -
-          kbd ←
-          kbd →
-          kbd ↑
-          kbd ↓
+          div
+            kbd +
+            kbd -
+            kbd ←
+          div
+            kbd →
+            kbd ↑
+            kbd ↓
         td.gl-control-explanation
           span Move camera in keyboard mode
       tr

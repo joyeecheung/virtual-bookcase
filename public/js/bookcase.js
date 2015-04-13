@@ -53,9 +53,9 @@ function moveCameraByKey(e) {
 
   if (key in directionDict && !controls.mouseCamera) {
     e.preventDefault();
-    var controlX = direction[directionDict[key]].x,
-        controlY = direction[directionDict[key]].y,
-        controlZ = direction[directionDict[key]].z;
+    var controlX = direction[directionDict[key]].x * 2,
+        controlY = direction[directionDict[key]].y * 2,
+        controlZ = direction[directionDict[key]].z * 2;
 
     // acceleartion here, so duration will affect the final result
     function keyCamera(rate) {
