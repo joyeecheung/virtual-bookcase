@@ -195,10 +195,12 @@ function bookPanelIn(book) {
   $('#gl-panel-isbn').text(book.isbn);
   $('#gl-panel').fadeIn('100');
   $('#gl-panel').removeClass('hidden');
+  $('#gl-container').addClass('in-select');
 }
 
 function bookPanelOut() {
   $('#gl-panel').fadeOut('100', function() {
     $('#gl-panel').addClass('hidden');
+    $('#gl-container').removeClass('in-select');
   });
 }

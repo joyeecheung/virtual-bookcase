@@ -75,7 +75,6 @@ function moveCameraByKey(e) {
 }
 
 function selectBook(bookObj) {
-  bookObj.rotateX(-bookAngle.x);
   function bookUp(rate) {
     bookObj.position.y =
       positions[bookObj.idx][Y] + controls.bookUpDistance * rate;
@@ -95,7 +94,6 @@ function deselectBook(bookObj) {
   if (!bookObj)
     return;
 
-  bookObj.rotateX(bookAngle.x);
   function bookDown(rate) {
     bookObj.position.y =
       positions[bookObj.idx][Y] + controls.bookUpDistance * (1 - rate);
