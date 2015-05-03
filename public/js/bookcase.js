@@ -106,7 +106,7 @@ function bookResponse(e) {
   var intersects = getIntersects(e, books, renderer, camera);
   var oldUppedBook = controls.uppedBook;
 
-  if (controls.mouseCamera || !$('#gl-panel').hasClass('hidden'))
+  if (controls.mouseCamera || !$('#gl-panel').hasClass('inactive'))
     return;
 
   if (intersects.length > 0) {
@@ -127,15 +127,15 @@ function bookResponse(e) {
 function addControl(container) {
 
   // listeners
-  $(container).mousemove(moveCameraByMouse);
+  $(container).on('mousemove', moveCameraByMouse);
 
-  $(container).mousemove(bookResponse);
+  $(container).on('mousemove', bookResponse);
 
-  $(document).keydown(moveCameraByKey);
+  $(document).on('keydown', moveCameraByKey);
 
-  $(container).mousedown(handlBookSelection);
+  $(container).on('mousedown', handlBookSelection);
 
-  $('#gl-panel-close').click(function(e) {
+  $('#gl-panel-close').on('click', function(e) {
     var oldUppedBook = controls.uppedBook;
     controls.uppedBook = undefined;
     deselectBook(oldUppedBook);

@@ -44,23 +44,24 @@ block content
         td.gl-control-action Click the books
         td.gl-control-explanation For more information
 
-  #gl-panel.panel.panel-default.hidden
-    .panel-heading
-      .row
-        #gl-panel-title.col-md-11
-        button.col-md-1.close#gl-panel-close(type="button", aria-label="Close")
-          span(aria-hidden="true") &times;
-    .panel-body
-      .row
-        .col-md-6
-          img#gl-panel-cover.img-tumbnail.img-responsive
-        .col-md-6
-          p
-            a.btn.btn-info.btn-block#gl-panel-url Go To Homepage
-            a.btn.btn-success.btn-block#gl-panel-amazon Buy On Amazon
-          hr
-          p.gl-panel-isbn-block ISBN:
-            span#gl-panel-isbn
+  #gl-panel.inactive
+    .panel.panel-default
+      .panel-heading
+        .row
+          #gl-panel-title.col-md-11
+          button.col-md-1.close#gl-panel-close(type="button", aria-label="Close")
+            span(aria-hidden="true") &times;
+      .panel-body
+        .row
+          .col-md-6
+            img#gl-panel-cover.img-tumbnail.img-responsive
+          .col-md-6
+            p
+              a.btn.btn-info.btn-block#gl-panel-url Go To Homepage
+              a.btn.btn-success.btn-block#gl-panel-amazon Buy On Amazon
+            hr
+            p.gl-panel-isbn-block ISBN:
+              span#gl-panel-isbn
           
 block script
   script(src="js/libs/three.min.js")
@@ -73,7 +74,7 @@ block script
 
   script(src="js/renderers/Detector.js")
   script(src="js/libs/stats.min.js")
-  script(src="js/libs/jquery-1.11.2.min.js")
+  script(src="js/libs/zepto.min.js")
   script(src="js/libs/color-thief.min.js")
 
   script(src="js/utils.js")

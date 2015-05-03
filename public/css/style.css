@@ -30,6 +30,7 @@ body {
   position: fixed;
   top: 200px;
   left: 50%;
+  overflow: hidden;
   transform: translateX(-50%);
 }
 
@@ -43,4 +44,20 @@ body {
 
 .in-select {
   cursor: pointer;
+}
+
+.active {
+  width: auto;
+  height: auto;
+  visibility: visible;
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}
+
+.inactive {
+  width: 0;
+  height: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s .5s, opacity .5s ease-in;
 }

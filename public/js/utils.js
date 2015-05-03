@@ -9,72 +9,39 @@ var directionDict = {
   189: "BACK",
   61: "AHEAD",
   173: "BACK"
-}
+};
 var direction = {
-  LEFT: {
-    x: -1,
-    y: 0,
-    z: 0
-  },
-  UP: {
-    x: 0,
-    y: 1,
-    z: 0
-  },
-  DOWN: {
-    x: 0,
-    y: -1,
-    z: 0
-  },
-  RIGHT: {
-    x: 1,
-    y: 0,
-    z: 0
-  },
-  AHEAD: {
-    x: 0,
-    y: 0,
-    z: -1
-  },
-  BACK: {
-    x: 0,
-    y: 0,
-    z: 1
-  }
-}
+  "LEFT":  {x: -1, y:  0, z:  0},
+  "UP":    {x:  0, y:  1, z:  0},
+  "DOWN":  {x:  0, y: -1, z:  0},
+  "RIGHT": {x:  1, y:  0, z:  0},
+  "AHEAD": {x:  0, y:  0, z: -1},
+  "BACK":  {x:  0, y:  0, z:  1}
+};
 
 var bookcase = {
   obj: '/obj/bookcase/bookcase.obj',
   mtl: '/obj/bookcase/bookcase.mtl',
-  position: {
-    x: 0,
-    y: -90,
-    z: 0
-  },
-  scale: {
-    x: 2.4,
-    y: 2,
-    z: 2
-  }
-}
+  position: {x: 0,   y: -90, z: 0},  // move down a little bit
+  scale:    {x: 2.4, y:   2, z: 2}   // scale it
+};
 
-var X = 0, Y = 1, Z = 2;
+var X = 0, Y = 1, Z = 2;  // coordinates
 var materialIdx = {
-  RIGHT: 0,
-  LEFT: 1,
-  TOP: 2,
-  BOTTOM:3,
-  FRONT: 4,
-  BACK: 5
+  "RIGHT": 0,
+  "LEFT": 1,
+  "TOP": 2,
+  "BOTTOM":3,
+  "FRONT": 4,
+  "BACK": 5
+};
+
+function BookCase() {
+
 }
 
 var booksize = [15, 20, 3];
-var bookAngle = {
-  x: -0.1,
-  y: 0,
-  z: 0
-}
-
+var bookAngle = {x: -0.1, y: 0, z: 0};
 var positions = [[-23,  14, 0], [1,  14, 0], [24,  14, 0],
                  [-23, -11, 0], [1, -11, 0], [24, -11, 0],
                  [-23, -37, 0], [1, -37, 0], [24, -37, 0],
@@ -129,7 +96,6 @@ function loadBook(scene, idx, book) {
   var colorThief = new ColorThief();
   loader.load(book.cover, function(image) {
     var color = colorThief.getColor(image, 1000);
-    console.log(color);
     var hex = rgbToHex.apply(this, color);
     var newMaterial = coloredMaterial(hex);
     bookObj.material.materials[materialIdx.LEFT] = newMaterial;
@@ -193,14 +159,14 @@ function bookPanelIn(book) {
     .prop('href', 'http://www.amazon.com/dp/' + book.isbn)
     .prop('target', '_blank');
   $('#gl-panel-isbn').text(book.isbn);
-  $('#gl-panel').fadeIn('100');
-  $('#gl-panel').removeClass('hidden');
+  // $('#gl-panel').fadeIn('100');
+  $('#gl-panel').removeClass('inactive').addClass('active');
   $('#gl-container').addClass('in-select');
 }
 
 function bookPanelOut() {
-  $('#gl-panel').fadeOut('100', function() {
-    $('#gl-panel').addClass('hidden');
+  // $('#gl-panel').fadeOut('100', function() {
+    $('#gl-panel').removeClass('active').addClass('inactive');
     $('#gl-container').removeClass('in-select');
-  });
+  // });
 }
