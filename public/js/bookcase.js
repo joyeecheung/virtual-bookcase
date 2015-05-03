@@ -1,5 +1,4 @@
 var container, stats;
-
 var camera, scene, renderer;
 
 var controls = {
@@ -39,11 +38,6 @@ function moveCameraByMouse(e) {
   }
 
   addAnimation(moveCameraStep, Date.now(), 1);
-  // updates.push({
-  //   func: moveCameraStep,
-  //   startTime: ,
-  //   duration: 1
-  // });
 }
 
 function moveCameraByKey(e) {
@@ -68,11 +62,6 @@ function moveCameraByKey(e) {
     }
 
     addAnimation(keyCamera, Date.now(), controls.bookResponseDuration);
-    // updates.push({
-    //   func: keyCamera,
-    //   startTime: Date.now(),
-    //   duration: controls.bookResponseDuration
-    // });
   }
 }
 
@@ -86,11 +75,6 @@ function selectBook(bookObj) {
   }
 
   addAnimation(bookUp, Date.now(), controls.bookResponseDuration);
-  // updates.push({
-  //   func: bookUp,
-  //   startTime: Date.now(),
-  //   duration: controls.bookResponseDuration
-  // });
 }
 
 function deselectBook(bookObj) {
@@ -106,11 +90,6 @@ function deselectBook(bookObj) {
   }
 
   addAnimation(bookDown, Date.now(), controls.bookResponseDuration);
-  // updates.push({
-  //   func: bookDown,
-  //   startTime: Date.now(),
-  //   duration: 600
-  // });
 }
 
 function handlBookSelection(e) {
@@ -197,23 +176,6 @@ function addAnimation(func, startTime, duration) {
 }
 
 function render(currentTime) {
-  // for (var i = 0; i < updates.length; ++i) {
-  //   var remaining = updates[i].startTime + updates[i].duration - Date.now();
-
-  //   if (updates[i].duration === 1 || remaining < 60) {
-  //     var update = updates.splice(i--, 1)[0];
-  //     update.func(1, update.args);
-  //   } else {
-  //     var rate = remaining / updates[i].duration;
-  //       //easing formula
-  //     if (rate > 1 || rate < 0) {
-  //       var update = updates.splice(i--, 1)[0];
-  //       update.func(1, update.args);
-  //     } else {
-  //       updates[i].func(rate, updates[i].args);
-  //     }
-  //   }
-  // }
   camera.lookAt(scene.position);
   renderer.render(scene, camera);
 }

@@ -129,6 +129,7 @@ function loadBook(scene, idx, book) {
   var colorThief = new ColorThief();
   loader.load(book.cover, function(image) {
     var color = colorThief.getColor(image, 1000);
+    console.log(color);
     var hex = rgbToHex.apply(this, color);
     var newMaterial = coloredMaterial(hex);
     bookObj.material.materials[materialIdx.LEFT] = newMaterial;
