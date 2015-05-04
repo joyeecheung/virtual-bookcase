@@ -1,0 +1,1917 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"add",
+				"addClass"
+			],
+			[
+				"ad",
+				"addAnimation(func, duration, startTime)"
+			],
+			[
+				"stuen",
+				"studentId"
+			],
+			[
+				"require",
+				"requirementId	(?)"
+			],
+			[
+				"req",
+				"requirementId"
+			],
+			[
+				"post",
+				"postPage             (obj) [C]"
+			],
+			[
+				"pos",
+				"postItem             (obj) [C]"
+			],
+			[
+				"currentPo",
+				"currentPostId"
+			],
+			[
+				"find",
+				"findOne (fn) [E]"
+			],
+			[
+				"user",
+				"userId"
+			],
+			[
+				"loa",
+				"loadingTemplate	(str)"
+			],
+			[
+				"Te",
+				"Template   (fn)  [E]"
+			],
+			[
+				"va",
+				"value	AngularJS"
+			],
+			[
+				"canc",
+				"cancel (fn) [E]"
+			],
+			[
+				"carbrands",
+				"carbrands"
+			],
+			[
+				"int",
+				"intermediate"
+			],
+			[
+				"in",
+				"intermidiate"
+			],
+			[
+				"cor",
+				"corner"
+			],
+			[
+				"line",
+				"line_b"
+			],
+			[
+				"lin",
+				"line_a"
+			],
+			[
+				"theta",
+				"theta_diff"
+			],
+			[
+				"thre",
+				"threshold"
+			],
+			[
+				"the",
+				"theta_b"
+			],
+			[
+				"tha",
+				"theta_a"
+			],
+			[
+				"rho",
+				"rho_b"
+			],
+			[
+				"cou",
+				"count_regular"
+			],
+			[
+				"if",
+				"ifmain	if __name__ == '__main__'"
+			],
+			[
+				"min",
+				"min_distance"
+			],
+			[
+				"new",
+				"new_corners"
+			],
+			[
+				"do",
+				"dodecahedron"
+			],
+			[
+				"surface",
+				"surfaceCount"
+			],
+			[
+				"ver",
+				"vertices"
+			],
+			[
+				"D",
+				"Dodecahedron.h"
+			],
+			[
+				"dir",
+				"direction"
+			],
+			[
+				"C",
+				"Camera"
+			],
+			[
+				"GL",
+				"GLfloat"
+			],
+			[
+				"materi",
+				"GL_COLOR_MATERIAL"
+			],
+			[
+				"MENU",
+				"menuMode"
+			],
+			[
+				"menu",
+				"menuEntry"
+			],
+			[
+				"corn",
+				"corners"
+			],
+			[
+				"get",
+				"get_corners"
+			],
+			[
+				"requiremn",
+				"requirements	(?)"
+			],
+			[
+				"requir",
+				"Requirement"
+			],
+			[
+				"$root",
+				"$rootScope	AngularJS"
+			],
+			[
+				"rest",
+				"Restangular"
+			],
+			[
+				"an",
+				"angular-ui-router/"
+			],
+			[
+				"is",
+				"isAuthenticated"
+			],
+			[
+				"home",
+				"homework	(?)"
+			],
+			[
+				"re",
+				"requirement	(?)"
+			],
+			[
+				"lines",
+				"lines_annotated"
+			],
+			[
+				"get_",
+				"get_intersections"
+			],
+			[
+				"corner",
+				"corners_annotated"
+			],
+			[
+				"from",
+				"fromarray"
+			],
+			[
+				"src",
+				"src_dir"
+			],
+			[
+				"source",
+				"source_path"
+			],
+			[
+				"ma",
+				"materialIdx	{}"
+			],
+			[
+				"dire",
+				"directionalLight	{}"
+			],
+			[
+				"boo",
+				"bookObj	(?)"
+			],
+			[
+				"bo",
+				"bookObj	(?)"
+			],
+			[
+				"bookre",
+				"bookResponseDuration	(num)"
+			],
+			[
+				"conro",
+				"controls	{}"
+			],
+			[
+				"contr",
+				"controls	{}"
+			],
+			[
+				"book",
+				"bookObj	(?)"
+			],
+			[
+				"text",
+				"text-align"
+			],
+			[
+				"mouse",
+				"mousedown"
+			],
+			[
+				"mous",
+				"mouseCamera	(bool)"
+			],
+			[
+				"cam",
+				"camera	(?)"
+			],
+			[
+				"control",
+				"controlX	(num)"
+			],
+			[
+				"key",
+				"keyboardY"
+			],
+			[
+				"client",
+				"clientHeight"
+			],
+			[
+				"box",
+				"boxObj	(?)"
+			],
+			[
+				"Bo",
+				"BookSchema	(?)"
+			],
+			[
+				"mo",
+				"mongoose	(?)"
+			],
+			[
+				"clien",
+				"clientWidth	(?)"
+			],
+			[
+				"load",
+				"loadBox(scene)"
+			],
+			[
+				"cont",
+				"gl-container"
+			],
+			[
+				"mou",
+				"mouseCamera	(bool)"
+			],
+			[
+				"ca",
+				"cameraControl	(?)"
+			],
+			[
+				"su",
+				"success"
+			],
+			[
+				"requ",
+				"requirement	(?)"
+			],
+			[
+				"requre",
+				"requirement"
+			],
+			[
+				"form",
+				"form-group"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"requi",
+				"requirementSchema	(?)"
+			],
+			[
+				"remove",
+				"removeEvent"
+			],
+			[
+				"num",
+				"numButtons"
+			],
+			[
+				"cop",
+				"copyCommonConfigs"
+			],
+			[
+				"file",
+				"fileConfigs"
+			],
+			[
+				"lis",
+				"list-style"
+			],
+			[
+				"rand",
+				"random_num	(num)"
+			],
+			[
+				"qu",
+				"queryIdx	(?)"
+			],
+			[
+				"Ur",
+				"URLutil(urlString, baseURLstring)"
+			],
+			[
+				"base",
+				"baseLen	(?)"
+			],
+			[
+				"url",
+				"urlString	(str)"
+			],
+			[
+				"th",
+				"throw"
+			],
+			[
+				"bas",
+				"baseURLstring	(?)"
+			],
+			[
+				"b",
+				"bubbleHandler(currentSum)"
+			],
+			[
+				"mes",
+				"msgtext	(?)"
+			],
+			[
+				"cr",
+				"currentSum	(num)"
+			],
+			[
+				"ran",
+				"random_num	(num)"
+			],
+			[
+				"but",
+				"buttons	(?)"
+			],
+			[
+				"tex",
+				"text-align"
+			],
+			[
+				"backg",
+				"background-size"
+			],
+			[
+				"trian",
+				"triangleColors"
+			],
+			[
+				"dra",
+				"drawPoints"
+			],
+			[
+				"dr",
+				"drawPoints"
+			],
+			[
+				"gl",
+				"glVertex3d"
+			],
+			[
+				"Nu",
+				"NumBuffers"
+			],
+			[
+				"Num",
+				"NumVAOs"
+			],
+			[
+				"ng-cl",
+				"ng-class	AngularJS"
+			],
+			[
+				"tr",
+				"trs	transition: ${1:prop} ${2:time};"
+			],
+			[
+				"tra",
+				"transition"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"list",
+				"list-style"
+			],
+			[
+				"bac",
+				"background-color"
+			],
+			[
+				"sh",
+				"bxsh	box-shadow: ${1:inset }${2:hoff} ${3:voff} ${4:blur} ${5:color};"
+			],
+			[
+				"margin-",
+				"margin-bottom"
+			],
+			[
+				"bottom",
+				"border-bottom"
+			],
+			[
+				"font",
+				"font-family"
+			],
+			[
+				"valu",
+				"valueOf()"
+			],
+			[
+				"mc",
+				"matchingRows"
+			],
+			[
+				"data",
+				"dataRows"
+			],
+			[
+				"nex",
+				"nextSibling"
+			],
+			[
+				"ex",
+				"EXECUTABLE"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "public/js/bookcase.js",
+			"settings":
+			{
+				"buffer_size": 5058,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/C/joyee/study/my-tech-dairy/2015/05/2015-05-03.md",
+			"settings":
+			{
+				"buffer_size": 3313,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/js/utils.js",
+			"settings":
+			{
+				"buffer_size": 4981,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 503.0,
+		"last_filter": "disa",
+		"selected_items":
+		[
+			[
+				"disa",
+				"Package Control: Disable Package"
+			],
+			[
+				"ena",
+				"Package Control: Enable Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"remove ",
+				"Package Control: Remove Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"packages",
+				"Package Control: List Packages"
+			],
+			[
+				"sidebar",
+				"View: Toggle Side Bar"
+			],
+			[
+				"list p",
+				"Package Control: List Packages"
+			],
+			[
+				"merge",
+				"Emmet: Merge Lines"
+			],
+			[
+				"mer",
+				"Emmet: Merge Lines"
+			],
+			[
+				"merg",
+				"Emmet: Merge Lines"
+			],
+			[
+				"jshint",
+				"JSHint"
+			],
+			[
+				"jshin",
+				"JSHint"
+			],
+			[
+				"format",
+				"Format: Javascript"
+			],
+			[
+				"form",
+				"Format: Javascript"
+			],
+			[
+				"css",
+				"Format CSS: Expanded"
+			],
+			[
+				"sideb",
+				"View: Toggle Side Bar"
+			],
+			[
+				"side",
+				"View: Toggle Side Bar"
+			],
+			[
+				"jav",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"rename",
+				"File: Rename"
+			],
+			[
+				"markdown",
+				"Set Syntax: Markdown"
+			],
+			[
+				"astyl",
+				"SublimeAStyleFormatter: Format Current File"
+			],
+			[
+				"c++",
+				"Set Syntax: C++"
+			],
+			[
+				"mar",
+				"Set Syntax: Markdown Extended"
+			],
+			[
+				"dis",
+				"Package Control: Disable Package"
+			],
+			[
+				"enab",
+				"Package Control: Enable Package"
+			],
+			[
+				"jade",
+				"Set Syntax: Jade"
+			],
+			[
+				"di",
+				"Package Control: Disable Package"
+			],
+			[
+				"disable",
+				"Package Control: Disable Package"
+			],
+			[
+				"html",
+				"HTMLPrettify"
+			],
+			[
+				"istall",
+				"Package Control: Install Package"
+			],
+			[
+				"fom",
+				"Format CSS: Expanded"
+			],
+			[
+				"htm",
+				"HTMLPrettify"
+			],
+			[
+				"js",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"MERG",
+				"Emmet: Merge Lines"
+			],
+			[
+				"jsh",
+				"JSHint"
+			],
+			[
+				"htmp",
+				"HTMLPrettify"
+			],
+			[
+				"java",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"mark",
+				"Set Syntax: Markdown Extended"
+			],
+			[
+				"prett",
+				"HTMLPrettify"
+			],
+			[
+				"PRETT",
+				"HTMLPrettify"
+			],
+			[
+				"style",
+				"SublimeAStyleFormatter: Format Current File"
+			],
+			[
+				"ast",
+				"SublimeAStyleFormatter: Format Current File"
+			],
+			[
+				"INSTALL",
+				"Package Control: Install Package"
+			],
+			[
+				"forma",
+				"SublimeAStyleFormatter: Format Current File"
+			],
+			[
+				"css3",
+				"Set Syntax: CSS3"
+			],
+			[
+				"list",
+				"Package Control: List Packages"
+			],
+			[
+				"jshi",
+				"JSHint"
+			],
+			[
+				"tabs",
+				"View: Toggle Tabs"
+			],
+			[
+				"tab",
+				"View: Toggle Tabs"
+			],
+			[
+				"pret",
+				"HTMLPrettify"
+			],
+			[
+				"insall",
+				"Package Control: Install Package"
+			],
+			[
+				"pre",
+				"HTMLPrettify"
+			],
+			[
+				"pretti",
+				"HTMLPrettify"
+			],
+			[
+				"mini",
+				"View: Toggle Minimap"
+			]
+		],
+		"width": 748.0
+	},
+	"console":
+	{
+		"height": 186.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = 'eb2297e1a458f27d836c04bb0cbaf282' + 'd0e7a3098092775ccb37ca9d6b2e4b7d'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by) "
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/joyee/study/junior-3/Virtual Reality/bookcase/public",
+		"/C/joyee/study/junior-3/Virtual Reality/bookcase/public/js",
+		"/C/joyee/study/my-tech-dairy",
+		"/C/joyee/study/my-tech-dairy/2015",
+		"/C/joyee/study/my-tech-dairy/2015/05"
+	],
+	"file_history":
+	[
+		"/C/joyee/study/junior-3/Virtual Reality/bookcase/public/js/bookcase.js",
+		"/C/joyee/study/junior-3/Virtual Reality/bookcase/public/js/utils.js",
+		"/C/joyee/study/junior-3/Virtual Reality/bookcase/.tern-project",
+		"/C/Users/Joyee/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/Joyee/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/C/Users/Joyee/AppData/Roaming/Sublime Text 3/Packages/tern_for_sublime/node_modules/tern/README.md",
+		"/C/Users/Joyee/AppData/Roaming/Sublime Text 3/Packages/tern_for_sublime/Default.sublime-keymap",
+		"/C/Users/Joyee/AppData/Roaming/Sublime Text 3/Packages/tern_for_sublime/JavaScript.sublime-settings",
+		"/C/Users/Joyee/AppData/Roaming/Sublime Text 3/Packages/tern_for_sublime/tern.py",
+		"/C/Users/Joyee/AppData/Roaming/Sublime Text 3/Packages/tern_for_sublime/package.json",
+		"/C/joyee/study/junior-3/Virtual Reality/bookcase/public/css/style.css",
+		"/C/joyee/study/junior-3/Virtual Reality/bookcase/views/index.jade",
+		"/C/joyee/study/junior-3/Virtual Reality/bookcase/public/js/config.js",
+		"/C/joyee/study/junior-3/Virtual Reality/bookcase/public/js/libs/color-thief.min.js",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/server/fixtures.js",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/templates/home/student_home.html",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/lib/collections/requirements.js",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/lib/collections/homeworks.js",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/templates/home/teacher_home.js",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/templates/requirements/requirement_add.html",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/templates/requirements/requirement_add.js",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/templates/home/teacher_home.html",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/server/user.js",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/helpers/config.js",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/main.js",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/helpers/templates.js",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/templates/homeworks/homework_add.html",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/lib/router.js",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/README.md",
+		"/C/joyee/study/my-tech-dairy/2015/05/2015-05-02.md",
+		"/C/joyee/study/junior-3/SPI/repo/lab7/app/app.js",
+		"/C/joyee/study/my-tech-dairy/2015/05/2015-05-03.md",
+		"/C/joyee/study/junior-3/SPI/hw4-Asynchronous-JavaScript/group1(afternoon)/12330402_张秋怡/S1/css/menu.css",
+		"/C/joyee/study/junior-3/SPI/repo/lab7/app/homework/homework-grade.jade",
+		"/C/joyee/study/junior-3/SPI/repo/lab7/app/requirement/requirement-view.jade",
+		"/C/joyee/study/junior-3/SPI/repo/lab7/views/my-homework.jade",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/templates/includes/header.html",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/server/publications.js",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/templates/requirements/requirement_edit.js",
+		"/C/joyee/study/frontend/microscope/lib/collections/posts.js",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/stylesheets/style.css",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/layout.html",
+		"/C/joyee/study/junior-3/SPI/repo/lab7/public/asset/css/style.css",
+		"/C/joyee/study/junior-3/SPI/repo/lab7/views/homework-layout.jade",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/templates/homeworks/homework_grade.html",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/templates/requirements/requirement_view.js",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/templates/requirements/requirement_edit.html",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/templates/requirements/requirement_view.html",
+		"/C/joyee/study/junior-3/SPI/repo/lab7/app/homework/homework-edit.jade",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/templates/homeworks/homework_view.html",
+		"/C/joyee/study/junior-3/SPI/repo/lab7/app/requirement/requirement-add.jade",
+		"/C/joyee/study/junior-3/SPI/repo/lab7/app/requirement/requirement-edit.jade",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/templates/homeworks/homework_add.js",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/templates/homeworks/homework_edit.js",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/templates/homeworks/homework_view.js",
+		"/C/joyee/study/junior-3/SPI/repo/lab7/app/homework/homework-view.jade",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/templates/homeworks/homework_edit.html",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/templates/homeworks/homework_grade.js",
+		"/C/joyee/study/junior-3/SPI/repo/lab7/app/homework/homework-add.jade",
+		"/C/joyee/study/junior-3/SPI/repo/lab7/app/home/home-teacher.jade",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/templates/home/student_home.js",
+		"/C/joyee/study/junior-3/SPI/repo/lab7/app/home/home-student.jade",
+		"/C/joyee/study/frontend/microscope/client/templates/posts/post_item.js",
+		"/C/joyee/study/frontend/microscope/client/templates/posts/post_page.js",
+		"/C/joyee/study/frontend/microscope/client/templates/posts/post_page.html",
+		"/C/joyee/study/frontend/microscope/lib/router.js",
+		"/C/joyee/study/frontend/microscope/client/templates/posts/posts_list.html",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/index.html",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/templates/application/not_found.html",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/templates/includes/header.js",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/templates/includes/access_denied.html",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/lib/permissions.js",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/client/main.html",
+		"/C/joyee/study/frontend/microscope/client/templates/posts/post_edit.html",
+		"/C/joyee/study/frontend/microscope/client/templates/posts/post_edit.js",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/homework.json",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/lib/collections/courses.js",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/.meteor/versions",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/.meteor/packages",
+		"/C/joyee/study/junior-3/SPI/repo/myhomeworks/.meteor/packages",
+		"/C/joyee/study/junior-3/SPI/repo/myhomeworks/.meteor/versions",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/.meteor/release",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/.meteor/platforms",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/.meteor/.id",
+		"/C/joyee/study/junior-3/SPI/repo/lab8/.meteor/.finished-upgraders",
+		"/C/joyee/study/frontend/microscope/client/templates/includes/errors.js",
+		"/C/joyee/study/frontend/microscope/client/templates/comments/comment_item.js",
+		"/C/joyee/study/frontend/microscope/client/templates/comments/comment_item.html",
+		"/C/joyee/study/frontend/microscope/server/publications.js",
+		"/C/joyee/study/frontend/microscope/lib/collections/comments.js",
+		"/C/joyee/study/frontend/microscope/client/templates/comments/comment_submit.js",
+		"/C/joyee/study/frontend/microscope/client/templates/comments/comment_submit.html",
+		"/C/joyee/study/frontend/microscope/server/fixtures.js",
+		"/C/joyee/study/frontend/microscope/client/templates/posts/post_item.html",
+		"/C/joyee/study/frontend/microscope/client/templates/posts/post_submit.html",
+		"/C/joyee/study/frontend/microscope/client/templates/posts/post_submit.js",
+		"/C/joyee/study/frontend/microscope/lib/permissions.js",
+		"/C/joyee/study/frontend/microscope/.gitignore",
+		"/C/joyee/study/frontend/microscope/client/helpers/errors.js",
+		"/C/joyee/study/frontend/microscope/client/stylesheets/style.css",
+		"/C/joyee/study/frontend/microscope/client/layout.html",
+		"/C/joyee/study/frontend/microscope/client/templates/includes/errors.html",
+		"/C/joyee/study/frontend/microscope/client/templates/includes/access_denied.html",
+		"/C/joyee/study/frontend/microscope/.meteor/packages",
+		"/C/joyee/study/frontend/microscope/client/templates/posts/posts_list.js",
+		"/C/joyee/study/frontend/microscope/client/templates/includes/header.html",
+		"/C/joyee/study/frontend/microscope/client/main.html",
+		"/C/joyee/study/frontend/microscope/client/templates/application/not_found.html",
+		"/C/joyee/study/frontend/microscope/server/user.js",
+		"/C/joyee/study/frontend/microscope/client/helpers/config.js",
+		"/C/joyee/study/frontend/microscope/client/main.js",
+		"/C/joyee/study/frontend/microscope/client/templates/includes/loading.html",
+		"/C/joyee/study/frontend/microscope/packages/iron-core/smart.json",
+		"/C/joyee/study/frontend/microscope/packages/iron-router-1.0.7/package.js",
+		"/C/joyee/study/frontend/microscope/packages/iron-controller-1.0.7/package.js",
+		"/C/joyee/study/frontend/microscope/packages/iron-controller-1.0.7/lib/controller.js",
+		"/C/joyee/study/frontend/microscope/packages/iron-location-1.0.7/package.js",
+		"/C/joyee/study/frontend/microscope/packages/iron-middleware-stack-1.0.7/package.js",
+		"/C/joyee/study/frontend/microscope/packages/iron-url-1.0.7/package.js",
+		"/C/joyee/study/frontend/microscope/packages/iron-dynamic-template-1.0.7/package.js",
+		"/C/joyee/study/frontend/microscope/packages/iron-layout-1.0.7/package.js",
+		"/C/joyee/study/frontend/microscope/packages/iron-core-1.0.7/package.js",
+		"/C/joyee/study/frontend/microscope/packages/iron-layout/package.js",
+		"/C/joyee/study/frontend/microscope/packages/iron-router/package.js",
+		"/C/joyee/study/frontend/microscope/packages/iron-middleware-stack/package.js",
+		"/C/joyee/study/frontend/microscope/packages/iron-controller/package.js",
+		"/C/joyee/study/frontend/microscope/packages/iron-core/package.js",
+		"/C/joyee/study/frontend/microscope/packages/iron-core/README.md"
+	],
+	"find":
+	{
+		"height": 50.0
+	},
+	"find_in_files":
+	{
+		"height": 138.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"selector",
+			",(\\w)",
+			"\"left",
+			"LEFT",
+			"updates",
+			"response",
+			"bookres",
+			"updates.pu",
+			"updates",
+			"current",
+			"Add",
+			"modifier",
+			"comment",
+			"Comments",
+			"comments",
+			"Post",
+			"post",
+			"Requirement",
+			"requirement",
+			"match",
+			"blend",
+			"en——",
+			"zh",
+			"zh_",
+			"regular",
+			"intermidiate",
+			"temp",
+			"margin",
+			"sqrt",
+			"item",
+			"gray",
+			"print",
+			"com",
+			"direction",
+			"indices",
+			"window",
+			"camera",
+			"mouse",
+			"camera",
+			"menu",
+			"reshape",
+			"lightpos",
+			"create",
+			"menu",
+			"createMenu",
+			"reshape",
+			"aspect",
+			"height",
+			"width",
+			"aspect",
+			"height",
+			"width",
+			"windowid",
+			"isfulls",
+			"windowid",
+			"camera",
+			"position",
+			"initCamera",
+			"camera.rot",
+			"lastY",
+			"lastX",
+			"mouseY",
+			"mouseX",
+			"mouse",
+			"camera.D",
+			"camera.P",
+			"camera.R",
+			"camera(\\w)",
+			"camera\\w",
+			"menuen",
+			"menu",
+			"createmenu",
+			" = .*;",
+			"extern ",
+			"edgeCount",
+			"surfaceCount",
+			"VertexCount",
+			"vERTEXcOUNT",
+			"surface",
+			"SurfaceCount",
+			"VertexCount",
+			"WIDTH",
+			"MENUSTATE",
+			"lastZoffset",
+			"lastXoffset",
+			"lastYoffset",
+			"lastXoffset",
+			"shift",
+			"draw(",
+			"reshape",
+			"glupers",
+			"reshape",
+			"reshap",
+			"int j",
+			"printf",
+			"genera",
+			"glpop",
+			"glClear",
+			"color",
+			"NumVertices",
+			"points",
+			"IndexVect",
+			" ",
+			" |\\n",
+			" ",
+			"countFrames();",
+			"GLUTMA",
+			"MAINLOO",
+			"frames",
+			"count",
+			"GLUT_RIGHT_BUTTON",
+			"init",
+			"mousePressedY",
+			"mousePressedX",
+			"rightMouseButtonActive",
+			"middleMouseButtonActive",
+			"leftMouseButtonActive",
+			"COUNTFRAMES",
+			"viewer",
+			"navigationRotation",
+			"cameraDirection",
+			"middleMouseButtonActive",
+			"viewerDirection",
+			"viewerPosition",
+			"bFullsreen",
+			"bUsePredefinedCamera",
+			"nwindowID",
+			"nWindowID"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			", $1",
+			"Edit",
+			"homework",
+			"Homeworks",
+			"homeworks",
+			"Requirement",
+			"requirement",
+			"Homework",
+			"homework",
+			"perpendicular",
+			"intermediate",
+			"intermidiate",
+			"lastOffset.y",
+			"lastOffset.x",
+			"mouse.y",
+			"mouse.x",
+			"camera.d",
+			"camera.p",
+			"camera.r",
+			"camera.$1",
+			";",
+			"",
+			"edgeCount",
+			"surfaceCount",
+			"vertexCount",
+			"SURFACE_COUNT",
+			"VERTEX_COUNT",
+			"lastZ",
+			"lastX",
+			"lastY",
+			"lastX",
+			", ",
+			",",
+			"mouseY",
+			"mouseX",
+			"rightActive",
+			"middleActive",
+			"leftActive",
+			"cameraRotation",
+			"cameraDirection",
+			"cameraPosition",
+			"isFullScreen",
+			"windowID",
+			";\\n",
+			"",
+			"body",
+			"auth.isAuthenticatedAPI",
+			"isAuthenticatedAPI",
+			"final",
+			"lines",
+			"edges",
+			"dest_",
+			"result_path",
+			"scale",
+			"books",
+			"script($1)",
+			"grade",
+			"submit",
+			"y0",
+			"x0",
+			"$1f",
+			"url",
+			"base",
+			"joyeecheung",
+			"start",
+			", ",
+			",",
+			"finalize",
+			"start",
+			"that",
+			"Deferred",
+			"",
+			"0.6s",
+			"all 0.3s ease 0.5s;",
+			"all 0.8s ease 0.5s;",
+			"all 0.8s ease 0.4s;",
+			"all 0.8s ease;",
+			"0.8s",
+			"ease",
+			"glVertex3d($1, $2, 0);",
+			"glVertex3d($1, $2);",
+			");",
+			"",
+			"$1 $2 $3",
+			"$1",
+			"trusty",
+			"GLfloat",
+			"GLint"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "public/js/bookcase.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5058,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3507,
+								3507
+							]
+						],
+						"settings":
+						{
+							"history_list_is_closing": true,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3716.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/C/joyee/study/my-tech-dairy/2015/05/2015-05-03.md",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3313,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2373,
+								2373
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Markdown Extended/Syntaxes/Markdown Extended.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 522.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"default_dir": "C:\\joyee\\study\\junior-3\\Virtual Reality\\bookcase",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 3,
+					"file": "public/js/utils.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4981,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 37.0
+	},
+	"input":
+	{
+		"height": 49.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.606271241433,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.astyle_error_message":
+	{
+		"height": 0.0
+	},
+	"output.exec":
+	{
+		"height": 110.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "bookcase.sublime-project",
+	"replace":
+	{
+		"height": 94.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"bookcase",
+				"bookcase\\public\\js\\bookcase.js"
+			],
+			[
+				"2015-05-",
+				"my-tech-dairy\\2015\\05\\2015-05-02.md"
+			],
+			[
+				"readme",
+				"lab8\\README.md"
+			],
+			[
+				"header",
+				"lab8\\client\\templates\\includes\\header.html"
+			],
+			[
+				"style.css",
+				"lab7\\public\\asset\\css\\style.css"
+			],
+			[
+				"myhom",
+				"lab7\\views\\my-homework.jade"
+			],
+			[
+				"homework-la",
+				"lab7\\views\\homework-layout.jade"
+			],
+			[
+				"requview",
+				"lab7\\app\\requirement\\requirement-view.jade"
+			],
+			[
+				"requireedi",
+				"lab7\\app\\requirement\\requirement-edit.jade"
+			],
+			[
+				"homework-v",
+				"lab7\\app\\homework\\homework-view.jade"
+			],
+			[
+				"homework-gra",
+				"lab7\\app\\homework\\homework-grade.jade"
+			],
+			[
+				"homeworkedit",
+				"lab7\\app\\homework\\homework-edit.jade"
+			],
+			[
+				"homework-ad",
+				"lab7\\app\\homework\\homework-grade.jade"
+			],
+			[
+				"home-t",
+				"lab7\\app\\home\\home-teacher.jade"
+			],
+			[
+				"home-",
+				"lab7\\app\\home\\home-student.jade"
+			],
+			[
+				"postsub",
+				"microscope\\client\\templates\\posts\\post_submit.html"
+			],
+			[
+				"posts",
+				"microscope\\lib\\collections\\posts.js"
+			],
+			[
+				"postlist",
+				"microscope\\client\\templates\\posts\\posts_list.js"
+			],
+			[
+				"post",
+				"microscope\\client\\templates\\posts\\post_submit.js"
+			],
+			[
+				"heade",
+				"microscope\\client\\templates\\includes\\header.html"
+			],
+			[
+				"main.js",
+				"microscope\\client\\main.js"
+			],
+			[
+				"publi",
+				"microscope\\server\\publications.js"
+			],
+			[
+				"layout",
+				"microscope\\client\\layout.html"
+			],
+			[
+				"post_i",
+				"microscope\\client\\templates\\posts\\post_item.html"
+			],
+			[
+				"postpa",
+				"microscope\\client\\templates\\posts\\post_page.html"
+			],
+			[
+				"postsli",
+				"microscope\\client\\templates\\posts\\posts_list.js"
+			],
+			[
+				"posts_",
+				"microscope\\client\\templates\\posts\\posts_list.html"
+			],
+			[
+				"router.js",
+				"microscope\\lib\\router.js"
+			],
+			[
+				"controllerpa",
+				"microscope\\packages\\iron-controller-1.0.7\\package.js"
+			],
+			[
+				"controll",
+				"microscope\\packages\\iron-controller-1.0.7\\lib\\controller.js"
+			],
+			[
+				"locationpa",
+				"microscope\\packages\\iron-location-1.0.7\\package.js"
+			],
+			[
+				"urlpa",
+				"microscope\\packages\\iron-url-1.0.7\\package.js"
+			],
+			[
+				"middpacka",
+				"microscope\\packages\\iron-middleware-stack-1.0.7\\package.js"
+			],
+			[
+				"dynampack",
+				"microscope\\packages\\iron-dynamic-template-1.0.7\\package.js"
+			],
+			[
+				"layoupa",
+				"microscope\\packages\\iron-layout-1.0.7\\package.js"
+			],
+			[
+				"routerpa",
+				"microscope\\packages\\iron-router-1.0.7\\package.js"
+			],
+			[
+				"corepa",
+				"microscope\\packages\\iron-core-1.0.7\\package.js"
+			],
+			[
+				"iron-laypa",
+				"microscope\\packages\\iron-layout-1.0.7\\package.js"
+			],
+			[
+				"package.js",
+				"microscope\\packages\\iron-core-1.0.7\\package.js"
+			],
+			[
+				"05-01",
+				"my-tech-dairy\\2015\\05\\2015-05-01.md"
+			],
+			[
+				"fix",
+				"microscope\\server\\fixtures.js"
+			],
+			[
+				"st",
+				"microscope\\client\\stylesheets\\style.css"
+			],
+			[
+				"car",
+				"carbrands\\carbrands.js"
+			],
+			[
+				"2014",
+				"my-tech-dairy\\2015\\04\\2015-04-29.md"
+			],
+			[
+				"main",
+				"src\\main.py"
+			],
+			[
+				"main.",
+				"src\\main.py"
+			],
+			[
+				"tracing",
+				"C:\\joyee\\study\\junior-3\\CG\\repo\\hw4\\src\\TracingBall.cpp"
+			],
+			[
+				"py",
+				"C:\\joyee\\study\\junior-3\\CVPR\\hw1\\src\\perspective.py"
+			],
+			[
+				"homewctrl",
+				"app\\homework\\HomeworkCtrl.js"
+			],
+			[
+				"grade",
+				"app\\homework\\homework-grade.jade"
+			],
+			[
+				"reqctrl",
+				"app\\requirement\\RequirementCtrl.js"
+			],
+			[
+				"homestdu",
+				"app\\home\\home-student.jade"
+			],
+			[
+				"home",
+				"app\\home\\home-teacher.jade"
+			],
+			[
+				"homeworkctrl",
+				"app\\homework\\HomeworkCtrl.js"
+			],
+			[
+				"homework",
+				"controllers\\homework.js"
+			],
+			[
+				"homework-add",
+				"app\\homework\\homework-add.jade"
+			],
+			[
+				"requ",
+				"app\\requirement\\RequirementCtrl.js"
+			],
+			[
+				"homeworctrl",
+				"app\\homework\\HomeworkCtrl.js"
+			],
+			[
+				"app",
+				"app\\app.js"
+			],
+			[
+				"homework-a",
+				"app\\homework\\homework-add.jade"
+			],
+			[
+				"requctrl",
+				"app\\requirement\\RequirementCtrl.js"
+			],
+			[
+				"homewoctr",
+				"app\\homework\\HomeworkCtrl.js"
+			],
+			[
+				"homestuden",
+				"app\\home\\home-student.jade"
+			],
+			[
+				"homeworkv",
+				"app\\homework\\homework-view.jade"
+			],
+			[
+				"requictrl",
+				"app\\requirement\\RequirementCtrl.js"
+			],
+			[
+				"requredi",
+				"app\\requirement\\requirement-edit.jade"
+			],
+			[
+				"app.js",
+				"app\\app.js"
+			],
+			[
+				"edit",
+				"app\\requirement\\requirement-edit.jade"
+			],
+			[
+				"teacher",
+				"app\\home\\home-teacher.jade"
+			],
+			[
+				"requirectr",
+				"app\\requirement\\RequirementCtrl.js"
+			],
+			[
+				"homectrl",
+				"app\\home\\HomeCtrl.js"
+			],
+			[
+				"stude",
+				"app\\home\\home-student.jade"
+			],
+			[
+				"m",
+				"views\\my-homework.jade"
+			],
+			[
+				"requirement-ed",
+				"app\\requirement\\requirement-edit.jade"
+			],
+			[
+				"homewor-ed",
+				"app\\homework\\homework-edit.jade"
+			],
+			[
+				"requre",
+				"app\\requirement\\RequirementCtrl.js"
+			],
+			[
+				"homew",
+				"controllers\\homework.js"
+			],
+			[
+				"homewg",
+				"app\\homework\\homework-grade.jade"
+			],
+			[
+				"homeeworkct",
+				"app\\homework\\HomeworkCtrl.js"
+			],
+			[
+				"require",
+				"app\\requirement\\requirement-add.jade"
+			],
+			[
+				"course",
+				"controllers\\course.js"
+			],
+			[
+				"homectr",
+				"app\\home\\HomeCtrl.js"
+			],
+			[
+				"myho",
+				"views\\my-homework.jade"
+			],
+			[
+				"requir",
+				"app\\requirement\\requirement-add.jade"
+			],
+			[
+				"requirement.js",
+				"controllers\\requirement.js"
+			],
+			[
+				"api",
+				"routes\\api.js"
+			],
+			[
+				"homect",
+				"app\\home\\HomeCtrl.js"
+			],
+			[
+				"requirement-",
+				"app\\requirement\\requirement-add.jade"
+			],
+			[
+				"ad",
+				"app\\homework\\homework-add.jade"
+			],
+			[
+				"home-stude",
+				"app\\home\\home-student.jade"
+			],
+			[
+				"index.js",
+				"routes\\index.js"
+			],
+			[
+				"homework-view",
+				"app\\homework\\homework-view.jade"
+			],
+			[
+				"my",
+				"views\\my-homework.jade"
+			],
+			[
+				"homework-l",
+				"views\\homework-layout.jade"
+			],
+			[
+				"requriementct",
+				"app\\requirement\\RequirementCtrl.js"
+			],
+			[
+				"home-stu",
+				"app\\home\\home-student.jade"
+			],
+			[
+				"homework-grade",
+				"app\\homework\\homework-grade.jade"
+			],
+			[
+				"home-tea",
+				"lab7\\app\\home\\home-teacher.jade"
+			],
+			[
+				"style",
+				"lab7\\public\\asset\\css\\style.css"
+			],
+			[
+				"home-student",
+				"lab7\\app\\home\\home-student.jade"
+			],
+			[
+				"homewa",
+				"lab7\\views\\homework-layout.jade"
+			],
+			[
+				"cour",
+				"lab7\\controllers\\course.js"
+			],
+			[
+				"apis",
+				"lab7\\routes\\api.js"
+			],
+			[
+				"course.js",
+				"lab7\\controllers\\course.js"
+			],
+			[
+				"api.js",
+				"lab7\\routes\\api.js"
+			],
+			[
+				"grunt",
+				"lab7\\Gruntfile.coffee"
+			],
+			[
+				"homewrok.jade",
+				"lab7\\views\\my-homework.jade"
+			],
+			[
+				".gi",
+				"lab7\\.gitignore"
+			],
+			[
+				"my-",
+				"lab7\\views\\my-homework.jade"
+			],
+			[
+				"inde",
+				"lab7\\routes\\index.js"
+			],
+			[
+				"home.js",
+				"lab7\\controllers\\home.js"
+			],
+			[
+				"list",
+				"lab7\\controllers\\list.js"
+			],
+			[
+				"middleware",
+				"lab7\\middlewares\\auth.js"
+			],
+			[
+				"submit",
+				"lab7\\controllers\\submit.js"
+			],
+			[
+				"requr",
+				"lab7\\models\\requirement.js"
+			],
+			[
+				"publish",
+				"lab7\\controllers\\publish.js"
+			],
+			[
+				"list.js",
+				"lab7\\controllers\\list.js"
+			],
+			[
+				"passport/",
+				"lab7\\passport\\init.js"
+			],
+			[
+				"index.",
+				"bookcase\\views\\index.jade"
+			],
+			[
+				"styl",
+				"bookcase\\public\\css\\style.css"
+			],
+			[
+				"ut",
+				"bookcase\\public\\js\\utils.js"
+			],
+			[
+				"mock",
+				"bookcase\\mock.json"
+			],
+			[
+				"index",
+				"bookcase\\views\\index.jade"
+			],
+			[
+				"util",
+				"bookcase\\public\\js\\utils.js"
+			],
+			[
+				"book",
+				"bookcase\\controllers\\books.js"
+			],
+			[
+				"mtl",
+				"bookcase\\public\\obj\\bookcase\\bookcase.mtl"
+			],
+			[
+				"packa",
+				"lab6\\package.json"
+			],
+			[
+				"regist",
+				"lab6\\views\\register.jade"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 341.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

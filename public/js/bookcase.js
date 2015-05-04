@@ -1,95 +1,164 @@
-var container, stats;
-var camera, scene, renderer;
-
-var controls = {
-  mouse: new THREE.Vector3(0, 0, 0),
-  keyboard: new THREE.Vector3(0, 0, 0),
-  windowHalf: new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2),
-  mouseCamera: false,
-  bookUpDistance: 0,
-  bookFrontDistance: 20,
-  bookResponseDuration: 400
-}
-
 var books = [];
-var updates = [];
+var bookcaseObj;
 
-function setUpRenderer(container) {
-  var renderer = new THREE.WebGLRenderer();
-  renderer.setClearColor( 0xf0f0f0 );
-  renderer.setPixelRatio(window.devicePixelRatio);
-  renderer.setSize(container.clientWidth, container.clientHeight);
-  $(container).append(renderer.domElement);
-  return renderer;
+var bookcaseConfig = {
+  obj: '/obj/bookcase/bookcase.obj',
+  mtl: '/obj/bookcase/bookcase.mtl',
+  position: new THREE.Vector3(0, -90, 0),  // move down a little bit
+  scale:    new THREE.Vector3(2.4, 2, 2),  // scale it
+  holders:  [[-23,  14, 0], [1,  14, 0], [24,  14, 0],
+             [-23, -11, 0], [1, -11, 0], [24, -11, 0],
+             [-23, -37, 0], [1, -37, 0], [24, -37, 0],
+             [-23, -62, 0], [1, -62, 0], [24, -62, 0]],
+  offset:   new THREE.Vector3(0, 110, -10)
+};
+
+var bookConfig = {
+  size: new THREE.Vector3(15, 20, 3),
+  angle: new THREE.Vector3(-0.1, 0, 0),
+  materials: {
+    right: imageMaterial('obj/bookcase/bookpages-right.jpg'),
+    left: coloredMaterial(0XA6A6A6),
+    top: imageMaterial('obj/bookcase/bookpages-top.jpg'),
+    bottom: imageMaterial('obj/bookcase/bookpages-top.jpg'),
+    back: coloredMaterial(0XA6A6A6)
+  },
+  responseDelta: new THREE.Vector3(0, 0, 20),
+  responseDuration: 400
 }
 
-function moveCameraByMouse(e) {
-  if (!controls.mouseCamera)
-    return;
+var uppedBook;
 
-  var mouseX = (e.clientX - controls.windowHalf.x) / 2,
-      mouseY = (e.clientY - controls.windowHalf.y) / 2
+/************* Bookcase *************/
 
-  function moveCameraStep(rate) {
-    if (controls.mouseCamera) {
-      camera.position.x += (mouseX - camera.position.x) * .05;
-      camera.position.y += (-mouseY - camera.position.y) * .05;
-    }
-  }
 
-  addAnimation(moveCameraStep, Date.now(), 1);
+function adjustOffset(value, idx) {
+  return value + bookcaseConfig.position[coor[idx]] + bookcaseConfig.offset[coor[idx]];
 }
 
-function moveCameraByKey(e) {
-  var key = e.which;
-  var keychar = String.fromCharCode(key);
-  if (keychar === 'C')
-    controls.mouseCamera = !controls.mouseCamera;
+bookcaseConfig.holders = $.map(bookcaseConfig.holders, function(holder, i) {
+  return new THREE.Vector3().fromArray($.map(holder, adjustOffset));
+});
 
-  if (key in directionDict && !controls.mouseCamera) {
-    e.preventDefault();
-    var controlX = direction[directionDict[key]].x * 2,
-        controlY = direction[directionDict[key]].y * 2,
-        controlZ = direction[directionDict[key]].z * 2;
+function Bookcase(object) {
+  $.extend(object.position, bookcaseConfig.position);
+  $.extend(object.scale, bookcaseConfig.scale);
+  return object;
+}
 
-    // acceleartion here, so duration will affect the final result
-    function keyCamera(rate) {
-      if (!controls.mouseCamera) {
-        camera.position.x += (controlX) * rate;
-        camera.position.y += (controlY) * rate;
-        camera.position.z += (controlZ) * rate;
-      }
-    }
+/************** Bookcase loader ***********************/
+function loadBookcase(scene) {
+  THREE.Loader.Handlers.add(/\.dds$/i, new THREE.DDSLoader());
+  var loader = new THREE.OBJMTLLoader();
 
-    addAnimation(keyCamera, Date.now(), controls.bookResponseDuration);
-  }
+  loader.load(bookcaseConfig.obj, bookcaseConfig.mtl,
+    function(object) {
+      bookcaseObj = new Bookcase(object);  // global!
+      scene.add(bookcaseObj);
+    });
+}
+
+/************* Book *************/
+
+
+function Book(book, idx) {
+  var geometry = new THREE.BoxGeometry(bookConfig.size.x,
+                                       bookConfig.size.y,
+                                       bookConfig.size.z);
+  var material = new THREE.MeshFaceMaterial([
+    bookConfig.materials.right,  // right
+    bookConfig.materials.left,  // left
+    bookConfig.materials.top,  // Top
+    bookConfig.materials.bottom,  // Bottom
+    imageMaterial(book.cover),  // Front
+    bookConfig.materials.back   // Back
+  ]);
+
+  var bookObj = new THREE.Mesh(geometry, material);
+  bookObj.book = book;
+  bookObj.idx = idx;
+  bookObj.holder = bookcaseConfig.holders[idx];
+
+  bookObj.position.set(bookObj.holder.x,
+                       bookObj.holder.y,
+                       bookObj.holder.z);
+  bookObj.rotateX(bookConfig.angle.x);
+  bookObj.rotateY(bookConfig.angle.y);
+  bookObj.rotateZ(bookConfig.angle.z);
+
+  return bookObj;
+}
+
+function loadBook(scene, idx, book) {
+  var bookObj = new Book(book, idx);
+
+  // color the left and back faces by the dominant color in the cover
+  var loader = new THREE.ImageLoader();
+  var colorThief = new ColorThief();
+  loader.load(book.cover, function(image) {
+    
+    var color = colorThief.getColor(image, 1000);
+    var hex = rgbToHex.apply(this, color);
+    var newMaterial = coloredMaterial(hex);
+    bookObj.material.materials[materialIdx.LEFT] = newMaterial;
+    bookObj.material.materials[materialIdx.BACK] = newMaterial;
+    bookObj.material.needsUpdate = true;
+  });
+
+  scene.add(bookObj);
+  books.push(bookObj);  // global!
+}
+
+function bookPanelIn(book) {
+  $('#gl-panel-cover').prop('src', book.cover);
+  $('#gl-panel-title').text(book.name);
+  $('#gl-panel-url')
+    .prop('href', book.url)
+    .prop('target', '_blank');
+  $('#gl-panel-amazon')
+    .prop('href', 'http://www.amazon.com/dp/' + book.isbn)
+    .prop('target', '_blank');
+  $('#gl-panel-isbn').text(book.isbn);
+  $('#gl-panel').removeClass('inactive').addClass('active');
+  $('#gl-container').addClass('in-select');
+}
+
+function bookPanelOut() {
+  $('#gl-panel').removeClass('active').addClass('inactive');
+  $('#gl-container').removeClass('in-select');
 }
 
 function selectBook(bookObj) {
+  // local reference is faster
+  var delta = bookConfig.responseDelta;
+  var holder = bookObj.holder;
+
   function bookUp(rate) {
     bookObj.position.y =
-      positions[bookObj.idx][Y] + controls.bookUpDistance * rate;
+      holder.y + delta.y * rate;
     bookObj.position.z =
-      positions[bookObj.idx][Z] + controls.bookFrontDistance * rate;
-
+      holder.z + delta.z * rate;
   }
 
-  addAnimation(bookUp, Date.now(), controls.bookResponseDuration);
+  addAnimation(bookUp, Date.now(), bookConfig.responseDuration);
 }
 
 function deselectBook(bookObj) {
   if (!bookObj)
     return;
 
+  // local reference is faster
+  var delta = bookConfig.responseDelta;
+  var holder = bookObj.holder;
+
   function bookDown(rate) {
     bookObj.position.y =
-      positions[bookObj.idx][Y] + controls.bookUpDistance * (1 - rate);
-  
+      holder.y + delta.y * (1 - rate);
     bookObj.position.z =
-      positions[bookObj.idx][Z] + controls.bookFrontDistance * (1 - rate);
+      holder.z + delta.z * (1 - rate);
   }
 
-  addAnimation(bookDown, Date.now(), controls.bookResponseDuration);
+  addAnimation(bookDown, Date.now(), bookConfig.responseDuration);
 }
 
 function handlBookSelection(e) {
@@ -104,101 +173,19 @@ function handlBookSelection(e) {
 
 function bookResponse(e) {
   var intersects = getIntersects(e, books, renderer, camera);
-  var oldUppedBook = controls.uppedBook;
-
-  if (controls.mouseCamera || !$('#gl-panel').hasClass('inactive'))
-    return;
+  var oldUppedBook = uppedBook;
 
   if (intersects.length > 0) {
     newUppedBook = intersects[0].object;
     if (newUppedBook === oldUppedBook)
       return;
 
-    controls.uppedBook = newUppedBook;
+    uppedBook = newUppedBook;
     selectBook(newUppedBook);
-    $(container).addClass('in-select');
+    $('#gl-container').addClass('in-select');
   } else if (oldUppedBook){
-    controls.uppedBook = undefined;
+    uppedBook = undefined;
     deselectBook(oldUppedBook);
-    $(container).removeClass('in-select');
+    $('#gl-container').removeClass('in-select');
   }
 }
-
-function addControl(container) {
-
-  // listeners
-  $(container).on('mousemove', moveCameraByMouse);
-
-  $(container).on('mousemove', bookResponse);
-
-  $(document).on('keydown', moveCameraByKey);
-
-  $(container).on('mousedown', handlBookSelection);
-
-  $('#gl-panel-close').on('click', function(e) {
-    var oldUppedBook = controls.uppedBook;
-    controls.uppedBook = undefined;
-    deselectBook(oldUppedBook);
-    bookPanelOut();
-  });
-}
-
-function animate(time) {
-  render(time);
-  requestAnimationFrame(animate);
-}
-
-function addAnimation(func, startTime, duration) {
-  var stop = false;
-
-  function step() {
-    if (stop) return;
-
-    var now = +Date.now();
-    var remaining = +startTime + +duration - now;
-    var rate = 1;
-    if (duration === 1 || remaining < 60) {
-      stop = true;
-    } else {
-      rate = remaining / duration;
-      rate = 1 - Math.pow(rate, 3);
-      if(rate > 1 || rate < 0) {
-        stop = true;
-        rate = 1;
-      }
-    }
-
-    func(rate);
-    requestAnimationFrame(step);
-  }
-
-  step();
-}
-
-function render(currentTime) {
-  camera.lookAt(scene.position);
-  renderer.render(scene, camera);
-}
-
-function init() {
-  container = $('#gl-container')[0];
-  camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 1, 2000);
-  camera.position.z = 130;
-
-  // scene
-  scene = new THREE.Scene();
-  $.getJSON('/api/books', {limit: 12}, function(books) {
-    loadBookcase(scene);
-    for (var i = 0, len = books.length; i < len; ++i) {
-      loadBook(scene, i, books[i]);
-    }
-
-    light(scene);
-    renderer = setUpRenderer(container);
-    addControl(container);
-    animate();
-  });
-
-}
-
-$(init);
