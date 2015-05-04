@@ -64,7 +64,7 @@ function moveCameraByKey(e) {
       }
     }
 
-    addAnimation(keyCamera, Date.now(), controls.bookResponseDuration);
+    addAnimation(keyCamera, Date.now(), 400);
   }
 }
 
