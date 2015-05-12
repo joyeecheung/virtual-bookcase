@@ -1,3 +1,4 @@
+/// <reference path="typings/node/node.d.ts"/>
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
