@@ -9,12 +9,37 @@ var controls = {
 }
 
 function light(scene) {
-  var ambient = new THREE.AmbientLight(0x444444);
-  scene.add(ambient);
+//  var ambient = new THREE.AmbientLight(0x444444);
+//  scene.add(ambient);
+//
+ // var directionalLight = new THREE.DirectionalLight(0xffeedd);
+ // directionalLight.position.set(1, 1, 1).normalize();
+ // scene.add(directionalLight);
 
-  var directionalLight = new THREE.DirectionalLight(0xffeedd);
-  directionalLight.position.set(1, 1, 1).normalize();
-  scene.add(directionalLight);
+	var hemiLight = new THREE.HemisphereLight(0xEDDEB6, 0x524A2E, 0.3);
+	hemiLight.position.set( 0, 500, 0 );
+	scene.add( hemiLight );
+
+	var dirLight = new THREE.DirectionalLight(0xffeedd, 0.4);
+	dirLight.position.set(1, 1, 1).normalize();
+	dirLight.position.multiplyScalar( 50 );
+	scene.add( dirLight );
+
+	dirLight.castShadow = true;
+
+	dirLight.shadowMapWidth = 2048;
+	dirLight.shadowMapHeight = 2048;
+
+	var d = 50;
+
+	dirLight.shadowCameraLeft = -d;
+	dirLight.shadowCameraRight = d;
+	dirLight.shadowCameraTop = d;
+	dirLight.shadowCameraBottom = -d;
+
+	dirLight.shadowCameraFar = 3500;
+	dirLight.shadowBias = -0.0001;
+	dirLight.shadowDarkness = 0.35;
 }
 
 function setUpRenderer(container) {
@@ -35,8 +60,8 @@ function moveCameraByMouse(e) {
 
   function moveCameraStep(rate) {
     if (controls.mouseCamera) {
-      camera.position.x += (mouseX - camera.position.x) * .05;
-      camera.position.y += (-mouseY - camera.position.y) * .05;
+      dir.x = (-mouseY) * .001;
+      dir.y = (-mouseX) * .001;
     }
   }
 
@@ -58,9 +83,9 @@ function moveCameraByKey(e) {
     // acceleartion here, so duration will affect the final result
     function keyCamera(rate) {
       if (!controls.mouseCamera) {
-        camera.position.x += (controlX) * rate;
-        camera.position.y += (controlY) * rate;
-        camera.position.z += (controlZ) * rate;
+        eye.x += (controlX) * rate;
+        eye.y += (controlY) * rate;
+        eye.z += (controlZ) * rate;
       }
     }
 
@@ -75,12 +100,14 @@ function addControl(container) {
   $(container).on('mousemove', function(e) {
     if (controls.mouseCamera || !$('#gl-panel').hasClass('inactive'))
       return;
-    bookResponse(e);
+    bookResponse(e, renderer, camera);
   });
 
   $(document).on('keydown', moveCameraByKey);
 
-  $(container).on('mousedown', handlBookSelection);
+  $(container).on('mousedown', function(e) {
+    handlBookSelection(e, renderer, camera);
+  });
 
   $('#gl-panel-close').on('click', function(e) {
     var oldUppedBook = controls.uppedBook;
@@ -96,7 +123,12 @@ function animate(time) {
 }
 
 function render(currentTime) {
-  camera.lookAt(scene.position);
+  camera.position.x = eye.x;
+  camera.position.y = eye.y;
+  camera.position.z = eye.z;
+  camera.rotation.x = dir.x;
+  camera.rotation.y = dir.y;
+  camera.rotation.z = dir.z;
   renderer.render(scene, camera);
 }
 
@@ -104,9 +136,25 @@ function init() {
   container = $('#gl-container')[0];
   camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 1, 2000);
   camera.position.z = 130;
+  eye = new THREE.Vector3();
+  eye.z = 130;
+  dir = new THREE.Vector3();
 
+  renderer = setUpRenderer(container);
+  renderer.shadowMapEnabled = true;
   // scene
   scene = new THREE.Scene();
+  var groundGeo = new THREE.PlaneBufferGeometry( 10000, 10000 );
+  var groundMat = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0x050505 } );
+  groundMat.color.setHSL( 0.095, 1, 0.75 );
+
+  var ground = new THREE.Mesh( groundGeo, groundMat );
+  ground.rotation.x = -Math.PI/2;
+  ground.position.y = -100;
+  scene.add( ground );
+
+  ground.receiveShadow = true;
+
   $.getJSON('/api/books', {limit: 12}, function(books) {
     loadBookcase(scene);
     $.each(books, function(i, book) {
@@ -114,7 +162,6 @@ function init() {
     });
 
     light(scene);
-    renderer = setUpRenderer(container);
     addControl(container);
     animate();
   });

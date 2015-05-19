@@ -54,6 +54,10 @@ function loadBookcase(scene) {
   loader.load(bookcaseConfig.obj, bookcaseConfig.mtl,
     function(object) {
       bookcaseObj = new Bookcase(object);  // global!
+      $.each(bookcaseObj.children, function(idx, mesh) {
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+      })
       scene.add(bookcaseObj);
     });
 }
@@ -85,6 +89,9 @@ function Book(book, idx) {
   bookObj.rotateX(bookConfig.angle.x);
   bookObj.rotateY(bookConfig.angle.y);
   bookObj.rotateZ(bookConfig.angle.z);
+
+  bookObj.castShadow = true;
+  bookObj.receiveShadow = true;
 
   return bookObj;
 }
@@ -161,7 +168,7 @@ function deselectBook(bookObj) {
   addAnimation(bookDown, Date.now(), bookConfig.responseDuration);
 }
 
-function handlBookSelection(e) {
+function handlBookSelection(e, renderer, camera) {
   var intersects = getIntersects(e, books, renderer, camera);
   if (intersects.length > 0) {
     newUppedBook = intersects[0].object;
@@ -171,7 +178,7 @@ function handlBookSelection(e) {
   }
 }
 
-function bookResponse(e) {
+function bookResponse(e, renderer, camera) {
   var intersects = getIntersects(e, books, renderer, camera);
   var oldUppedBook = uppedBook;
 
