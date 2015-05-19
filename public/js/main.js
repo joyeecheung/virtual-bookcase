@@ -9,19 +9,12 @@ var controls = {
 }
 
 function light(scene) {
-//  var ambient = new THREE.AmbientLight(0x444444);
-//  scene.add(ambient);
-//
- // var directionalLight = new THREE.DirectionalLight(0xffeedd);
- // directionalLight.position.set(1, 1, 1).normalize();
- // scene.add(directionalLight);
+	var hemiLight = new THREE.HemisphereLight(0xEDDEB6, 0x524A2E, 0.7);
+	hemiLight.position.set( 0, 300, 0 );
+	scene.add(hemiLight);
 
-	var hemiLight = new THREE.HemisphereLight(0xEDDEB6, 0x524A2E, 0.3);
-	hemiLight.position.set( 0, 500, 0 );
-	scene.add( hemiLight );
-
-	var dirLight = new THREE.DirectionalLight(0xffeedd, 0.4);
-	dirLight.position.set(1, 1, 1).normalize();
+	var dirLight = new THREE.DirectionalLight(0xBFB1A2, 0.6);
+	dirLight.position.set(0.2, 0.5, 0.4).normalize();
 	dirLight.position.multiplyScalar( 50 );
 	scene.add( dirLight );
 
@@ -30,16 +23,9 @@ function light(scene) {
 	dirLight.shadowMapWidth = 2048;
 	dirLight.shadowMapHeight = 2048;
 
-	var d = 50;
-
-	dirLight.shadowCameraLeft = -d;
-	dirLight.shadowCameraRight = d;
-	dirLight.shadowCameraTop = d;
-	dirLight.shadowCameraBottom = -d;
-
 	dirLight.shadowCameraFar = 3500;
 	dirLight.shadowBias = -0.0001;
-	dirLight.shadowDarkness = 0.35;
+	dirLight.shadowDarkness = 0.65;
 }
 
 function setUpRenderer(container) {
@@ -135,25 +121,22 @@ function render(currentTime) {
 function init() {
   container = $('#gl-container')[0];
   camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 1, 2000);
-  camera.position.z = 130;
+  camera.position.z = 500;
   eye = new THREE.Vector3();
-  eye.z = 130;
+  eye.z = 500;
   dir = new THREE.Vector3();
 
   renderer = setUpRenderer(container);
   renderer.shadowMapEnabled = true;
   // scene
   scene = new THREE.Scene();
-  var groundGeo = new THREE.PlaneBufferGeometry( 10000, 10000 );
-  var groundMat = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0x050505 } );
-  groundMat.color.setHSL( 0.095, 1, 0.75 );
 
-  var ground = new THREE.Mesh( groundGeo, groundMat );
-  ground.rotation.x = -Math.PI/2;
-  ground.position.y = -100;
-  scene.add( ground );
-
-  ground.receiveShadow = true;
+  loadGround(scene);
+  loadWalls(scene);
+  loadCeiling(scene);
+  loadChair(scene);
+  loadLight(scene);
+  // loadDoor(scene);
 
   $.getJSON('/api/books', {limit: 12}, function(books) {
     loadBookcase(scene);
@@ -166,6 +149,111 @@ function init() {
     animate();
   });
 
+}
+
+function loadChair(scene) {
+  var loader = new THREE.OBJMTLLoader();
+
+  loader.load('/obj/furniture/armchair1.obj', '/obj/furniture/armchair1.mtl',
+    function(object) {
+      chair = object;
+      chair.scale.set(0.7, 0.7, 0.7);
+      chair.position.set(-150, -80, 50);
+      chair.rotation.y = 0.5;
+      chair.castShadow = true;
+      chair.receiveShadow = true;
+      scene.add(chair);
+    });
+}
+
+function loadDoor(scene) {
+  var loader = new THREE.OBJMTLLoader();
+
+  loader.load('/obj/furniture/door1.obj', '/obj/furniture/door1.mtl',
+    function(object) {
+      door = object;
+      door.scale.set(0.7, 0.7, 0.7);
+      door.position.set(190, -100, 150);
+      door.rotation.y = Math.PI/2;
+      object.castShadow = true;
+      object.receiveShadow = true;
+      scene.add(object);
+    });
+}
+
+function loadLight(scene) {
+  var loader = new THREE.OBJMTLLoader();
+
+  loader.load('/obj/furniture/VaticanMuseumFrame.obj', '/obj/furniture/VaticanMuseumFrame.mtl',
+    function(object) {
+      object.position.set(120, 70, 0);
+      object.castShadow = true;
+      object.receiveShadow = true;
+      scene.add(object);
+    });
+
+  loader.load('/obj/furniture/hangingLight.obj', '/obj/furniture/hangingLight.mtl',
+    function(object) {
+      hanglight = object;
+      hanglight.scale.set(0.8, 0.5, 0.8);
+      hanglight.position.set(50, 30, 30);
+      hanglight.castShadow = true;
+      hanglight.receiveShadow = true;
+      scene.add(hanglight);
+    });
+}
+
+function loadGround(scene) {
+  var groundGeo = new THREE.PlaneBufferGeometry(400, 400);
+  var groundMat = imageMaterial('obj/room/paneling.jpg');
+  ground = new THREE.Mesh( groundGeo, groundMat );
+  ground.rotation.x = -Math.PI/2;
+  ground.position.y = -90;
+  ground.position.z = 130;
+  ground.receiveShadow = true;
+  scene.add( ground );
+}
+
+function loadWalls(scene) {
+  var wallGeo = new THREE.PlaneBufferGeometry(400, 250);
+  var wallMat = imageMaterial('obj/room/paint.jpg');
+  wall = new THREE.Mesh( wallGeo, wallMat );
+  wall.position.set(0, 30, -20);
+  wall.castShadow = true;
+  wall.receiveShadow = true;
+  scene.add(wall);
+
+  var wall2Geo = new THREE.PlaneBufferGeometry(400, 250);
+  var wall2Mat = imageMaterial('obj/room/paint.jpg');
+  wall2 = new THREE.Mesh(wall2Geo, wall2Mat);
+  wall2.material.side = THREE.DoubleSide;
+  wall2.rotation.y = Math.PI/2;
+  wall2.position.set(-200, 30, 150);
+  wall2.castShadow = true;
+  wall2.receiveShadow = true;
+  scene.add(wall2);
+
+  var wall3Geo = new THREE.PlaneBufferGeometry(400, 250);
+  var wall3Mat = imageMaterial('obj/room/paint.jpg');
+  wall3 = new THREE.Mesh(wall3Geo, wall3Mat);
+  wall3.material.side = THREE.DoubleSide;
+  wall3.rotation.y = Math.PI/2;
+  wall3.position.set(200, 30, 150);
+  wall3.castShadow = true;
+  wall3.receiveShadow = true;
+  scene.add(wall3);
+}
+
+function loadCeiling(scene) {
+  var ceilGeo = new THREE.PlaneBufferGeometry( 500, 500 );
+  var ceilMat = imageMaterial('obj/room/paint-rev.jpg');
+  ceil = new THREE.Mesh( ceilGeo, ceilMat );
+  ceil.material.side = THREE.DoubleSide;
+  ceil.rotation.x = -Math.PI/2;
+  ceil.position.y = 180;
+  ceil.position.z = 0;
+  ceil.receiveShadow = true;
+  scene.add(ceil);
 }
 
 $(init);

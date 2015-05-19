@@ -2,13 +2,13 @@ var LEFT = 37, UP = 38, RIGHT = 39, DOWN = 40;
 // http://www.javascripter.net/faq/keycodes.htm
 var directionDict = {
   37: "LEFT",
-  38: "UP",
+  38: "AHEAD",
   39: "RIGHT",
-  40: "DOWN",
-  187: "AHEAD",
-  189: "BACK",
-  61: "AHEAD",
-  173: "BACK"
+  40: "BACK",
+  187: "UP",
+  189: "DOWN",
+  61: "UP",
+  173: "DOWN"
 };
 
 var direction = {
@@ -37,6 +37,16 @@ function imageMaterial(imgurl) {
     map: THREE.ImageUtils.loadTexture(imgurl)
   });
 }
+
+function repeatImageMaterial(imgurl, repeatx, repeaty) {
+  var texture = THREE.ImageUtils.loadTexture(imgurl);
+  texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(repeatx, repeaty);
+  return new THREE.MeshBasicMaterial({
+    map: texture
+  });
+}
+
 function coloredMaterial(color) {
   return new THREE.MeshLambertMaterial({color: color});
 }

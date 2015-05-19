@@ -4,7 +4,7 @@ var bookcaseObj;
 var bookcaseConfig = {
   obj: '/obj/bookcase/bookcase.obj',
   mtl: '/obj/bookcase/bookcase.mtl',
-  position: new THREE.Vector3(0, -90, 0),  // move down a little bit
+  position: new THREE.Vector3(0, -90, 10),  // move down a little bit
   scale:    new THREE.Vector3(2.4, 2, 2),  // scale it
   holders:  [[-23,  14, 0], [1,  14, 0], [24,  14, 0],
              [-23, -11, 0], [1, -11, 0], [24, -11, 0],
