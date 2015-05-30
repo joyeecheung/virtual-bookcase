@@ -62,6 +62,50 @@ function getIntersects(e, objects, renderer, camera) {
   return raycaster.intersectObjects(objects);
 }
 
+function smooth(object) {
+  if (!object.geometry && object.children) {
+    for (var i = 0; i < object.children.length; ++i) {
+      smooth(object.children[i]);
+    }
+    return object;
+  } else if (object.geometry) {
+    // First we want to clone our original geometry.
+    // Just in case we want to get the low poly version back.
+    var smoothed = object.geometry.clone();
+    // Next, we need to merge vertices to clean up any unwanted vertex. 
+    smoothed.mergeVertices();
+    smoothed.computeFaceNormals();
+    smoothed.computeVertexNormals();
+    // Create a new instance of the modifier and pass the number of divisions.
+    var modifier = new THREE.SubdivisionModifier(1);
+    // Apply the modifier to our cloned geometry.
+    modifier.modify(smoothed);
+    object.geometry = smoothed;
+    object.geometry.needsUpdate = true;
+  }
+  return object;
+}
+
+function castShadow(object) {
+  if (object.type === "Mesh") {
+    object.castShadow = true;
+  } else {
+    for (var i = 0; i < object.children.length; ++i) {
+      castShadow(object.children[i]);
+    }
+  }
+}
+
+function receiveShadow(object) {
+  if (object.type === "Mesh") {
+    object.receiveShadow = true;
+  } else {
+    for (var i = 0; i < object.children.length; ++i) {
+      receiveShadow(object.children[i]);
+    }
+  }
+}
+
 function rgbToHex(r, g, b) {
     return ((r << 16) + (g << 8) + b);
 }

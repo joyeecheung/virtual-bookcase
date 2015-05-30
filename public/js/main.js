@@ -9,23 +9,34 @@ var controls = {
 }
 
 function light(scene) {
-	var hemiLight = new THREE.HemisphereLight(0xEDDEB6, 0x524A2E, 0.7);
-	hemiLight.position.set( 0, 300, 0 );
-	scene.add(hemiLight);
+  var hemiLight = new THREE.HemisphereLight(0xEDDEB6, 0x524A2E, 0.4);
+  hemiLight.position.set(50, 300, 80);
+  scene.add(hemiLight);
 
-	var dirLight = new THREE.DirectionalLight(0xBFB1A2, 0.6);
-	dirLight.position.set(0.2, 0.5, 0.4).normalize();
-	dirLight.position.multiplyScalar( 50 );
-	scene.add( dirLight );
+  dirLight = new THREE.DirectionalLight(0xBFB1A2, 0.5);
+  dirLight.position.set(50, 110, 80);
+  scene.add(dirLight);
+  // putBox(scene, new THREE.Vector3(50, 120, 80));
 
-	dirLight.castShadow = true;
+  var pointLight = new THREE.PointLight(0xBFB1A2, 0.2);
+  pointLight.position.set(50, 120, 80);
+  scene.add(pointLight);
 
-	dirLight.shadowMapWidth = 2048;
-	dirLight.shadowMapHeight = 2048;
+  dirLight.castShadow = true;
 
-	dirLight.shadowCameraFar = 3500;
-	dirLight.shadowBias = -0.0001;
-	dirLight.shadowDarkness = 0.65;
+  dirLight.shadowMapWidth = 2048;
+  dirLight.shadowMapHeight = 2048;
+
+  dirLight.shadowCameraFar = 3500;
+  dirLight.shadowBias = -0.0001;
+  dirLight.shadowDarkness = 0.35;
+}
+
+function putBox(scene, pos) {
+  var geometry = new THREE.BoxGeometry(10, 10, 10);
+  var box = new THREE.Mesh(geometry, coloredMaterial(0XA6A6A6));
+  box.position.set(pos.x, pos.y, pos.z);
+  scene.add(box);
 }
 
 function setUpRenderer(container) {
@@ -154,12 +165,12 @@ function init() {
 function loadChair(scene) {
   var loader = new THREE.OBJMTLLoader();
 
-  loader.load('/obj/furniture/armchair1.obj', '/obj/furniture/armchair1.mtl',
+  loader.load('/obj/furniture/fotel.obj', '/obj/furniture/fotel.mtl',
     function(object) {
-      chair = object;
-      chair.scale.set(0.7, 0.7, 0.7);
-      chair.position.set(-150, -80, 50);
+      chair = smooth(object);
+      chair.position.set(-140, -100, 30);
       chair.rotation.y = 0.5;
+      castShadow(chair);
       chair.castShadow = true;
       chair.receiveShadow = true;
       scene.add(chair);
@@ -194,9 +205,9 @@ function loadLight(scene) {
 
   loader.load('/obj/furniture/hangingLight.obj', '/obj/furniture/hangingLight.mtl',
     function(object) {
-      hanglight = object;
+      hanglight = smooth(object);
       hanglight.scale.set(0.8, 0.5, 0.8);
-      hanglight.position.set(50, 30, 30);
+      hanglight.position.set(50, 30, 80);
       hanglight.castShadow = true;
       hanglight.receiveShadow = true;
       scene.add(hanglight);
@@ -216,30 +227,27 @@ function loadGround(scene) {
 
 function loadWalls(scene) {
   var wallGeo = new THREE.PlaneBufferGeometry(400, 250);
-  var wallMat = imageMaterial('obj/room/paint.jpg');
+  var wallMat = imageMaterial('obj/room/paint2.jpg');
   wall = new THREE.Mesh( wallGeo, wallMat );
-  wall.position.set(0, 30, -20);
-  wall.castShadow = true;
+  wall.position.set(0, 35, -20);
   wall.receiveShadow = true;
   scene.add(wall);
 
   var wall2Geo = new THREE.PlaneBufferGeometry(400, 250);
-  var wall2Mat = imageMaterial('obj/room/paint.jpg');
+  var wall2Mat = imageMaterial('obj/room/paint2.jpg');
   wall2 = new THREE.Mesh(wall2Geo, wall2Mat);
   wall2.material.side = THREE.DoubleSide;
   wall2.rotation.y = Math.PI/2;
-  wall2.position.set(-200, 30, 150);
-  wall2.castShadow = true;
+  wall2.position.set(-190, 35, 150);
   wall2.receiveShadow = true;
   scene.add(wall2);
 
   var wall3Geo = new THREE.PlaneBufferGeometry(400, 250);
-  var wall3Mat = imageMaterial('obj/room/paint.jpg');
+  var wall3Mat = imageMaterial('obj/room/paint2.jpg');
   wall3 = new THREE.Mesh(wall3Geo, wall3Mat);
   wall3.material.side = THREE.DoubleSide;
   wall3.rotation.y = Math.PI/2;
-  wall3.position.set(200, 30, 150);
-  wall3.castShadow = true;
+  wall3.position.set(190, 35, 150);
   wall3.receiveShadow = true;
   scene.add(wall3);
 }

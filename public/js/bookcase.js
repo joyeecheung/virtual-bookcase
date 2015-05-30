@@ -54,10 +54,8 @@ function loadBookcase(scene) {
   loader.load(bookcaseConfig.obj, bookcaseConfig.mtl,
     function(object) {
       bookcaseObj = new Bookcase(object);  // global!
-      $.each(bookcaseObj.children, function(idx, mesh) {
-        mesh.castShadow = true;
-        mesh.receiveShadow = true;
-      })
+      receiveShadow(bookcaseObj);
+      castShadow(bookcaseObj);
       scene.add(bookcaseObj);
     });
 }
