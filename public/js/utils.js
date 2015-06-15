@@ -136,3 +136,15 @@ function addAnimation(func, startTime, duration) {
 
   step();
 }
+
+var idleFuncQueue = [];
+
+function addIdleAnimation(func) {
+  idleFuncQueue.push(func);
+}
+
+function renderIdleAnimation(delta) {
+  for (var i = 0; i < idleFuncQueue.length; ++i) {
+    idleFuncQueue[i](delta);
+  }
+}

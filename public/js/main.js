@@ -1,5 +1,6 @@
 var container, stats;
 var camera, scene, renderer;
+var clock = new THREE.Clock();
 
 var controls = {
   mouse: new THREE.Vector3(0, 0, 0),
@@ -13,12 +14,12 @@ function light(scene) {
   hemiLight.position.set(50, 300, 80);
   scene.add(hemiLight);
 
-  dirLight = new THREE.DirectionalLight(0xBFB1A2, 0.5);
+  dirLight = new THREE.DirectionalLight(0xBFB1A2, 1.0);
   dirLight.position.set(50, 110, 80);
   scene.add(dirLight);
   // putBox(scene, new THREE.Vector3(50, 120, 80));
 
-  var pointLight = new THREE.PointLight(0xBFB1A2, 0.2);
+  var pointLight = new THREE.PointLight(0xBFB1A2, 0.5);
   pointLight.position.set(50, 120, 80);
   scene.add(pointLight);
 
@@ -72,6 +73,7 @@ function moveCameraByKey(e) {
     controls.mouseCamera = !controls.mouseCamera;
 
   if (key in directionDict && !controls.mouseCamera) {
+    characterWalk();
     e.preventDefault();
     var controlX = direction[directionDict[key]].x * 2,
         controlY = direction[directionDict[key]].y * 2,
@@ -80,13 +82,29 @@ function moveCameraByKey(e) {
     // acceleartion here, so duration will affect the final result
     function keyCamera(rate) {
       if (!controls.mouseCamera) {
-        eye.x += (controlX) * rate;
-        eye.y += (controlY) * rate;
-        eye.z += (controlZ) * rate;
+        eye.x += (controlX) * 0.1;
+        eye.y += (controlY) * 0.1;
+        eye.z += (controlZ) * 0.1;
       }
     }
 
     addAnimation(keyCamera, Date.now(), 400);
+  }
+}
+
+function characterWalk() {
+  if (!mainCharacter.isMoving) {
+    mainCharacter.isMoving = true;
+    mainCharacter.stopAll();
+    mainCharacter.play("walk", 1);
+  }
+}
+
+function characterStop() {
+  if (mainCharacter.isMoving) {
+    mainCharacter.isMoving = false;
+    mainCharacter.stopAll();
+    mainCharacter.play("idle", 1);
   }
 }
 
@@ -101,6 +119,10 @@ function addControl(container) {
   });
 
   $(document).on('keydown', moveCameraByKey);
+
+  $(document).on('keyup', function() {
+    setTimeout(characterStop, 400);
+  });
 
   $(container).on('mousedown', function(e) {
     handlBookSelection(e, renderer, camera);
@@ -120,13 +142,14 @@ function animate(time) {
 }
 
 function render(currentTime) {
-  camera.position.x = eye.x;
-  camera.position.y = eye.y;
-  camera.position.z = eye.z;
-  camera.rotation.x = dir.x;
-  camera.rotation.y = dir.y;
-  camera.rotation.z = dir.z;
+  camera.position.copy(eye);
+  camera.rotation.copy(dir);
+
   renderer.render(scene, camera);
+
+  var delta = clock.getDelta();
+  renderIdleAnimation(delta);
+  THREE.AnimationHandler.update(delta);
 }
 
 function init() {
@@ -147,6 +170,7 @@ function init() {
   loadCeiling(scene);
   loadChair(scene);
   loadLight(scene);
+  loadCharacter(scene);
   // loadDoor(scene);
 
   $.getJSON('/api/books', {limit: 12}, function(books) {
@@ -160,6 +184,23 @@ function init() {
     animate();
   });
 
+}
+
+function loadCharacter() {
+  mainCharacter = new THREE.BlendCharacter();
+  var characterOffset = new THREE.Vector3(40, -90, -150);
+  mainCharacter.load( "/obj/marine/marine_anims.json", function() {
+    scene.add(mainCharacter);
+    mainCharacter.play("idle", 1);
+
+    mainCharacter.scale.set(0.75, 0.75, 0.75);
+    addIdleAnimation(function(delta) {
+      mainCharacter.position.copy(camera.position);
+      mainCharacter.position.add(characterOffset);
+      mainCharacter.rotation.copy(camera.rotation);
+      mainCharacter.update(delta);
+    });
+  });
 }
 
 function loadChair(scene) {
