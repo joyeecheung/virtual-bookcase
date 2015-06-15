@@ -187,10 +187,8 @@ function bookResponse(e, renderer, camera) {
 
     uppedBook = newUppedBook;
     selectBook(newUppedBook);
-    $('#gl-container').addClass('in-select');
   } else if (oldUppedBook){
     uppedBook = undefined;
     deselectBook(oldUppedBook);
-    $('#gl-container').removeClass('in-select');
   }
 }

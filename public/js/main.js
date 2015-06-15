@@ -16,10 +16,13 @@ function light(scene) {
 
   dirLight = new THREE.DirectionalLight(0xBFB1A2, 1.0);
   dirLight.position.set(50, 110, 80);
+  dirLight.target.position.set(50, -70, 300);
+  
   scene.add(dirLight);
-  // putBox(scene, new THREE.Vector3(50, 120, 80));
+  // putBox(scene, dirLight.position);
+  // putBox(scene, dirLight.target.position);
 
-  var pointLight = new THREE.PointLight(0xBFB1A2, 0.5);
+  pointLight = new THREE.PointLight(0xBFB1A2, 0.5);
   pointLight.position.set(50, 120, 80);
   scene.add(pointLight);
 
@@ -82,6 +85,7 @@ function moveCameraByKey(e) {
     // acceleartion here, so duration will affect the final result
     function keyCamera(rate) {
       if (!controls.mouseCamera) {
+        dir.y -= (controlX) * 0.0002;
         eye.x += (controlX) * 0.1;
         eye.y += (controlY) * 0.1;
         eye.z += (controlZ) * 0.1;
@@ -115,6 +119,12 @@ function addControl(container) {
   $(container).on('mousemove', function(e) {
     if (controls.mouseCamera || !$('#gl-panel').hasClass('inactive'))
       return;
+    var intersects = getIntersects(e, books.concat([guest]), renderer, camera);
+    if (intersects[0]) {
+      $('#gl-container').addClass('in-select');
+    } else {
+      $('#gl-container').removeClass('in-select');
+    }
     bookResponse(e, renderer, camera);
   });
 
@@ -126,6 +136,9 @@ function addControl(container) {
 
   $(container).on('mousedown', function(e) {
     handlBookSelection(e, renderer, camera);
+    var intersects = getIntersects(e, [guest], renderer, camera);
+    if (intersects[0] && intersects[0].object === guest)
+      console.log('guest!');
   });
 
   $('#gl-panel-close').on('click', function(e) {
@@ -142,8 +155,12 @@ function animate(time) {
 }
 
 function render(currentTime) {
-  camera.position.copy(eye);
-  camera.rotation.copy(dir);
+  camera.position.x = eye.x;
+  camera.position.y = eye.y;
+  camera.position.z = eye.z;
+  camera.rotation.x = dir.x;
+  camera.rotation.y = dir.y;
+  camera.rotation.z = dir.z;
 
   renderer.render(scene, camera);
 
@@ -156,8 +173,10 @@ function init() {
   container = $('#gl-container')[0];
   camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 1, 2000);
   camera.position.z = 500;
+  camera.position.y = 30;
+
   eye = new THREE.Vector3();
-  eye.z = 500;
+  eye.copy(camera.position);
   dir = new THREE.Vector3();
 
   renderer = setUpRenderer(container);
@@ -171,6 +190,7 @@ function init() {
   loadChair(scene);
   loadLight(scene);
   loadCharacter(scene);
+  loadGuest(scene);
   // loadDoor(scene);
 
   $.getJSON('/api/books', {limit: 12}, function(books) {
@@ -188,17 +208,39 @@ function init() {
 
 function loadCharacter() {
   mainCharacter = new THREE.BlendCharacter();
-  var characterOffset = new THREE.Vector3(40, -90, -150);
+  var characterOffset = new THREE.Vector3(40, -90, -100);
   mainCharacter.load( "/obj/marine/marine_anims.json", function() {
     scene.add(mainCharacter);
     mainCharacter.play("idle", 1);
-
-    mainCharacter.scale.set(0.75, 0.75, 0.75);
+    mainCharacter.position.y = characterOffset.y;
+    mainCharacter.receiveShadow = true;
+    mainCharacter.castShadow = true;
+    mainCharacter.scale.set(0.8, 0.8, 0.8);
     addIdleAnimation(function(delta) {
-      mainCharacter.position.copy(camera.position);
-      mainCharacter.position.add(characterOffset);
-      mainCharacter.rotation.copy(camera.rotation);
+      mainCharacter.position.x = camera.position.x + characterOffset.x;
+      mainCharacter.position.z = camera.position.z + characterOffset.z;
+      mainCharacter.rotation.x = camera.rotation.x;
+      mainCharacter.rotation.y = camera.rotation.y;
+      mainCharacter.rotation.z = camera.rotation.z;
       mainCharacter.update(delta);
+    });
+  });
+}
+
+function loadGuest() {
+  guest = new THREE.BlendCharacter();
+  var characterOffset = new THREE.Vector3(-70, -90, 10);
+  guest.load( "/obj/marine/marine_anims.json", function() {
+    guest.castShadow = true;
+    guest.receiveShadow = true;
+    scene.add(guest);
+    guest.play("idle", 1);
+    guest.rotation.y = -Math.PI/180 * 165;
+    guest.scale.set(0.8, 0.8, 0.8);
+    guest.position.copy(characterOffset);
+
+    addIdleAnimation(function(delta) {
+      guest.update(delta);
     });
   });
 }
