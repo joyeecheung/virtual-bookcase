@@ -139,8 +139,9 @@ function addControl(container) {
   $(container).on('mousedown', function(e) {
     handlBookSelection(e, renderer, camera);
     var intersects = getIntersects(e, [guest], renderer, camera);
-    if (intersects[0] && intersects[0].object === guest)
+    if (intersects[0] && intersects[0].object === guest) {
       conversationPanelIn();
+    }
   });
 
   $('#gl-panel-close').on('click', function(e) {
@@ -148,8 +149,15 @@ function addControl(container) {
       var oldUppedBook = controls.uppedBook;
       controls.uppedBook = undefined;
       deselectBook(oldUppedBook);
+      $('#gl-panel-body').removeClass('book-panel');
     }
+
     panelOut();
+  });
+
+  $('#gl-panel').on('click', '#gl-panel-leave', function(e) {
+    panelOut();
+    guestLeave();
   });
 }
 
@@ -251,6 +259,16 @@ function loadCharacter() {
   });
 }
 
+function guestLeave() {
+  guest.rotation.y = -Math.PI;
+  guest.stopAll();
+  guest.play("run");
+  addIdleAnimation(function(delta) {
+    guest.update(delta);
+    guest.position.z += 3;
+  });
+}
+
 function loadGuest() {
   guest = new THREE.BlendCharacter();
   var characterOffset = new THREE.Vector3(-120, -90, 80);
@@ -275,7 +293,7 @@ function loadChair(scene) {
   loader.load('/obj/furniture/fotel.obj', '/obj/furniture/fotel.mtl',
     function(object) {
       chair = smooth(object);
-      chair.position.set(-140, -100, 30);
+      chair.position.set(-200, -100, 30);
       chair.rotation.y = 0.5;
       castShadow(chair);
       chair.castShadow = true;
@@ -314,7 +332,7 @@ function loadLight(scene) {
     function(object) {
       hanglight = smooth(object);
       hanglight.scale.set(0.8, 0.5, 0.8);
-      hanglight.position.set(50, 30, 80);
+      hanglight.position.set(50, 26, 80);
       hanglight.castShadow = true;
       hanglight.receiveShadow = true;
       scene.add(hanglight);
