@@ -7,7 +7,9 @@ module.exports = (grunt) ->
       options:
         livereload: true
       express:
-        files: [ "**/*.js", "**/*.jade", "Gruntfile.*", "!public/**/*.js" ]
+        files: [ "controllers/**/*.js", "models/**/*.js",
+                 "routes/**/*.js", "views/**/*.jade",
+                 "Gruntfile.*"]
         tasks: ["express:dev"]
         options:
           spawn: false

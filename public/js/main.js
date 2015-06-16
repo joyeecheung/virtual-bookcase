@@ -1,6 +1,7 @@
 var container, stats;
 var camera, scene, renderer;
 var clock = new THREE.Clock();
+var conversationText = "Hey!";
 
 var controls = {
   mouse: new THREE.Vector3(0, 0, 0),
@@ -85,7 +86,8 @@ function moveCameraByKey(e) {
     // acceleartion here, so duration will affect the final result
     function keyCamera(rate) {
       if (!controls.mouseCamera) {
-        dir.y -= (controlX) * 0.0002;
+        dir.y -= (controlX) * 0.0001;
+        dir.z -= (controlY) * 0.0001;
         eye.x += (controlX) * 0.1;
         eye.y += (controlY) * 0.1;
         eye.z += (controlZ) * 0.1;
@@ -138,15 +140,31 @@ function addControl(container) {
     handlBookSelection(e, renderer, camera);
     var intersects = getIntersects(e, [guest], renderer, camera);
     if (intersects[0] && intersects[0].object === guest)
-      console.log('guest!');
+      conversationPanelIn();
   });
 
   $('#gl-panel-close').on('click', function(e) {
-    var oldUppedBook = controls.uppedBook;
-    controls.uppedBook = undefined;
-    deselectBook(oldUppedBook);
-    bookPanelOut();
+    if ($('#gl-panel-body').hasClass('book-panel')) {
+      var oldUppedBook = controls.uppedBook;
+      controls.uppedBook = undefined;
+      deselectBook(oldUppedBook);
+    }
+    panelOut();
   });
+}
+
+function conversationPanelIn() {
+  $('#gl-panel-title').text('Guest');
+  var body = $('#gl-panel-body');
+  body.html($('#conversation-template').html());
+  body.addClass('conversation-panel');
+  body.find('#gl-panel-conversation').text(conversationText);
+  $('#gl-panel').removeClass('inactive').addClass('active');
+}
+
+function panelOut() {
+  $('#gl-panel').removeClass('active').addClass('inactive');
+  $('#gl-container').removeClass('in-select');
 }
 
 function animate(time) {
@@ -155,9 +173,15 @@ function animate(time) {
 }
 
 function render(currentTime) {
-  camera.position.x = eye.x;
+  camera.position.x = Math.max(Math.min(eye.x, 200), -200);
   camera.position.y = eye.y;
-  camera.position.z = eye.z;
+  camera.position.z = Math.max(Math.min(eye.z, 650), 150);
+
+  var v = new THREE.Vector3();
+  v.copy(eye);
+  v.normalize();
+  v.add(dir);
+  // camera.lookAt(v);
   camera.rotation.x = dir.x;
   camera.rotation.y = dir.y;
   camera.rotation.z = dir.z;
@@ -208,7 +232,7 @@ function init() {
 
 function loadCharacter() {
   mainCharacter = new THREE.BlendCharacter();
-  var characterOffset = new THREE.Vector3(40, -90, -100);
+  var characterOffset = new THREE.Vector3(40, -90, -80);
   mainCharacter.load( "/obj/marine/marine_anims.json", function() {
     scene.add(mainCharacter);
     mainCharacter.play("idle", 1);
@@ -229,13 +253,13 @@ function loadCharacter() {
 
 function loadGuest() {
   guest = new THREE.BlendCharacter();
-  var characterOffset = new THREE.Vector3(-70, -90, 10);
+  var characterOffset = new THREE.Vector3(-120, -90, 80);
   guest.load( "/obj/marine/marine_anims.json", function() {
     guest.castShadow = true;
     guest.receiveShadow = true;
     scene.add(guest);
     guest.play("idle", 1);
-    guest.rotation.y = -Math.PI/180 * 165;
+    guest.rotation.y = -Math.PI/180 * 145;
     guest.scale.set(0.8, 0.8, 0.8);
     guest.position.copy(characterOffset);
 
@@ -298,7 +322,7 @@ function loadLight(scene) {
 }
 
 function loadGround(scene) {
-  var groundGeo = new THREE.PlaneBufferGeometry(400, 400);
+  var groundGeo = new THREE.PlaneBufferGeometry(700, 700);
   var groundMat = imageMaterial('obj/room/paneling.jpg');
   ground = new THREE.Mesh( groundGeo, groundMat );
   ground.rotation.x = -Math.PI/2;
@@ -309,39 +333,39 @@ function loadGround(scene) {
 }
 
 function loadWalls(scene) {
-  var wallGeo = new THREE.PlaneBufferGeometry(400, 250);
+  var wallGeo = new THREE.PlaneBufferGeometry(700, 250);
   var wallMat = imageMaterial('obj/room/paint2.jpg');
   wall = new THREE.Mesh( wallGeo, wallMat );
   wall.position.set(0, 35, -20);
   wall.receiveShadow = true;
   scene.add(wall);
 
-  var wall2Geo = new THREE.PlaneBufferGeometry(400, 250);
+  var wall2Geo = new THREE.PlaneBufferGeometry(700, 250);
   var wall2Mat = imageMaterial('obj/room/paint2.jpg');
   wall2 = new THREE.Mesh(wall2Geo, wall2Mat);
   wall2.material.side = THREE.DoubleSide;
   wall2.rotation.y = Math.PI/2;
-  wall2.position.set(-190, 35, 150);
+  wall2.position.set(-300, 35, 150);
   wall2.receiveShadow = true;
   scene.add(wall2);
 
-  var wall3Geo = new THREE.PlaneBufferGeometry(400, 250);
+  var wall3Geo = new THREE.PlaneBufferGeometry(700, 250);
   var wall3Mat = imageMaterial('obj/room/paint2.jpg');
   wall3 = new THREE.Mesh(wall3Geo, wall3Mat);
   wall3.material.side = THREE.DoubleSide;
   wall3.rotation.y = Math.PI/2;
-  wall3.position.set(190, 35, 150);
+  wall3.position.set(300, 35, 150);
   wall3.receiveShadow = true;
   scene.add(wall3);
 }
 
 function loadCeiling(scene) {
-  var ceilGeo = new THREE.PlaneBufferGeometry( 500, 500 );
+  var ceilGeo = new THREE.PlaneBufferGeometry(700, 700);
   var ceilMat = imageMaterial('obj/room/paint-rev.jpg');
   ceil = new THREE.Mesh( ceilGeo, ceilMat );
   ceil.material.side = THREE.DoubleSide;
   ceil.rotation.x = -Math.PI/2;
-  ceil.position.y = 180;
+  ceil.position.y = 160;
   ceil.position.z = 0;
   ceil.receiveShadow = true;
   scene.add(ceil);

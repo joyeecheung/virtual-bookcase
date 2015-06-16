@@ -41,22 +41,28 @@ mixin GLPopupPanel
     .panel.panel-default
       .panel-heading
         .row
-          #gl-panel-title.col-md-11
-          button.col-md-1.close#gl-panel-close(type="button", aria-label="Close")
+          #gl-panel-title.pull-left
+          button.pull-right.close#gl-panel-close(type="button", aria-label="Close")
             span(aria-hidden="true") &times;
-      .panel-body
-        .row
-          .col-md-6
-            img#gl-panel-cover.img-tumbnail.img-responsive
-          .col-md-6
-            p
-              a.btn.btn-info.btn-block#gl-panel-url Go To Homepage
-              a.btn.btn-success.btn-block#gl-panel-amazon Buy On Amazon
-            hr
-            p.gl-panel-isbn-block ISBN:
-              span#gl-panel-isbn
+      .panel-body#gl-panel-body
+
 
 block customScript
+  script#book-template(type="text/template")
+    .row
+      .col-md-6
+        img#gl-panel-cover.img-tumbnail.img-responsive
+      .col-md-6
+        p
+          a.btn.btn-info.btn-block#gl-panel-url Go To Homepage
+          a.btn.btn-success.btn-block#gl-panel-amazon Buy On Amazon
+        hr
+        p.gl-panel-isbn-block ISBN:
+          span#gl-panel-isbn
+
+  script#conversation-template(type="text/template")
+    p#gl-panel-conversation
+
   script(src="js/libs/three.min.js")
 
   script(src="js/loaders/DDSLoader.js")

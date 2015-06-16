@@ -115,15 +115,18 @@ function loadBook(scene, idx, book) {
 }
 
 function bookPanelIn(book) {
-  $('#gl-panel-cover').prop('src', book.cover);
+  var body = $('#gl-panel-body');
+  body.html($('#book-template').html());
+  body.addClass('book-panel');
+  body.find('#gl-panel-cover').prop('src', book.cover);
   $('#gl-panel-title').text(book.name);
-  $('#gl-panel-url')
+  body.find('#gl-panel-url')
     .prop('href', book.url)
     .prop('target', '_blank');
-  $('#gl-panel-amazon')
+  body.find('#gl-panel-amazon')
     .prop('href', 'http://www.amazon.com/dp/' + book.isbn)
     .prop('target', '_blank');
-  $('#gl-panel-isbn').text(book.isbn);
+  body.find('#gl-panel-isbn').text(book.isbn);
   $('#gl-panel').removeClass('inactive').addClass('active');
   $('#gl-container').addClass('in-select');
 }
