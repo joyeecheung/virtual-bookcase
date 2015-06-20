@@ -1,9 +1,5 @@
 define('utils', ['THREE', 'SubdivisionModifier'], 
 function(THREE) {
-  var LEFT = 37, UP = 38, RIGHT = 39, DOWN = 40;
-  var X = 0, Y = 1, Z = 2;  // coordinates
-  var coor = ["x", "y", "z"];
-
   // http://www.javascripter.net/faq/keycodes.htm
   var directionDict = {
     37: "LEFT",

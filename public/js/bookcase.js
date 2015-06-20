@@ -1,5 +1,8 @@
 define('bookcase', ['THREE', 'ColorThief', 'jquery', 'utils', 'OBJMTLLoader'],
 function(THREE, ColorThief, $, utils) {
+  var LEFT = 37, UP = 38, RIGHT = 39, DOWN = 40;
+  var X = 0, Y = 1, Z = 2;  // coordinates
+  var coor = ["x", "y", "z"];
 
   var books = [];
   var bookcaseObj;
@@ -59,7 +62,7 @@ function(THREE, ColorThief, $, utils) {
   }
 
   /************** Bookcase loader ***********************/
-  function loadBookcase(scene) {
+  function loadBookcase(scene, cb) {
     var loader = new THREE.OBJMTLLoader();
 
     loader.load(bookcaseConfig.obj, bookcaseConfig.mtl,
@@ -68,6 +71,7 @@ function(THREE, ColorThief, $, utils) {
         utils.receiveShadow(bookcaseObj);
         utils.castShadow(bookcaseObj);
         scene.add(bookcaseObj);
+        if (cb) cb(bookcaseObj);
       });
   }
 
@@ -82,7 +86,7 @@ function(THREE, ColorThief, $, utils) {
       bookConfig.materials.left, // left
       bookConfig.materials.top, // Top
       bookConfig.materials.bottom, // Bottom
-      imageMaterial(book.cover), // Front
+      utils.imageMaterial(book.cover), // Front
       bookConfig.materials.back // Back
     ]);
 
@@ -104,7 +108,7 @@ function(THREE, ColorThief, $, utils) {
     return bookObj;
   }
 
-  function loadBook(scene, idx, book) {
+  function loadBook(scene, idx, book, cb) {
     var bookObj = new Book(book, idx);
 
     // color the left and back faces by the dominant color in the cover
@@ -113,10 +117,11 @@ function(THREE, ColorThief, $, utils) {
     loader.load(book.cover, function(image) {
       var color = colorThief.getColor(image, 1000);
       var hex = utils.rgbToHex.apply(this, color);
-      var newMaterial = coloredMaterial(hex);
+      var newMaterial = utils.coloredMaterial(hex);
       bookObj.material.materials[utils.materialIdx.LEFT] = newMaterial;
       bookObj.material.materials[utils.materialIdx.BACK] = newMaterial;
       bookObj.material.needsUpdate = true;
+      if (cb) cb(bookObj);
     });
 
     scene.add(bookObj);

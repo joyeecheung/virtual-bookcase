@@ -1,38 +1,48 @@
 requirejs.config({
   baseUrl: 'js',
   paths: {
-    THREE: 'libs/three.min.js',
-    OBJMTLLoader: 'loaders/OBJMTLLoader.js',
-    BlendCharacter: 'loaders/BlendCharacter.js',
-    SubdivisionModifier: 'modifiers/SubdivisionModifier.js',
-    Projector: 'renderers/Projector.js',
-    Detector: 'renderers/Detector.js',
-    ColorThief: 'libs/color-thief.min.js',
-    jquery: 'libs/jquery-1.11.2.min.js'
+    THREE: 'libs/three.min',
+    OBJLoader: 'loaders/OBJLoader',
+    MTLLoader: 'loaders/MTLLoader',
+    OBJMTLLoader: 'loaders/OBJMTLLoader',
+    BlendCharacter: 'loaders/BlendCharacter',
+    SubdivisionModifier: 'modifiers/SubdivisionModifier',
+    Projector: 'renderers/Projector',
+    Detector: 'renderers/Detector',
+    ColorThief: 'libs/color-thief.min',
+    jquery: 'libs/jquery-1.11.2.min'
   },
   shim: {
     THREE: {
       exports: 'THREE'
     },
-    OBJMTLLoader: {
+    OBJLoader: {
       deps: ['THREE'],
-      exports: ['THREE.OBJMTLLoader']
+      exports: 'THREE.OBJLoader'
+    },
+    MTLLoader: {
+      deps: ['THREE'],
+      exports: 'THREE.MTLLoader'
+    },
+    OBJMTLLoader: {
+      deps: ['THREE', 'MTLLoader', 'OBJLoader'],
+      exports: 'THREE.OBJMTLLoader'
     },
     BlendCharacter: {
       deps: ['THREE'],
-      exports: ['THREE.BlendCharacter']
+      exports: 'THREE.BlendCharacter'
     },
     SubdivisionModifier: {
       deps: ['THREE'],
-      exports: ['THREE.SubdivisionModifier']
+      exports: 'THREE.SubdivisionModifier'
     },
     Projector: {
       deps: ['THREE'],
-      exports: ['THREE.Projector']
+      exports: 'THREE.Projector'
     },
     Detector: {
       deps: ['THREE'],
-      exports: ['THREE.Detector']
+      exports: 'THREE.Detector'
     },
     ColorThief: {
       exports: 'ColorThief',

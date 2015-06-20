@@ -1,10 +1,12 @@
 define('main',
   ['THREE', 'jquery', 'utils', 'bookcase',
    'BlendCharacter', 'OBJMTLLoader'],
-function(THREE, $, utils) {
+function(THREE, $, utils, bookcase) {
 var container;
 var camera, scene, renderer;
 var mainCharacter, guest, hanglight, ground, ceil, walls, chair;
+var directionDict = utils.directionDict, direction = utils.direction;
+var characterOffset = new THREE.Vector3(40, -90, -80);
 
 var clock = new THREE.Clock();
 var conversationText = "Hey!";
@@ -15,7 +17,7 @@ var getIntersects = utils.getIntersects;
 var selectables = [];
 
 var controls = {
-  mouse: new THREE.Vector3(0, 0, 0),
+  mouse: undefined,
   keyboard: new THREE.Vector3(0, 0, 0),
   windowHalf: new THREE.Vector2(window.innerWidth / 2,
                                 window.innerHeight / 2),
@@ -55,19 +57,6 @@ function animate(time) {
 }
 
 function render(currentTime) {
-  camera.position.x = Math.max(Math.min(eye.x, 200), -200);
-  camera.position.y = eye.y;
-  camera.position.z = Math.max(Math.min(eye.z, 650), 150);
-
-  var v = new THREE.Vector3();
-  v.copy(eye);
-  v.normalize();
-  v.add(dir);
-  // camera.lookAt(v);
-  camera.rotation.x = dir.x;
-  camera.rotation.y = dir.y;
-  camera.rotation.z = dir.z;
-
   renderer.render(scene, camera);
 
   var delta = clock.getDelta();
@@ -97,12 +86,15 @@ function init() {
   loadLight(scene);
   loadCharacter(scene);
   loadGuest(scene);
+  loadPainting(scene);
   // loadDoor(scene);
 
   $.getJSON('/api/books', {limit: 12}, function(books) {
     bookcase.loadBookcase(scene);
     $.each(books, function(i, book) {
-      bookcase.loadBook(scene, i, book);
+      bookcase.loadBook(scene, i, book, function(bookObj) {
+        selectables.push(bookObj);
+      });
     });
 
     light(scene);
@@ -132,44 +124,52 @@ function moveCameraByMouse(e) {
   if (!controls.mouseCamera)
     return;
 
-  var mouseX = (e.clientX - controls.windowHalf.x) / 2,
-      mouseY = (e.clientY - controls.windowHalf.y) / 2
+  var mouseX = e.clientX;
+      mouseY = e.clientY;
 
-  function moveCameraStep(rate) {
-    if (controls.mouseCamera) {
-      dir.x = (-mouseY) * .001;
-      dir.y = (-mouseX) * .001;
-    }
+  if (typeof controls.mouse === "undefined") {
+    controls.mouse = new THREE.Vector3();
+    controls.mouse.x = mouseX;
+    controls.mouse.y = mouseY;
   }
 
-  addAnimation(moveCameraStep, Date.now(), 1);
+  camera.rotation.y += (controls.mouse.x - mouseX) * 0.01;
+  // camera.rotation.x += (controls.mouse.y - mouseY) * 0.01;
+  console.log(camera.rotation);
+  controls.mouse.x = mouseX;
+  controls.mouse.y = mouseY;
 }
 
 function moveCameraByKey(e) {
   var key = e.which;
   var keychar = String.fromCharCode(key);
-  if (keychar === 'C')
+  if (keychar === 'C') {
+    if (typeof controls.mouse === "undefined") {
+      controls.mouse = new THREE.Vector3();
+      controls.mouse.x = mouseX;
+      controls.mouse.y = mouseY;
+    }
     controls.mouseCamera = !controls.mouseCamera;
+  }
 
   if (key in directionDict && !controls.mouseCamera) {
     characterWalk();
     e.preventDefault();
-    var controlX = direction[directionDict[key]].x * 2,
-        controlY = direction[directionDict[key]].y * 2,
-        controlZ = direction[directionDict[key]].z * 2;
+    var dir = directionDict[key];
+    var controlX = direction[dir].x * -0.02,
+        controlY = direction[dir].y,
+        controlZ = direction[dir].z * 10;
 
-    // acceleartion here, so duration will affect the final result
-    function keyCamera(rate) {
-      if (!controls.mouseCamera) {
-        dir.y -= (controlX) * 0.0001;
-        dir.z -= (controlY) * 0.0001;
-        eye.x += (controlX) * 0.2;
-        eye.y += (controlY) * 0.2;
-        eye.z += (controlZ) * 0.2;
+    if (!controls.mouseCamera) {
+      if (controlX !== 0) { // rotate
+        camera.rotateY(controlX);
+        mainCharacter.updateByCamera(camera);
+      } else if (controlZ !== 0) {  // move
+        camera.translateZ(controlZ);
+        mainCharacter.updateByCamera(camera);
       }
     }
-
-    addAnimation(keyCamera, Date.now(), 400);
+    console.log(camera.rotation);
   }
 }
 
@@ -208,7 +208,7 @@ function addControl(container) {
   $(document).on('keydown', moveCameraByKey);
 
   $(document).on('keyup', function() {
-    setTimeout(characterStop, 400);
+    characterStop();
   });
 
   $(container).on('mousedown', function(e) {
@@ -253,7 +253,6 @@ function panelOut() {
 
 function loadCharacter() {
   mainCharacter = new THREE.BlendCharacter();
-  var characterOffset = new THREE.Vector3(40, -90, -80);
   mainCharacter.load( "/obj/marine/marine_anims.json", function() {
     scene.add(mainCharacter);
     mainCharacter.play("idle", 1);
@@ -261,12 +260,18 @@ function loadCharacter() {
     mainCharacter.receiveShadow = true;
     mainCharacter.castShadow = true;
     mainCharacter.scale.set(0.75, 0.75, 0.75);
+    mainCharacter.characterOffset = characterOffset;
+    mainCharacter.updateByCamera = function(camera) {
+      this.position.x = camera.position.x;
+      this.translateX(this.characterOffset.x);
+      this.position.z = camera.position.z;
+      this.translateZ(this.characterOffset.z);
+      this.rotation.x = camera.rotation.x;
+      this.rotation.y = camera.rotation.y;
+      this.rotation.z = camera.rotation.z;
+    }
+    mainCharacter.updateByCamera(camera);
     addIdleAnimation(function(delta) {
-      mainCharacter.position.x = camera.position.x + characterOffset.x;
-      mainCharacter.position.z = camera.position.z + characterOffset.z;
-      mainCharacter.rotation.x = camera.rotation.x;
-      mainCharacter.rotation.y = camera.rotation.y;
-      mainCharacter.rotation.z = camera.rotation.z;
       mainCharacter.update(delta);
     });
   });
@@ -293,7 +298,7 @@ function loadGuest() {
     guest.rotation.y = -Math.PI/180 * 145;
     guest.scale.set(0.75, 0.75, 0.75);
     guest.position.copy(characterOffset);
-
+    selectables.push(guest);
     addIdleAnimation(function(delta) {
       guest.update(delta);
     });
@@ -305,7 +310,7 @@ function loadChair(scene) {
 
   loader.load('/obj/furniture/fotel.obj', '/obj/furniture/fotel.mtl',
     function(object) {
-      chair = smooth(object);
+      chair = utils.smooth(object);
       chair.position.set(-200, -100, 30);
       chair.rotation.y = 0.5;
       utils.castShadow(chair);
@@ -330,9 +335,10 @@ function loadChair(scene) {
 // }
 
 function loadLight(scene) {
+  var loader = new THREE.OBJMTLLoader();
   loader.load('/obj/furniture/hangingLight.obj', '/obj/furniture/hangingLight.mtl',
     function(object) {
-      hanglight = smooth(object);
+      hanglight = utils.smooth(object);
       hanglight.scale.set(0.8, 0.5, 0.8);
       hanglight.position.set(50, 26, 80);
       hanglight.castShadow = true;
@@ -354,16 +360,17 @@ function loadPainting(scene) {
 
 function loadGround(scene) {
   var groundGeo = new THREE.PlaneBufferGeometry(700, 700);
-  var groundMat = imageMaterial('obj/room/paneling.jpg');
+  var groundMat = utils.imageMaterial('obj/room/paneling.jpg');
   ground = new THREE.Mesh( groundGeo, groundMat );
-  ground.rotation.set(-Math.PI/2, -90, 130);
+  ground.rotation.x = -Math.PI/2;
+  ground.position.set(0, -90, 130)
   ground.receiveShadow = true;
   scene.add( ground );
 }
 
 function loadWalls(scene) {
   var wallGeo = new THREE.PlaneBufferGeometry(700, 250);
-  var wallMat = imageMaterial('obj/room/paint2.jpg');
+  var wallMat = utils.imageMaterial('obj/room/paint2.jpg');
 
   walls = [];
   function addWall(position, rotY) {
@@ -383,10 +390,11 @@ function loadWalls(scene) {
 
 function loadCeiling(scene) {
   var ceilGeo = new THREE.PlaneBufferGeometry(700, 700);
-  var ceilMat = imageMaterial('obj/room/paint-rev.jpg');
+  var ceilMat = utils.imageMaterial('obj/room/paint-rev.jpg');
   ceil = new THREE.Mesh( ceilGeo, ceilMat );
   ceil.material.side = THREE.DoubleSide;
-  ceil.rotation.set(-Math.PI/2, 160, 0);
+  ceil.position.set(0, 160, 0);
+  ceil.rotation.x = -Math.PI/2;
   ceil.receiveShadow = true;
   scene.add(ceil);
 }
