@@ -1,7 +1,7 @@
 {
   "name": "bookcase",
-  "version": "1.0.0",
-  "description": "",
+  "version": "2.0.0",
+  "description": "A 3D virtual bookcase written with three.js, backed by Express and MongoDB",
   "main": "app.js",
   "dependencies": {
     "body-parser": "~1.12.0",
@@ -27,10 +27,15 @@
     "type": "git",
     "url": "https://github.com/joyeecheung/virtual-bookcase.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Joyee Cheeung <joyeec9h3@gmail.com>",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/joyeecheung/virtual-bookcase/issues"
   },
-  "homepage": "https://github.com/joyeecheung/virtual-bookcase"
+  "homepage": "https://github.com/joyeecheung/virtual-bookcase",
+  "keywords": [
+    "three.js",
+    "express",
+    "mongodb"
+  ]
 }

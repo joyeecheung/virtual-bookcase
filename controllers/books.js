@@ -8,7 +8,7 @@ exports.get = function(req, res) {
   Book.find()
   .select("-_id")  // no _id
   .lean()  // so that the properties can be modified
-  .limit(Number(req.params.limit) || 20)
+  .limit(Number(req.params.limit) || 12)
   .exec()
   .then(function(books) {
     // prefix the cover directory path
