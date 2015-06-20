@@ -1,0 +1,37 @@
+# Blender3D MTL File: VaticanMuseumFrame.blend
+# Material Count: 3
+#
+# Modelled by Emmanuel Puybaret / eTeks under Blender 3d modeller for SweetHome3D
+# This file is under Free Art License, see http://artlibre.org/licence/lal/en for more informations
+#
+newmtl Material_VaticanMuseum
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.200000 0.200000 0.200000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd VaticanMuseum.jpg
+
+
+newmtl Material.001
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.207739 0.221977 0.256923
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+
+newmtl Aluminium
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.3 0.3 0.3
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+
+
