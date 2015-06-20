@@ -1,6 +1,6 @@
 # Virtual Bookcase
 
-A 3D virtual bookcase written in three.js
+A 3D virtual bookcase written with three.js, backed by Express and MongoDB.
 
 ## Requirements
 
