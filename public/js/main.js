@@ -88,9 +88,9 @@ function moveCameraByKey(e) {
       if (!controls.mouseCamera) {
         dir.y -= (controlX) * 0.0001;
         dir.z -= (controlY) * 0.0001;
-        eye.x += (controlX) * 0.1;
-        eye.y += (controlY) * 0.1;
-        eye.z += (controlZ) * 0.1;
+        eye.x += (controlX) * 0.2;
+        eye.y += (controlY) * 0.2;
+        eye.z += (controlZ) * 0.2;
       }
     }
 
@@ -140,6 +140,7 @@ function addControl(container) {
     handlBookSelection(e, renderer, camera);
     var intersects = getIntersects(e, [guest], renderer, camera);
     if (intersects[0] && intersects[0].object === guest) {
+      guest.rotation.y = -Math.PI;
       conversationPanelIn();
     }
   });
@@ -204,7 +205,7 @@ function render(currentTime) {
 function init() {
   container = $('#gl-container')[0];
   camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 1, 2000);
-  camera.position.z = 500;
+  camera.position.z = 650;
   camera.position.y = 30;
 
   eye = new THREE.Vector3();
@@ -247,7 +248,7 @@ function loadCharacter() {
     mainCharacter.position.y = characterOffset.y;
     mainCharacter.receiveShadow = true;
     mainCharacter.castShadow = true;
-    mainCharacter.scale.set(0.8, 0.8, 0.8);
+    mainCharacter.scale.set(0.75, 0.75, 0.75);
     addIdleAnimation(function(delta) {
       mainCharacter.position.x = camera.position.x + characterOffset.x;
       mainCharacter.position.z = camera.position.z + characterOffset.z;
@@ -260,12 +261,12 @@ function loadCharacter() {
 }
 
 function guestLeave() {
-  guest.rotation.y = -Math.PI;
   guest.stopAll();
   guest.play("run");
   addIdleAnimation(function(delta) {
     guest.update(delta);
-    guest.position.z += 3;
+    if (guest.position.z < 1500)
+      guest.position.z += 5;
   });
 }
 
@@ -278,7 +279,7 @@ function loadGuest() {
     scene.add(guest);
     guest.play("idle", 1);
     guest.rotation.y = -Math.PI/180 * 145;
-    guest.scale.set(0.8, 0.8, 0.8);
+    guest.scale.set(0.75, 0.75, 0.75);
     guest.position.copy(characterOffset);
 
     addIdleAnimation(function(delta) {
