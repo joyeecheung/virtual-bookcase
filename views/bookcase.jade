@@ -65,22 +65,4 @@ block customScript
     p
       a.btn.btn-info#gl-panel-leave You should leave
 
-  script(src="js/libs/three.min.js")
-
-  script(src="js/loaders/DDSLoader.js")
-  script(src="js/loaders/OBJLoader.js")
-  script(src="js/loaders/MTLLoader.js")
-  script(src="js/loaders/OBJMTLLoader.js")
-  script(src="js/loaders/BlendCharacter.js")
-
-  script(src="js/modifiers/SubdivisionModifier.js")
-
-  script(src="js/renderers/Projector.js")
-  script(src="js/renderers/Detector.js")
-
-  script(src="js/libs/stats.min.js")
-  script(src="js/libs/color-thief.min.js")
-
-  script(src="js/utils.js")
-  script(src="js/bookcase.js")
-  script(src="js/main.js")
+  script(data-main="/js/app" src="/js/require.js")

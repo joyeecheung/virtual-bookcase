@@ -1,12 +1,24 @@
-var container, stats;
+define('main',
+  ['THREE', 'jquery', 'utils', 'bookcase',
+   'BlendCharacter', 'OBJMTLLoader'],
+function(THREE, $, utils) {
+var container;
 var camera, scene, renderer;
+var mainCharacter, guest, hanglight, ground, ceil, walls, chair;
+
 var clock = new THREE.Clock();
 var conversationText = "Hey!";
+var addAnimation = utils.addAnimation,
+    addIdleAnimation = utils.addIdleAnimation,
+    renderIdleAnimation = utils.renderIdleAnimation;
+var getIntersects = utils.getIntersects;
+var selectables = [];
 
 var controls = {
   mouse: new THREE.Vector3(0, 0, 0),
   keyboard: new THREE.Vector3(0, 0, 0),
-  windowHalf: new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2),
+  windowHalf: new THREE.Vector2(window.innerWidth / 2,
+                                window.innerHeight / 2),
   mouseCamera: false
 }
 
@@ -35,6 +47,69 @@ function light(scene) {
   dirLight.shadowCameraFar = 3500;
   dirLight.shadowBias = -0.0001;
   dirLight.shadowDarkness = 0.35;
+}
+
+function animate(time) {
+  render(time);
+  requestAnimationFrame(animate);
+}
+
+function render(currentTime) {
+  camera.position.x = Math.max(Math.min(eye.x, 200), -200);
+  camera.position.y = eye.y;
+  camera.position.z = Math.max(Math.min(eye.z, 650), 150);
+
+  var v = new THREE.Vector3();
+  v.copy(eye);
+  v.normalize();
+  v.add(dir);
+  // camera.lookAt(v);
+  camera.rotation.x = dir.x;
+  camera.rotation.y = dir.y;
+  camera.rotation.z = dir.z;
+
+  renderer.render(scene, camera);
+
+  var delta = clock.getDelta();
+  utils.renderIdleAnimation(delta);
+  THREE.AnimationHandler.update(delta);
+}
+
+function init() {
+  container = $('#gl-container')[0];
+  camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 1, 2000);
+  camera.position.z = 650;
+  camera.position.y = 30;
+
+  eye = new THREE.Vector3();
+  eye.copy(camera.position);
+  dir = new THREE.Vector3();
+
+  renderer = setUpRenderer(container);
+  renderer.shadowMapEnabled = true;
+  // scene
+  scene = new THREE.Scene();
+
+  loadGround(scene);
+  loadWalls(scene);
+  loadCeiling(scene);
+  loadChair(scene);
+  loadLight(scene);
+  loadCharacter(scene);
+  loadGuest(scene);
+  // loadDoor(scene);
+
+  $.getJSON('/api/books', {limit: 12}, function(books) {
+    bookcase.loadBookcase(scene);
+    $.each(books, function(i, book) {
+      bookcase.loadBook(scene, i, book);
+    });
+
+    light(scene);
+    addControl(container);
+    animate();
+  });
+
 }
 
 function putBox(scene, pos) {
@@ -121,13 +196,13 @@ function addControl(container) {
   $(container).on('mousemove', function(e) {
     if (controls.mouseCamera || !$('#gl-panel').hasClass('inactive'))
       return;
-    var intersects = getIntersects(e, books.concat([guest]), renderer, camera);
+    var intersects = getIntersects(e, selectables, renderer, camera);
     if (intersects[0]) {
       $('#gl-container').addClass('in-select');
     } else {
       $('#gl-container').removeClass('in-select');
     }
-    bookResponse(e, renderer, camera);
+    bookcase.bookResponse(e, renderer, camera);
   });
 
   $(document).on('keydown', moveCameraByKey);
@@ -137,7 +212,7 @@ function addControl(container) {
   });
 
   $(container).on('mousedown', function(e) {
-    handlBookSelection(e, renderer, camera);
+    bookcase.handlBookSelection(e, renderer, camera);
     var intersects = getIntersects(e, [guest], renderer, camera);
     if (intersects[0] && intersects[0].object === guest) {
       guest.rotation.y = -Math.PI;
@@ -149,7 +224,7 @@ function addControl(container) {
     if ($('#gl-panel-body').hasClass('book-panel')) {
       var oldUppedBook = controls.uppedBook;
       controls.uppedBook = undefined;
-      deselectBook(oldUppedBook);
+      bookcase.deselectBook(oldUppedBook);
       $('#gl-panel-body').removeClass('book-panel');
     }
 
@@ -174,69 +249,6 @@ function conversationPanelIn() {
 function panelOut() {
   $('#gl-panel').removeClass('active').addClass('inactive');
   $('#gl-container').removeClass('in-select');
-}
-
-function animate(time) {
-  render(time);
-  requestAnimationFrame(animate);
-}
-
-function render(currentTime) {
-  camera.position.x = Math.max(Math.min(eye.x, 200), -200);
-  camera.position.y = eye.y;
-  camera.position.z = Math.max(Math.min(eye.z, 650), 150);
-
-  var v = new THREE.Vector3();
-  v.copy(eye);
-  v.normalize();
-  v.add(dir);
-  // camera.lookAt(v);
-  camera.rotation.x = dir.x;
-  camera.rotation.y = dir.y;
-  camera.rotation.z = dir.z;
-
-  renderer.render(scene, camera);
-
-  var delta = clock.getDelta();
-  renderIdleAnimation(delta);
-  THREE.AnimationHandler.update(delta);
-}
-
-function init() {
-  container = $('#gl-container')[0];
-  camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 1, 2000);
-  camera.position.z = 650;
-  camera.position.y = 30;
-
-  eye = new THREE.Vector3();
-  eye.copy(camera.position);
-  dir = new THREE.Vector3();
-
-  renderer = setUpRenderer(container);
-  renderer.shadowMapEnabled = true;
-  // scene
-  scene = new THREE.Scene();
-
-  loadGround(scene);
-  loadWalls(scene);
-  loadCeiling(scene);
-  loadChair(scene);
-  loadLight(scene);
-  loadCharacter(scene);
-  loadGuest(scene);
-  // loadDoor(scene);
-
-  $.getJSON('/api/books', {limit: 12}, function(books) {
-    loadBookcase(scene);
-    $.each(books, function(i, book) {
-      loadBook(scene, i, book);
-    });
-
-    light(scene);
-    addControl(container);
-    animate();
-  });
-
 }
 
 function loadCharacter() {
@@ -296,39 +308,28 @@ function loadChair(scene) {
       chair = smooth(object);
       chair.position.set(-200, -100, 30);
       chair.rotation.y = 0.5;
-      castShadow(chair);
-      chair.castShadow = true;
-      chair.receiveShadow = true;
+      utils.castShadow(chair);
+      utils.receiveShadow(chair);
       scene.add(chair);
     });
 }
 
-function loadDoor(scene) {
-  var loader = new THREE.OBJMTLLoader();
+// function loadDoor(scene) {
+//   var loader = new THREE.OBJMTLLoader();
 
-  loader.load('/obj/furniture/door1.obj', '/obj/furniture/door1.mtl',
-    function(object) {
-      door = object;
-      door.scale.set(0.7, 0.7, 0.7);
-      door.position.set(190, -100, 150);
-      door.rotation.y = Math.PI/2;
-      object.castShadow = true;
-      object.receiveShadow = true;
-      scene.add(object);
-    });
-}
+//   loader.load('/obj/furniture/door1.obj', '/obj/furniture/door1.mtl',
+//     function(object) {
+//       door = object;
+//       door.scale.set(0.7, 0.7, 0.7);
+//       door.position.set(190, -100, 150);
+//       door.rotation.y = Math.PI/2;
+//       object.castShadow = true;
+//       object.receiveShadow = true;
+//       scene.add(object);
+//     });
+// }
 
 function loadLight(scene) {
-  var loader = new THREE.OBJMTLLoader();
-
-  loader.load('/obj/furniture/VaticanMuseumFrame.obj', '/obj/furniture/VaticanMuseumFrame.mtl',
-    function(object) {
-      object.position.set(120, 70, 0);
-      object.castShadow = true;
-      object.receiveShadow = true;
-      scene.add(object);
-    });
-
   loader.load('/obj/furniture/hangingLight.obj', '/obj/furniture/hangingLight.mtl',
     function(object) {
       hanglight = smooth(object);
@@ -340,13 +341,22 @@ function loadLight(scene) {
     });
 }
 
+function loadPainting(scene) {
+  var loader = new THREE.OBJMTLLoader();
+  loader.load('/obj/furniture/VaticanMuseumFrame.obj', '/obj/furniture/VaticanMuseumFrame.mtl',
+    function(object) {
+      object.position.set(120, 70, 0);
+      object.castShadow = true;
+      object.receiveShadow = true;
+      scene.add(object);
+    });
+}
+
 function loadGround(scene) {
   var groundGeo = new THREE.PlaneBufferGeometry(700, 700);
   var groundMat = imageMaterial('obj/room/paneling.jpg');
   ground = new THREE.Mesh( groundGeo, groundMat );
-  ground.rotation.x = -Math.PI/2;
-  ground.position.y = -90;
-  ground.position.z = 130;
+  ground.rotation.set(-Math.PI/2, -90, 130);
   ground.receiveShadow = true;
   scene.add( ground );
 }
@@ -354,28 +364,21 @@ function loadGround(scene) {
 function loadWalls(scene) {
   var wallGeo = new THREE.PlaneBufferGeometry(700, 250);
   var wallMat = imageMaterial('obj/room/paint2.jpg');
-  wall = new THREE.Mesh( wallGeo, wallMat );
-  wall.position.set(0, 35, -20);
-  wall.receiveShadow = true;
-  scene.add(wall);
 
-  var wall2Geo = new THREE.PlaneBufferGeometry(700, 250);
-  var wall2Mat = imageMaterial('obj/room/paint2.jpg');
-  wall2 = new THREE.Mesh(wall2Geo, wall2Mat);
-  wall2.material.side = THREE.DoubleSide;
-  wall2.rotation.y = Math.PI/2;
-  wall2.position.set(-300, 35, 150);
-  wall2.receiveShadow = true;
-  scene.add(wall2);
-
-  var wall3Geo = new THREE.PlaneBufferGeometry(700, 250);
-  var wall3Mat = imageMaterial('obj/room/paint2.jpg');
-  wall3 = new THREE.Mesh(wall3Geo, wall3Mat);
-  wall3.material.side = THREE.DoubleSide;
-  wall3.rotation.y = Math.PI/2;
-  wall3.position.set(300, 35, 150);
-  wall3.receiveShadow = true;
-  scene.add(wall3);
+  walls = [];
+  function addWall(position, rotY) {
+    var wall = new THREE.Mesh(wallGeo, wallMat);
+    wall.material.side = THREE.DoubleSide;
+    wall.position.copy(position);
+    wall.rotation.y = rotY;
+    wall.receiveShadow = true;
+    scene.add(wall);
+    walls.push(wall);
+  }
+  
+  addWall(new THREE.Vector3(0, 35, -20), 0);
+  addWall(new THREE.Vector3(-300, 35, 150), Math.PI/2);
+  addWall(new THREE.Vector3(300, 35, 150), Math.PI/2);
 }
 
 function loadCeiling(scene) {
@@ -383,11 +386,19 @@ function loadCeiling(scene) {
   var ceilMat = imageMaterial('obj/room/paint-rev.jpg');
   ceil = new THREE.Mesh( ceilGeo, ceilMat );
   ceil.material.side = THREE.DoubleSide;
-  ceil.rotation.x = -Math.PI/2;
-  ceil.position.y = 160;
-  ceil.position.z = 0;
+  ceil.rotation.set(-Math.PI/2, 160, 0);
   ceil.receiveShadow = true;
   scene.add(ceil);
 }
 
-$(init);
+  return {
+    init: init,
+    mainCharacter: mainCharacter, 
+    guest: guest, 
+    hanglight: hanglight, 
+    ground: ground, 
+    ceil: ceil, 
+    walls: walls,
+    chair: chair
+  };
+});
