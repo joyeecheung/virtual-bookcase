@@ -1,5 +1,5 @@
-define('utils', ['THREE', 'SubdivisionModifier'], 
-function(THREE) {
+define('utils', ['MMCQ', 'THREE', 'SubdivisionModifier'], 
+function(MMCQ, THREE) {
   // http://www.javascripter.net/faq/keycodes.htm
   var directionDict = {
     37: "LEFT",
@@ -46,7 +46,7 @@ function(THREE) {
   }
 
   function coloredMaterial(color) {
-    return new THREE.MeshLambertMaterial({color: color});
+    return new THREE.MeshBasicMaterial({color: color});
   }
 
   function getIntersects(e, objects, renderer, camera) {
@@ -149,6 +149,84 @@ function(THREE) {
     }
   }
 
+  function getHexColor(sourceImage, quality, cb) {
+      getColor(sourceImage, quality, function(color) {
+        cb(rgbToHex.apply(this, color));
+      });
+  };
+
+  /*
+   * getColor(sourceImage[, quality])
+   * returns {r: num, g: num, b: num}
+   *
+   * Use the median cut algorithm provided by quantize.js to cluster similar
+   * colors and return the base color from the largest cluster.
+   *
+   * Quality is an optional argument. It needs to be an integer. 0 is the highest quality settings.
+   * 10 is the default. There is a trade-off between quality and speed. The bigger the number, the
+   * faster a color will be returned but the greater the likelihood that it will not be the visually
+   * most dominant color.
+   *
+   * */
+  function getColor(sourceImage, quality, cb) {
+      var palette = getPalette(sourceImage, 5, quality, function(palette) {
+        var dominantColor = palette[0];
+        return cb(dominantColor);
+      });
+  };
+
+
+  /*
+   * getPalette(sourceImage[, colorCount, quality])
+   * returns array[ {r: num, g: num, b: num}, {r: num, g: num, b: num}, ...]
+   *
+   * Use the median cut algorithm provided by quantize.js to cluster similar colors.
+   *
+   * colorCount determines the size of the palette; the number of colors returned. If not set, it
+   * defaults to 10.
+   *
+   * BUGGY: Function does not always return the requested amount of colors. It can be +/- 2.
+   *
+   * quality is an optional argument. It needs to be an integer. 0 is the highest quality settings.
+   * 10 is the default. There is a trade-off between quality and speed. The bigger the number, the
+   * faster the palette generation but the greater the likelihood that colors will be missed.
+   *
+   *
+   */
+   function getPalette (sourceImage, colorCount, quality, cb) {
+      if (typeof colorCount === 'undefined') {
+          colorCount = 10;
+      }
+      if (typeof quality === 'undefined') {
+          quality = 10;
+      }
+
+      // Create custom CanvasImage object
+      var image      = new CanvasImage(sourceImage);
+      var imageData  = image.getImageData();
+      var pixels     = imageData.data;
+      var pixelCount = image.getPixelCount();
+
+      var worker = new Worker('js/color-worker.js');
+      worker.addEventListener('message', function(e) {
+          cb(e.data);
+      });
+
+      // Starting the web worker.
+      // (Imagine the function getImageDataUsingCanvas to create a
+      // canvas, drawing the image on its context and then returning
+      // the image data.)
+      worker.postMessage({
+        pixelCount: pixelCount,
+        quality: quality,
+        pixels: pixels,
+        colorCount: colorCount
+      });
+
+      // Clean up
+      image.removeCanvas();
+  };
+
   return {
     directionDict: directionDict,
     direction: direction,
@@ -160,9 +238,9 @@ function(THREE) {
     smooth: smooth,
     castShadow: castShadow,
     receiveShadow: receiveShadow,
-    rgbToHex: rgbToHex,
     addAnimation: addAnimation,
     addIdleAnimation: addIdleAnimation,
-    renderIdleAnimation: renderIdleAnimation
+    renderIdleAnimation: renderIdleAnimation,
+    getHexColor: getHexColor
   }
 });

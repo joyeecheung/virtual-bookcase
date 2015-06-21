@@ -1,5 +1,5 @@
-define('bookcase', ['THREE', 'ColorThief', 'jquery', 'utils', 'OBJMTLLoader'],
-function(THREE, ColorThief, $, utils) {
+define('bookcase', ['THREE', 'jquery', 'utils', 'OBJMTLLoader'],
+function(THREE, $, utils) {
   var LEFT = 37, UP = 38, RIGHT = 39, DOWN = 40;
   var X = 0, Y = 1, Z = 2;  // coordinates
   var coor = ["x", "y", "z"];
@@ -113,14 +113,13 @@ function(THREE, ColorThief, $, utils) {
 
     // color the left and back faces by the dominant color in the cover
     var loader = new THREE.ImageLoader();
-    var colorThief = new ColorThief();
     loader.load(book.cover, function(image) {
-      var color = colorThief.getColor(image, 1000);
-      var hex = utils.rgbToHex.apply(this, color);
-      var newMaterial = utils.coloredMaterial(hex);
-      bookObj.material.materials[utils.materialIdx.LEFT] = newMaterial;
-      bookObj.material.materials[utils.materialIdx.BACK] = newMaterial;
-      bookObj.material.needsUpdate = true;
+      utils.getHexColor(image, 1000, function(color) {
+        var newMaterial = utils.coloredMaterial(color);
+        bookObj.material.materials[utils.materialIdx.LEFT] = newMaterial;
+        bookObj.material.materials[utils.materialIdx.BACK] = newMaterial;
+        bookObj.material.needsUpdate = true;
+      });
       if (cb) cb(bookObj);
     });
 

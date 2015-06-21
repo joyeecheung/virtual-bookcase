@@ -25,23 +25,28 @@ var controls = {
 }
 
 function light(scene) {
+  var light = new THREE.AmbientLight( 0x303030 ); // soft white light
+  scene.add( light );
+
   var hemiLight = new THREE.HemisphereLight(0xEDDEB6, 0x524A2E, 0.4);
-  hemiLight.position.set(50, 300, 80);
+  hemiLight.position.set(70, 300, 150);
   scene.add(hemiLight);
 
   dirLight = new THREE.DirectionalLight(0xBFB1A2, 1.0);
-  dirLight.position.set(50, 110, 80);
-  dirLight.target.position.set(50, -70, 300);
+  dirLight.position.set(70, 110, 70);
+  dirLight.target.position.set(30, -10, 300);
   
   scene.add(dirLight);
   // putBox(scene, dirLight.position);
   // putBox(scene, dirLight.target.position);
 
-  pointLight = new THREE.PointLight(0xBFB1A2, 0.5);
-  pointLight.position.set(50, 120, 80);
+  pointLight = new THREE.PointLight(0xBFB1A2, 0.3);
+  pointLight.position.set(70, 120, 150);
   scene.add(pointLight);
-
+  // putBox(scene, pointLight.position);
   dirLight.castShadow = true;
+  // pointLight.castShadow = true;
+  // hemiLight.castShadow = true;
 
   dirLight.shadowMapWidth = 2048;
   dirLight.shadowMapHeight = 2048;
@@ -50,6 +55,14 @@ function light(scene) {
   dirLight.shadowBias = -0.0001;
   dirLight.shadowDarkness = 0.35;
 }
+
+function putBox(scene, pos) {
+  var geometry = new THREE.BoxGeometry(10, 10, 10);
+  var box = new THREE.Mesh(geometry, utils.coloredMaterial(0X16A6A6));
+  box.position.set(pos.x, pos.y, pos.z);
+  scene.add(box);
+}
+
 
 function animate(time) {
   render(time);
@@ -104,13 +117,6 @@ function init() {
 
 }
 
-function putBox(scene, pos) {
-  var geometry = new THREE.BoxGeometry(10, 10, 10);
-  var box = new THREE.Mesh(geometry, coloredMaterial(0XA6A6A6));
-  box.position.set(pos.x, pos.y, pos.z);
-  scene.add(box);
-}
-
 function setUpRenderer(container) {
   var renderer = new THREE.WebGLRenderer();
   renderer.setClearColor( 0xf0f0f0 );
@@ -135,7 +141,6 @@ function moveCameraByMouse(e) {
 
   camera.rotation.y += (controls.mouse.x - mouseX) * 0.01;
   // camera.rotation.x += (controls.mouse.y - mouseY) * 0.01;
-  console.log(camera.rotation);
   controls.mouse.x = mouseX;
   controls.mouse.y = mouseY;
 }
@@ -290,7 +295,7 @@ function guestLeave() {
 function loadGuest() {
   guest = new THREE.BlendCharacter();
   var characterOffset = new THREE.Vector3(-120, -90, 80);
-  guest.load( "/obj/marine/marine_anims.json", function() {
+  guest.load("/obj/marine/marine_anims.json", function() {
     guest.castShadow = true;
     guest.receiveShadow = true;
     scene.add(guest);
@@ -340,7 +345,7 @@ function loadLight(scene) {
     function(object) {
       hanglight = utils.smooth(object);
       hanglight.scale.set(0.8, 0.5, 0.8);
-      hanglight.position.set(50, 26, 80);
+      hanglight.position.set(70, 26, 150);
       hanglight.castShadow = true;
       hanglight.receiveShadow = true;
       scene.add(hanglight);
