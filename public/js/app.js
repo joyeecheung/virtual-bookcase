@@ -9,7 +9,7 @@ requirejs.config({
     SubdivisionModifier: 'modifiers/SubdivisionModifier',
     Projector: 'renderers/Projector',
     Detector: 'renderers/Detector',
-    MMCQ: 'libs/color-thief.min',
+    CanvasImage: 'libs/color-thief.min',
     jquery: 'libs/jquery-1.11.2.min'
   },
   shim: {
@@ -44,8 +44,8 @@ requirejs.config({
       deps: ['THREE'],
       exports: 'THREE.Detector'
     },
-    MMCQ: {
-      exports: 'MMCQ',
+    CanvasImage: {
+      exports: 'CanvasImage',
     }
   }
 });

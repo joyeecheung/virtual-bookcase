@@ -1,5 +1,5 @@
-define('utils', ['MMCQ', 'THREE', 'SubdivisionModifier'], 
-function(MMCQ, THREE) {
+define('utils', ['CanvasImage', 'THREE', 'SubdivisionModifier'], 
+function(CanvasImage, THREE) {
   // http://www.javascripter.net/faq/keycodes.htm
   var directionDict = {
     37: "LEFT",
