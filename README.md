@@ -25,5 +25,9 @@ grunt
 ## TODO
 
 - [ ] Grunt task to minify JS code(with require.js optimizer)
-- [ ] Move book cover color extraction into Web Workes
 - [ ] Refactor main.js, move out object loaders
+
+## About
+
+* Author: Joyee Chueung<[joyeec9h3@gmail.com](mailto://joyeec9h3@gmail.com)>
+* GitHub Repo: [joyeecheung/virtual-bookcase](https://github.com/joyeecheung/virtual-bookcase)
